@@ -13,6 +13,8 @@ import routes from './routes';
  * with the Router instance.
  */
 
+/* TODO: (Райков) Обсудить history-mode без хэша */
+
 export default route((/* { store, ssrContext } */) => {
   const createHistory = process.env.SERVER
     ? createMemoryHistory

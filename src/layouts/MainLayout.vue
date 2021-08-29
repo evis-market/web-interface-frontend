@@ -1,5 +1,7 @@
 <template>
-  <q-layout view="lHh Lpr lFf">
+  <q-layout view="lHr lpr lFr" class="evis-main-layout">
+    <Header />
+    <!-- * mobile <Sidebar /> -->
     <q-page-container>
       <router-view />
     </q-page-container>
@@ -8,14 +10,20 @@
 
 <script>
 import { defineComponent } from 'vue';
+import Header from './Header.vue';
 
 export default defineComponent({
   name: 'MainLayout',
 
   components: {
-  },
-
-  setup() {
+    Header,
   },
 });
 </script>
+
+<style lang="sass" scoped>
+.evis-main-layout
+  @media (min-width: 960px)
+    max-width: 960px
+    margin: 0 auto
+</style>
