@@ -12,24 +12,26 @@
       </div>
     </div>
     <div class="evis-header-right">
-
+      <AppUserPanel />
     </div>
   </q-header>
 </template>
 
 <script>
 import { defineComponent } from 'vue';
-import AppSearchCategoriesDropdown from 'src/common-components/AppSearch/AppSearchCategoriesDropdown';
 import InfoPagesMenu from 'layouts/InfoPagesMenu';
+import AppSearchCategoriesDropdown from 'src/common-components/AppSearch/AppSearchCategoriesDropdown';
 import AppSearchAutocomplete from 'src/common-components/AppSearch/AppSearchAutocomplete';
+import AppUserPanel from 'src/common-components/AppUserPanel/AppUserPanel';
 
 export default defineComponent({
   name: 'Header',
 
   components: {
-    AppSearchAutocomplete,
     InfoPagesMenu,
     AppSearchCategoriesDropdown,
+    AppSearchAutocomplete,
+    AppUserPanel,
   },
 });
 </script>
@@ -45,7 +47,7 @@ export default defineComponent({
 
 .evis-header-left
   padding: 12px 0 0 48px
-  width: 57%
+  width: 61%
 
 .evis-header-search
   display: flex
@@ -54,4 +56,8 @@ export default defineComponent({
 .evis-header-search-input
   margin-left: 20px
   width: 100%
+
+.evis-header-right
+  width: 39%
+  padding: 8px 0 0 39px
 </style>
