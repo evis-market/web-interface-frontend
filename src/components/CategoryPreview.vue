@@ -55,5 +55,6 @@ export default {
     padding: 20px 28px 26px;
     border: 1px solid $color;
     box-sizing: border-box;
+    min-width: 440px;
   }
 </style>
