@@ -8,7 +8,8 @@ const routes = [
   },
   {
     path: '/categories',
-    component: () => import('pages/Categories.vue'),
+    name: 'categoriesList',
+    component: () => import('pages/CategoriesList.vue'),
   },
 
   // Always leave this as last one,

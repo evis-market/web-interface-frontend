@@ -10,7 +10,7 @@
 import CategoryPreview from '../components/CategoryPreview';
 
 export default {
-  name: 'CategoriesPage',
+  name: 'CategoriesList',
   components: { CategoryPreview },
 };
 </script>

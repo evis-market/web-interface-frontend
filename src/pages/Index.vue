@@ -5,7 +5,9 @@
       alt="EVIS Data MarketPlace"
       src="~assets/apple-touch-icon.png"
       style="width: 180px; height: 180px"
-    >
+    />
+    <br/>
+    <q-btn label="Buy data" color="primary" :to="{ name: 'categoriesList' }"/>
   </q-page>
 </template>
 
