@@ -11,6 +11,11 @@ const routes = [
     name: 'categoriesList',
     component: () => import('pages/CategoriesList.vue'),
   },
+  {
+    path: '/account',
+    name: 'personalAccount',
+    component: () => import('pages/PersonalAccount.vue'),
+  },
 
   // Always leave this as last one,
   // but you can also remove it
