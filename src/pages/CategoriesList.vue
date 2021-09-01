@@ -1,7 +1,11 @@
 <template>
-  <div class="row justify-between q-pa-lg">
-    <div v-for="i in 6" :key="i" class="col-xs-12 col-md-6 q-gutter-lg q-mb-lg">
-      <CategoryPreview />
+  <div class="row justify-between q-pa-lg items-stretch">
+    <div
+      v-for="category in categories"
+      :key="category.id"
+      class="col-xs-12 col-md-6 q-gutter-lg q-mb-lg"
+    >
+      <CategoryPreview :category="category" />
     </div>
   </div>
 </template>
@@ -21,7 +25,7 @@ export default {
     if (!this.categories.length) {
       const response = await api.get('/categories/');
       if (response.status === 200) {
-        this.$store.commit('pushCategories', response.data.categories);
+        this.$store.commit('common/pushCategories', response.data.categories);
       }
     }
   },
