@@ -8,9 +8,23 @@
 
 <script>
 import CategoryPreview from '../components/CategoryPreview';
+import { api } from '../boot/axios';
 
 export default {
   name: 'CategoriesList',
+  computed: {
+    categories() {
+      return this.$store.getters['common/allCategories'];
+    },
+  },
+  async mounted() {
+    if (!this.categories.length) {
+      const response = await api.get('/categories/');
+      if (response.status === 200) {
+        this.$store.commit('pushCategories', response.data.categories);
+      }
+    }
+  },
   components: { CategoryPreview },
 };
 </script>
