@@ -7,7 +7,18 @@
       bordered
       hide-pagination
       :pagination="{page: 0, rowsPerPage: 0}"
-    />
+    >
+      <template v-slot:body-cell-rating="props">
+        <q-td :props="props">
+          <q-rating
+            size="2em"
+            color="orange"
+            readonly
+            :model-value="props.row.rating"
+          />
+        </q-td>
+      </template>
+    </q-table>
   </div>
 </template>
 
