@@ -47,6 +47,10 @@ module.exports = configure((ctx) => ({
 
   // Full list of options: https://v2.quasar.dev/quasar-cli/quasar-conf-js#Property%3A-build
   build: {
+    env: {
+      API_BASE_URL: ctx.dev ? 'https://dev.evis.market' : 'https://evis.market',
+    },
+
     vueRouterMode: 'history', // available values: 'hash', 'history'
 
     // transpile: false,

@@ -1,15 +1,17 @@
 const routes = [
   {
     path: '/',
-    component: () => import('layouts/MainLayout.vue'),
+    component: () => import('layouts/StaticPageLayout.vue'),
     children: [
-      { path: '', component: () => import('pages/Index.vue') },
+      { path: '', name: 'index', component: () => import('pages/Index.vue') },
     ],
   },
   {
-    path: '/categories',
-    name: 'categoriesList',
-    component: () => import('pages/CategoriesList.vue'),
+    path: '/categories/',
+    component: () => import('layouts/AppLayout.vue'),
+    children: [
+      { path: '', name: 'categoriesList', component: () => import('pages/CategoriesList.vue') },
+    ],
   },
 
   // Always leave this as last one,
