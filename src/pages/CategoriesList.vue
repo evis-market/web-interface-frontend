@@ -14,7 +14,7 @@ import CategoryPreview from '../components/CategoryPreview';
 import { api } from '../boot/axios';
 
 export default {
-  name: 'CategoriesList',
+  name: 'PageCategoriesList',
   computed: {
     categories() {
       return this.$store.getters['common/allCategories'].filter((category) => category.parent_id === null);

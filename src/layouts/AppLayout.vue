@@ -9,7 +9,7 @@
           <CategoriesDropdown/>
           <SearchAutocomplete/>
         <q-space></q-space>
-        <q-btn label="Sell data" color="indigo-3" class="q-mr-sm" />
+        <q-btn label="Sell data" color="indigo-3" class="q-mr-sm" :to="{ 'name': 'sellerProductsList' }"/>
         <q-btn label="Request custom data" color="secondary" class="q-mr-sm" />
         <q-btn label="Login" color="primary" />
       </q-toolbar>
