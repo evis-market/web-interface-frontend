@@ -17,6 +17,7 @@ const routes = [
     path: '/my/',
     component: () => import('layouts/AppLayout.vue'),
     children: [
+      { path: 'seller/sales/', name: 'sellerSalesList', component: () => import('pages/SellerSalesList.vue') },
       { path: 'seller/products/', name: 'sellerProductsList', component: () => import('pages/SellerProductsList.vue') },
       { path: 'seller/products/add', name: 'sellerProductsAdd', component: () => import('pages/SellerProductsAdd.vue') },
       { path: 'seller/settings', name: 'sellerSettings', component: () => import('pages/SellerSettings.vue') },
