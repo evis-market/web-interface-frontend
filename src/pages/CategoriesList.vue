@@ -21,7 +21,7 @@ export default {
   },
   async mounted() {
     if (!this.categories.length) {
-      const response = await this.$svc.categories.list({}, {}, 'name');
+      const response = await this.$svc.categories.list({});
       if (response.status === 'OK') {
         this.$store.commit('common/pushCategories', response.categories);
       } else {
