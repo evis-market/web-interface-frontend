@@ -8,7 +8,7 @@
 </template>
 
 <script>
-import TabMenu from '../components/AppLayout/TabMenu';
+import TabMenu from 'components/AppLayout/TabMenu';
 
 export default {
   name: 'PageGovernance',

@@ -9,9 +9,9 @@
 </template>
 
 <script>
-import TabMenu from '../components/AppLayout/TabMenu';
-import SellerTabs from '../components/Seller/SellerTabs';
-import SellerProductsList from '../components/Seller/SellerProductsList';
+import TabMenu from 'components/AppLayout/TabMenu';
+import SellerTabs from 'components/Seller/SellerTabs';
+import SellerProductsList from 'components/Seller/SellerProductsList';
 
 export default {
   name: 'PageSellerProductsList',

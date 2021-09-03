@@ -9,8 +9,8 @@
 </template>
 
 <script>
-import TabMenu from '../components/AppLayout/TabMenu';
-import BuyerTabs from '../components/Buyer/BuyerTabs';
+import TabMenu from 'components/AppLayout/TabMenu';
+import BuyerTabs from 'components/Buyer/BuyerTabs';
 
 export default {
   name: 'PageBuyerSettings',

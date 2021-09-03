@@ -10,8 +10,7 @@
   </div>
 </template>
 <script>
-import CategoryPreview from '../components/CategoryPreview';
-import { api } from '../boot/axios';
+import CategoryPreview from 'components/CategoryPreview';
 
 export default {
   name: 'PageCategoriesList',
@@ -22,9 +21,11 @@ export default {
   },
   async mounted() {
     if (!this.categories.length) {
-      const response = await api.get('/api/v1/categories/');
-      if (response.status === 200) {
-        this.$store.commit('common/pushCategories', response.data.categories);
+      const response = await this.$svc.categories.list({}, {}, 'name');
+      if (response.status === 'OK') {
+        this.$store.commit('common/pushCategories', response.categories);
+      } else {
+        alert(response.error.msg);
       }
     }
   },
