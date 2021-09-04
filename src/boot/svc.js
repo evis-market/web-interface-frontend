@@ -10,7 +10,6 @@ const svc = {
 };
 
 export default boot(({ app }) => {
-
   app.config.globalProperties.$svc = svc;
   // ^ ^ ^ this will allow you to use this.$svc
 });

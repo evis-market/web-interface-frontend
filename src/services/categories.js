@@ -8,13 +8,11 @@ export default class CategoriesSvc {
    * list return categories list
    */
   async list(filters) {
-    const res = await this.httpSvc.get(`${this.apiBaseURL}/api/v1/categories/`, {
+    return this.httpSvc.get(`${this.apiBaseURL}/api/v1/categories/`, {
       params: {
         parent_id: filters.parent_id,
         name: filters.name,
       },
     });
-
-    return res;
   }
 }
