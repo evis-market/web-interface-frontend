@@ -37,15 +37,23 @@
             <q-field borderless label="Site" readonly />
           </div>
           <div class="col">
-            <div v-for="obj in sites" :key="obj.id" class="row items-center">
-              <q-input v-model="obj.site" class="col-md-11 col-xs-10" />
+            <div v-for="(field, idx) in sites" :key="field.id" class="row items-center">
+              <q-input v-model="field.text" class="col-md-11 col-xs-10" />
               <q-btn
                 v-if="sites.length > 1"
                 round
                 icon="close"
                 color="red"
                 align="center"
-                @click="clear('sites', obj.id)"
+                @click="clearField('sites', field.id)"
+              />
+              <q-btn
+                v-if="sites.length - 1 === idx"
+                round
+                icon="add"
+                color="green"
+                align="center"
+                @click="addField('sites')"
               />
             </div>
           </div>
@@ -55,18 +63,26 @@
             <q-field borderless label="Email" readonly />
           </div>
           <div class="col">
-            <q-input v-model="obj.email" type="email" v-for="obj in emails" :key="obj.id" />
+            <q-input v-model="field.text" type="email" v-for="field in emails" :key="field.id" />
           </div>
           <div class="col">
-            <div v-for="obj in emails" :key="obj.id" class="row items-center">
-              <q-input v-model="obj.type" type="email" class="col-md-10 col-xs-8" />
+            <div v-for="(field, idx) in emails" :key="field.id" class="row items-center">
+              <q-input v-model="field.type" type="email" class="col-md-10 col-xs-8" />
               <q-btn
                 v-if="emails.length > 1"
                 round
                 icon="close"
                 color="red"
                 align="center"
-                @click="clear('emails', obj.id)"
+                @click="clearField('emails', field.id)"
+              />
+              <q-btn
+                v-if="emails.length - 1 === idx"
+                round
+                icon="add"
+                color="green"
+                align="center"
+                @click="addField('emails')"
               />
             </div>
           </div>
@@ -76,18 +92,26 @@
             <q-field borderless label="Phone" readonly />
           </div>
           <div class="col">
-            <q-input v-model="obj.phone" type="tel" v-for="obj in phones" :key="obj.id" />
+            <q-input v-model="field.text" type="tel" v-for="field in phones" :key="field.id" />
           </div>
           <div class="col">
-            <div v-for="obj in phones" :key="obj.id" class="row items-center">
-              <q-input v-model="obj.type" type="tel" class="col-md-10 col-xs-8" />
+            <div v-for="(field, idx) in phones" :key="field.id" class="row items-center">
+              <q-input v-model="field.type" type="tel" class="col-md-10 col-xs-8" />
               <q-btn
                 v-if="phones.length > 1"
                 round
                 icon="close"
                 color="red"
                 align="center"
-                @click="clear('phones', obj.id)"
+                @click="clearField('phones', field.id)"
+              />
+              <q-btn
+                v-if="phones.length - 1 === idx"
+                round
+                icon="add"
+                color="green"
+                align="center"
+                @click="addField('phones')"
               />
             </div>
           </div>
@@ -122,25 +146,32 @@ export default {
         + 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut  labore et dolore magna aliqua.\n',
       logo: null,
       sites: [
-        { id: 1, site: 'tovodata.com' },
-        { id: 2, site: 'tovodata.com/sales' },
+        { id: 1, text: 'tovodata.com' },
+        { id: 2, text: 'tovodata.com/sales' },
       ],
       emails: [
-        { id: 1, email: 'sales@tovodata.com', type: 'Sales' },
-        { id: 2, email: 'marketing@tovodata.com', type: 'Marketing' },
-        { id: 3, email: 'support@tovodata.com', type: 'Support' },
+        { id: 1, text: 'sales@tovodata.com', type: 'Sales' },
+        { id: 2, text: 'marketing@tovodata.com', type: 'Marketing' },
+        { id: 3, text: 'support@tovodata.com', type: 'Support' },
       ],
       phones: [
-        { id: 1, phone: '+1(123)456-7890', type: 'Sales' },
-        { id: 2, phone: '+1(123)456-7891', type: 'Marketing' },
-        { id: 3, phone: '+1(123)456-7892', type: 'Support' },
+        { id: 1, text: '+1(123)456-7890', type: 'Sales' },
+        { id: 2, text: '+1(123)456-7891', type: 'Marketing' },
+        { id: 3, text: '+1(123)456-7892', type: 'Support' },
       ],
       wallet: 'ERC-20 wallet',
     };
   },
   methods: {
-    clear(objName, id) {
-      this[objName].splice(this[objName].findIndex((item) => item.id === id), 1);
+    clearField(targetObjectName, id) {
+      this[targetObjectName].splice(this[targetObjectName].findIndex((item) => item.id === id), 1);
+    },
+    addField(targetObjectName) {
+      this[targetObjectName].push({
+        id: this[targetObjectName].length + 1,
+        text: '',
+        type: '',
+      });
     },
   },
   components: {
