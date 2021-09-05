@@ -37,7 +37,17 @@
             <q-field borderless label="Site" readonly />
           </div>
           <div class="col">
-            <q-input v-model="obj.site" v-for="obj in sites" :key="obj.id" />
+            <div v-for="obj in sites" :key="obj.id" class="row items-center">
+              <q-input v-model="obj.site" class="col-md-11 col-xs-10" />
+              <q-btn
+                v-if="sites.length > 1"
+                round
+                icon="close"
+                color="red"
+                align="center"
+                @click="clear('sites', obj.id)"
+              />
+            </div>
           </div>
         </div>
         <div class="row">
@@ -48,7 +58,17 @@
             <q-input v-model="obj.email" type="email" v-for="obj in emails" :key="obj.id" />
           </div>
           <div class="col">
-            <q-input v-model="obj.type" type="email" v-for="obj in emails" :key="obj.id" />
+            <div v-for="obj in emails" :key="obj.id" class="row items-center">
+              <q-input v-model="obj.type" type="email" class="col-md-10 col-xs-8" />
+              <q-btn
+                v-if="emails.length > 1"
+                round
+                icon="close"
+                color="red"
+                align="center"
+                @click="clear('emails', obj.id)"
+              />
+            </div>
           </div>
         </div>
         <div class="row">
@@ -59,7 +79,17 @@
             <q-input v-model="obj.phone" type="tel" v-for="obj in phones" :key="obj.id" />
           </div>
           <div class="col">
-            <q-input v-model="obj.type" type="tel" v-for="obj in phones" :key="obj.id" />
+            <div v-for="obj in phones" :key="obj.id" class="row items-center">
+              <q-input v-model="obj.type" type="tel" class="col-md-10 col-xs-8" />
+              <q-btn
+                v-if="phones.length > 1"
+                round
+                icon="close"
+                color="red"
+                align="center"
+                @click="clear('phones', obj.id)"
+              />
+            </div>
           </div>
         </div>
         <div class="row">
@@ -107,6 +137,11 @@ export default {
       ],
       wallet: 'ERC-20 wallet',
     };
+  },
+  methods: {
+    clear(objName, id) {
+      this[objName].splice(this[objName].findIndex((item) => item.id === id), 1);
+    },
   },
   components: {
     TabMenu,
