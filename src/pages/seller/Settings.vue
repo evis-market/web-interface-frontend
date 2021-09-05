@@ -47,6 +47,9 @@
           <div class="col">
             <q-input v-model="obj.email" type="email" v-for="obj in emails" :key="obj.id" />
           </div>
+          <div class="col">
+            <q-input v-model="obj.type" type="email" v-for="obj in emails" :key="obj.id" />
+          </div>
         </div>
         <div class="row">
           <div class="col-lg-1 col-xs-3">
@@ -54,6 +57,9 @@
           </div>
           <div class="col">
             <q-input v-model="obj.phone" type="tel" v-for="obj in phones" :key="obj.id" />
+          </div>
+          <div class="col">
+            <q-input v-model="obj.type" type="tel" v-for="obj in phones" :key="obj.id" />
           </div>
         </div>
         <div class="row">
@@ -63,6 +69,10 @@
           <div class="col">
             <q-input v-model="wallet" />
           </div>
+        </div>
+        <div class="row justify-end">
+          <q-btn label="Cancel" type="reset" color="primary" flat />
+          <q-btn label="Save" type="submit" color="primary" class="q-ml-sm" @click.prevent="" />
         </div>
       </q-form>
     </div>
