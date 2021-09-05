@@ -37,8 +37,31 @@
             <q-field borderless label="Site" readonly />
           </div>
           <div class="col">
-            <q-input v-model="site" />
-            <q-input v-model="site" />
+            <q-input v-model="obj.site" v-for="obj in sites" :key="obj.id" />
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-lg-1 col-xs-3">
+            <q-field borderless label="Email" readonly />
+          </div>
+          <div class="col">
+            <q-input v-model="obj.email" type="email" v-for="obj in emails" :key="obj.id" />
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-lg-1 col-xs-3">
+            <q-field borderless label="Phone" readonly />
+          </div>
+          <div class="col">
+            <q-input v-model="obj.phone" type="tel" v-for="obj in phones" :key="obj.id" />
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-lg-1 col-xs-3">
+            <q-field borderless label="Wallet" readonly />
+          </div>
+          <div class="col">
+            <q-input v-model="wallet" />
           </div>
         </div>
       </q-form>
@@ -58,7 +81,21 @@ export default {
       description: 'We sell data.\n'
         + 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut  labore et dolore magna aliqua.\n',
       logo: null,
-      site: 'tovodata.com',
+      sites: [
+        { id: 1, site: 'tovodata.com' },
+        { id: 2, site: 'tovodata.com/sales' },
+      ],
+      emails: [
+        { id: 1, email: 'sales@tovodata.com', type: 'Sales' },
+        { id: 2, email: 'marketing@tovodata.com', type: 'Marketing' },
+        { id: 3, email: 'support@tovodata.com', type: 'Support' },
+      ],
+      phones: [
+        { id: 1, phone: '+1(123)456-7890', type: 'Sales' },
+        { id: 2, phone: '+1(123)456-7891', type: 'Marketing' },
+        { id: 3, phone: '+1(123)456-7892', type: 'Support' },
+      ],
+      wallet: 'ERC-20 wallet',
     };
   },
   components: {
