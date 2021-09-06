@@ -38,23 +38,25 @@
           </div>
           <div class="col">
             <div v-for="(field, idx) in sites" :key="field.id" class="row items-center q-gutter-sm q-mb-md">
-              <q-input outlined v-model="field.text" class="col-md-11 col-xs-10" />
-              <q-btn
-                v-if="sites.length > 1"
-                round
-                icon="close"
-                color="red"
-                align="center"
-                @click="clearField('sites', field.id)"
-              />
-              <q-btn
-                v-if="sites.length - 1 === idx"
-                round
-                icon="add"
-                color="green"
-                align="center"
-                @click="addField('sites')"
-              />
+              <q-input outlined v-model="field.text" class="col" />
+              <div class="row items-center justify-between q-gutter-x-sm buttons-group">
+                <q-btn
+                  v-if="sites.length > 1"
+                  round
+                  icon="close"
+                  color="red"
+                  align="center"
+                  @click="clearField('sites', field.id)"
+                />
+                <q-btn
+                  v-if="sites.length - 1 === idx"
+                  round
+                  icon="add"
+                  color="green"
+                  align="center"
+                  @click="addField('sites')"
+                />
+              </div>
             </div>
           </div>
         </div>
@@ -74,23 +76,25 @@
           </div>
           <div class="col">
             <div v-for="(field, idx) in emails" :key="field.id" class="row items-center q-gutter-sm q-mb-md">
-              <q-input outlined v-model="field.type" type="email" class="col-md-10 col-xs-8" />
-              <q-btn
-                v-if="emails.length > 1"
-                round
-                icon="close"
-                color="red"
-                align="center"
-                @click="clearField('emails', field.id)"
-              />
-              <q-btn
-                v-if="emails.length - 1 === idx"
-                round
-                icon="add"
-                color="green"
-                align="center"
-                @click="addField('emails')"
-              />
+              <q-input outlined v-model="field.type" type="email" class="col" />
+              <div class="row items-center justify-between q-gutter-x-sm buttons-group">
+                <q-btn
+                  v-if="emails.length > 1"
+                  round
+                  icon="close"
+                  color="red"
+                  align="center"
+                  @click="clearField('emails', field.id)"
+                />
+                <q-btn
+                  v-if="emails.length - 1 === idx"
+                  round
+                  icon="add"
+                  color="green"
+                  align="center"
+                  @click="addField('emails')"
+                />
+              </div>
             </div>
           </div>
         </div>
@@ -110,23 +114,25 @@
           </div>
           <div class="col">
             <div v-for="(field, idx) in phones" :key="field.id" class="row items-center q-gutter-sm q-mb-md">
-              <q-input outlined v-model="field.type" type="tel" class="col-md-10 col-xs-8" />
-              <q-btn
-                v-if="phones.length > 1"
-                round
-                icon="close"
-                color="red"
-                align="center"
-                @click="clearField('phones', field.id)"
-              />
-              <q-btn
-                v-if="phones.length - 1 === idx"
-                round
-                icon="add"
-                color="green"
-                align="center"
-                @click="addField('phones')"
-              />
+              <q-input outlined v-model="field.type" type="tel" class="col" />
+              <div class="row items-center justify-between q-gutter-x-sm buttons-group">
+                <q-btn
+                  v-if="phones.length > 1"
+                  round
+                  icon="close"
+                  color="red"
+                  align="center"
+                  @click="clearField('phones', field.id)"
+                />
+                <q-btn
+                  v-if="phones.length - 1 === idx"
+                  round
+                  icon="add"
+                  color="green"
+                  align="center"
+                  @click="addField('phones')"
+                />
+              </div>
             </div>
           </div>
         </div>
@@ -194,3 +200,9 @@ export default {
   },
 };
 </script>
+
+<style scoped>
+  .buttons-group {
+    width: 100px
+  }
+</style>
