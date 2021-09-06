@@ -9,7 +9,7 @@
             <q-field borderless label="Display Name" readonly />
           </div>
           <div class="col">
-            <q-input v-model="name" />
+            <q-input outlined v-model="name" />
           </div>
         </div>
         <div class="row">
@@ -17,7 +17,7 @@
             <q-field borderless label="Description" readonly />
           </div>
           <div class="col">
-            <q-input v-model="description" type="textarea" />
+            <q-input outlined v-model="description" type="textarea" />
           </div>
         </div>
         <div class="row">
@@ -37,8 +37,8 @@
             <q-field borderless label="Site" readonly />
           </div>
           <div class="col">
-            <div v-for="(field, idx) in sites" :key="field.id" class="row items-center">
-              <q-input v-model="field.text" class="col-md-11 col-xs-10" />
+            <div v-for="(field, idx) in sites" :key="field.id" class="row items-center q-gutter-sm q-mb-md">
+              <q-input outlined v-model="field.text" class="col-md-11 col-xs-10" />
               <q-btn
                 v-if="sites.length > 1"
                 round
@@ -58,16 +58,23 @@
             </div>
           </div>
         </div>
-        <div class="row">
+        <div class="row q-mt-none">
           <div class="col-lg-1 col-xs-3">
             <q-field borderless label="Email" readonly />
           </div>
           <div class="col">
-            <q-input v-model="field.text" type="email" v-for="field in emails" :key="field.id" />
+            <q-input
+              outlined
+              v-model="field.text"
+              type="email"
+              v-for="field in emails"
+              :key="field.id"
+              class="q-mb-md q-mr-sm"
+            />
           </div>
           <div class="col">
-            <div v-for="(field, idx) in emails" :key="field.id" class="row items-center">
-              <q-input v-model="field.type" type="email" class="col-md-10 col-xs-8" />
+            <div v-for="(field, idx) in emails" :key="field.id" class="row items-center q-gutter-sm q-mb-md">
+              <q-input outlined v-model="field.type" type="email" class="col-md-10 col-xs-8" />
               <q-btn
                 v-if="emails.length > 1"
                 round
@@ -87,16 +94,23 @@
             </div>
           </div>
         </div>
-        <div class="row">
+        <div class="row q-mt-none">
           <div class="col-lg-1 col-xs-3">
             <q-field borderless label="Phone" readonly />
           </div>
           <div class="col">
-            <q-input v-model="field.text" type="tel" v-for="field in phones" :key="field.id" />
+            <q-input
+              outlined
+              v-model="field.text"
+              type="tel"
+              v-for="field in phones"
+              :key="field.id"
+              class="q-mb-md q-mr-sm"
+            />
           </div>
           <div class="col">
-            <div v-for="(field, idx) in phones" :key="field.id" class="row items-center">
-              <q-input v-model="field.type" type="tel" class="col-md-10 col-xs-8" />
+            <div v-for="(field, idx) in phones" :key="field.id" class="row items-center q-gutter-sm q-mb-md">
+              <q-input outlined v-model="field.type" type="tel" class="col-md-10 col-xs-8" />
               <q-btn
                 v-if="phones.length > 1"
                 round
@@ -116,12 +130,12 @@
             </div>
           </div>
         </div>
-        <div class="row">
+        <div class="row q-mt-none">
           <div class="col-lg-1 col-xs-3">
             <q-field borderless label="Wallet" readonly />
           </div>
           <div class="col">
-            <q-input v-model="wallet" />
+            <q-input outlined v-model="wallet" />
           </div>
         </div>
         <div class="row justify-end">
