@@ -65,17 +65,13 @@
             <q-field borderless label="Email" readonly />
           </div>
           <div class="col">
-            <q-input
-              outlined
-              v-model="field.text"
-              type="email"
-              v-for="field in emails"
-              :key="field.id"
-              class="q-mb-md q-mr-sm"
-            />
-          </div>
-          <div class="col">
             <div v-for="(field, idx) in emails" :key="field.id" class="row items-center q-gutter-sm q-mb-md">
+              <q-input
+                outlined
+                v-model="field.text"
+                type="email"
+                class="col"
+              />
               <q-input outlined v-model="field.type" type="email" class="col" />
               <div class="row items-center justify-between q-gutter-x-sm buttons-group">
                 <q-btn
@@ -103,17 +99,13 @@
             <q-field borderless label="Phone" readonly />
           </div>
           <div class="col">
-            <q-input
-              outlined
-              v-model="field.text"
-              type="tel"
-              v-for="field in phones"
-              :key="field.id"
-              class="q-mb-md q-mr-sm"
-            />
-          </div>
-          <div class="col">
             <div v-for="(field, idx) in phones" :key="field.id" class="row items-center q-gutter-sm q-mb-md">
+              <q-input
+                outlined
+                v-model="field.text"
+                type="tel"
+                class="col"
+              />
               <q-input outlined v-model="field.type" type="tel" class="col" />
               <div class="row items-center justify-between q-gutter-x-sm buttons-group">
                 <q-btn
