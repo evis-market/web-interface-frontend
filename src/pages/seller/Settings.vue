@@ -3,163 +3,130 @@
     <div class="q-gutter-y-md">
       <TabMenu tab="seller"/>
       <SellerTabs tab="settings"/>
-
-      <q-form class="row q-pa-md justify-center">
-        <q-card class="q-pa-md q-gutter-md col-12 col-md-9">
-          <q-card-title class="text-h5">Settings</q-card-title>
-          <q-input label="Display name" v-model="name" clearable />
-          <q-input label="Description" v-model="description" type="textarea" />
-          <q-file label="Logo" v-model="logo" clearable>
-            <template v-slot:prepend>
-              <q-icon name="attach_file" />
-            </template>
-          </q-file>
-          <q-input label="Site" v-model="name3" clearable />
-          <q-card-section class="row justify-end">
-            <q-btn label="Cancel" type="reset" color="primary" flat />
-            <q-btn label="Save" type="submit" color="primary" class="q-ml-sm" @click.prevent="" />
-          </q-card-section>
-        </q-card>
-      </q-form>
-
-      <q-form class="q-gutter-md q-pa-md">
-        <div class="row">
-          <div class="col-lg-1 col-xs-3">
-            <q-field borderless label="Display Name" readonly />
-          </div>
-          <div class="col">
-            <q-input outlined v-model="name" />
-          </div>
-        </div>
-        <div class="row">
-          <div class="col-lg-1 col-xs-3">
-            <q-field borderless label="Description" readonly />
-          </div>
-          <div class="col">
-            <q-input outlined v-model="description" type="textarea" />
-          </div>
-        </div>
-        <div class="row">
-          <div class="col-lg-1 col-xs-3">
-            <q-field borderless label="Logo" readonly />
-          </div>
-          <div class="col">
-            <q-file outlined v-model="logo">
-              <template v-slot:prepend>
-                <q-icon name="attach_file" />
-              </template>
-            </q-file>
-          </div>
-        </div>
-        <div class="row">
-          <div class="col-lg-1 col-xs-3">
-            <q-field borderless label="Site" readonly />
-          </div>
-          <div class="col">
-            <div v-for="(field, idx) in sites" :key="field.id" class="row items-center q-gutter-sm q-mb-md">
-              <q-input outlined v-model="field.text" class="col" />
-              <div class="row items-center justify-between q-gutter-x-sm buttons-group">
-                <q-btn
-                  v-if="sites.length > 1"
-                  round
-                  icon="close"
-                  color="red"
-                  align="center"
-                  @click="clearField('sites', field.id)"
-                />
-                <q-btn
-                  v-if="sites.length - 1 === idx"
-                  round
-                  icon="add"
-                  color="green"
-                  align="center"
-                  @click="addField('sites')"
-                />
+      <q-card>
+        <q-card-section>
+          <q-form class="q-gutter-md q-pa-md">
+            <div class="row items-center">
+              <q-icon name="person" class="col-auto q-mr-md" size="sm" />
+              <q-input dense v-model="name" label="Display Name" class="col" />
+            </div>
+            <div class="row items-center">
+              <q-icon name="description" class="col-auto q-mr-md" size="sm" />
+              <q-input dense v-model="description" label="Description" class="col" />
+            </div>
+            <div class="row items-center">
+              <q-icon name="attach_file" class="col-auto q-mr-md" size="sm" />
+              <q-file dense v-model="logo" label="Logo" class="col" />
+            </div>
+            <div class="row">
+              <q-icon name="link" class="col-auto q-mr-md q-mt-md" size="sm" />
+              <div class="col">
+                <div v-for="(field, idx) in sites" :key="field.id" class="row items-center q-gutter-sm q-mb-md">
+                  <q-input dense v-model="field.text" class="col" label="Site" />
+                  <div class="row items-center justify-between q-gutter-x-sm buttons-group">
+                    <q-btn
+                      dense
+                      v-if="sites.length > 1"
+                      round
+                      icon="close"
+                      color="red"
+                      align="center"
+                      @click="clearField('sites', field.id)"
+                    />
+                    <q-btn
+                      dense
+                      v-if="sites.length - 1 === idx"
+                      round
+                      icon="add"
+                      color="green"
+                      align="center"
+                      @click="addField('sites')"
+                    />
+                  </div>
+                </div>
               </div>
             </div>
-          </div>
-        </div>
-        <div class="row q-mt-none">
-          <div class="col-lg-1 col-xs-3">
-            <q-field borderless label="Email" readonly />
-          </div>
-          <div class="col">
-            <div v-for="(field, idx) in emails" :key="field.id" class="row items-center q-gutter-sm q-mb-md">
-              <q-input
-                outlined
-                v-model="field.text"
-                type="email"
-                class="col"
-              />
-              <q-input outlined v-model="field.type" type="email" class="col" />
-              <div class="row items-center justify-between q-gutter-x-sm buttons-group">
-                <q-btn
-                  v-if="emails.length > 1"
-                  round
-                  icon="close"
-                  color="red"
-                  align="center"
-                  @click="clearField('emails', field.id)"
-                />
-                <q-btn
-                  v-if="emails.length - 1 === idx"
-                  round
-                  icon="add"
-                  color="green"
-                  align="center"
-                  @click="addField('emails')"
-                />
+            <div class="row q-mt-none">
+              <q-icon name="email" class="col-auto q-mr-md q-mt-md" size="sm" />
+              <div class="col">
+                <div v-for="(field, idx) in emails" :key="field.id" class="row items-center q-gutter-sm q-mb-md">
+                  <q-input
+                    dense
+                    v-model="field.text"
+                    type="email"
+                    class="col"
+                    label="Email"
+                  />
+                  <q-input dense v-model="field.type" type="email" class="col" label="Label" />
+                  <div class="row items-center justify-between q-gutter-x-sm buttons-group">
+                    <q-btn
+                      dense
+                      v-if="emails.length > 1"
+                      round
+                      icon="close"
+                      color="red"
+                      align="center"
+                      @click="clearField('emails', field.id)"
+                    />
+                    <q-btn
+                      dense
+                      v-if="emails.length - 1 === idx"
+                      round
+                      icon="add"
+                      color="green"
+                      align="center"
+                      @click="addField('emails')"
+                    />
+                  </div>
+                </div>
               </div>
             </div>
-          </div>
-        </div>
-        <div class="row q-mt-none">
-          <div class="col-lg-1 col-xs-3">
-            <q-field borderless label="Phone" readonly />
-          </div>
-          <div class="col">
-            <div v-for="(field, idx) in phones" :key="field.id" class="row items-center q-gutter-sm q-mb-md">
-              <q-input
-                outlined
-                v-model="field.text"
-                type="tel"
-                class="col"
-              />
-              <q-input outlined v-model="field.type" type="tel" class="col" />
-              <div class="row items-center justify-between q-gutter-x-sm buttons-group">
-                <q-btn
-                  v-if="phones.length > 1"
-                  round
-                  icon="close"
-                  color="red"
-                  align="center"
-                  @click="clearField('phones', field.id)"
-                />
-                <q-btn
-                  v-if="phones.length - 1 === idx"
-                  round
-                  icon="add"
-                  color="green"
-                  align="center"
-                  @click="addField('phones')"
-                />
+            <div class="row q-mt-none">
+              <q-icon name="call" class="col-auto q-mr-md q-mt-md" size="sm" />
+              <div class="col">
+                <div v-for="(field, idx) in phones" :key="field.id" class="row items-center q-gutter-sm q-mb-md">
+                  <q-input
+                    dense
+                    v-model="field.text"
+                    type="tel"
+                    class="col"
+                    label="Phone"
+                  />
+                  <q-input dense v-model="field.type" type="tel" class="col" label="Label" />
+                  <div class="row items-center justify-between q-gutter-x-sm buttons-group">
+                    <q-btn
+                      dense
+                      v-if="phones.length > 1"
+                      round
+                      icon="close"
+                      color="red"
+                      align="center"
+                      @click="clearField('phones', field.id)"
+                    />
+                    <q-btn
+                      dense
+                      v-if="phones.length - 1 === idx"
+                      round
+                      icon="add"
+                      color="green"
+                      align="center"
+                      @click="addField('phones')"
+                    />
+                  </div>
+                </div>
               </div>
             </div>
-          </div>
-        </div>
-        <div class="row q-mt-none">
-          <div class="col-lg-1 col-xs-3">
-            <q-field borderless label="Wallet" readonly />
-          </div>
-          <div class="col">
-            <q-input outlined v-model="wallet" />
-          </div>
-        </div>
-        <div class="row justify-end">
-          <q-btn label="Cancel" type="reset" color="primary" flat />
-          <q-btn label="Save" type="submit" color="primary" class="q-ml-sm" @click.prevent="" />
-        </div>
-      </q-form>
+            <div class="row q-mt-none items-center">
+              <q-icon name="account_balance_wallet" class="col-auto q-mr-md" size="sm" />
+              <q-input dense v-model="wallet" label="Wallet" class="col" />
+            </div>
+            <div class="row justify-end">
+              <q-btn label="Cancel" type="reset" color="primary" flat />
+              <q-btn label="Save" type="submit" color="primary" class="q-ml-sm" @click.prevent="" />
+            </div>
+          </q-form>
+        </q-card-section>
+      </q-card>
     </div>
   </div>
 </template>
@@ -214,6 +181,6 @@ export default {
 
 <style scoped>
   .buttons-group {
-    width: 100px
+    width: 85px
   }
 </style>
