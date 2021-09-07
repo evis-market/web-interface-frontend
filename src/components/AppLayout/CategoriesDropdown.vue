@@ -1,5 +1,5 @@
 <template>
-  <q-btn-dropdown icon="list" label="Categories" class="bg-white text-primary">
+  <q-btn-dropdown icon="list" label="Categories" class="bg-white text-primary q-mr-sm">
     <q-list>
       <q-item clickable v-close-popup>
         <q-item-section>
