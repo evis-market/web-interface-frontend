@@ -4,13 +4,21 @@
       <TabMenu tab="seller"/>
       <SellerTabs tab="settings"/>
 
-      <q-form class="row q-pa-md text-center justify-center">
-        <q-card class="q-pa-md q-gutter-md col-12 col-md-8 col-lg-6">
+      <q-form class="row q-pa-md justify-center">
+        <q-card class="q-pa-md q-gutter-md col-12 col-md-9">
           <q-card-title class="text-h5">Settings</q-card-title>
-          <q-input v-model="name" label="Display name" clearable />
-          <q-input v-model="description" label="Description" type="textarea" />
-          <q-input v-model="name2" label="Logo" clearable />
-          <q-input v-model="name3" label="Site" clearable />
+          <q-input label="Display name" v-model="name" clearable />
+          <q-input label="Description" v-model="description" type="textarea" />
+          <q-file label="Logo" v-model="logo" clearable>
+            <template v-slot:prepend>
+              <q-icon name="attach_file" />
+            </template>
+          </q-file>
+          <q-input label="Site" v-model="name3" clearable />
+          <q-card-section class="row justify-end">
+            <q-btn label="Cancel" type="reset" color="primary" flat />
+            <q-btn label="Save" type="submit" color="primary" class="q-ml-sm" @click.prevent="" />
+          </q-card-section>
         </q-card>
       </q-form>
 
