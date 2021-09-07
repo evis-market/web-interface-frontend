@@ -1,5 +1,5 @@
 <template>
-  <div class="category-preview">
+  <div class="category-preview column">
     <div
       class="row items-center q-mb-lg"
       :class="logo ? 'justify-between' : 'justify-end'"
@@ -14,11 +14,11 @@
       <h5>{{ category.name }}</h5>
     </div>
     <p v-if="description" class="q-mb-lg">{{ description }}</p>
-    <div class="row" v-if="recommendedFor.length">
+    <div class="row q-mt-auto" v-if="recommendedFor.length">
       <div
         v-for="recommendedType in recommendedFor"
         :key="recommendedType.id"
-        class="col-6 row items-center q-mb-sm"
+        class="col-sm-6 col-xs-12 row items-center q-mb-sm recommended-for"
       >
         <q-icon name="done" class="q-mr-lg done-icon" />
         <p class="q-mb-none">{{ recommendedType.name }}</p>
@@ -64,7 +64,9 @@ export default {
   .category-preview {
     padding: 20px 28px 26px;
     border: 1px solid $color;
-    box-sizing: border-box;
-    min-width: 440px;
+    width: 100%;
+  }
+  .recommended-for {
+    min-height: 50px;
   }
 </style>

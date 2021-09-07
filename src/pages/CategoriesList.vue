@@ -1,9 +1,9 @@
 <template>
-  <div class="row justify-between q-pa-lg items-stretch">
+  <div class="row justify-between q-pa-lg">
     <div
       v-for="category in categories"
       :key="category.id"
-      class="col-xs-12 col-md-6 q-gutter-lg q-mb-lg"
+      class="col-xs-12 col-md-6 q-gutter-lg q-mb-lg row items-stretch"
     >
       <CategoryPreview :category="category" />
     </div>
