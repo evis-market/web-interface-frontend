@@ -3,6 +3,17 @@
     <div class="q-gutter-y-md">
       <TabMenu tab="seller"/>
       <SellerTabs tab="settings"/>
+
+      <q-form class="row q-pa-md text-center justify-center">
+        <q-card class="q-pa-md q-gutter-md col-12 col-md-8 col-lg-6">
+          <q-card-title class="text-h5">Settings</q-card-title>
+          <q-input v-model="name" label="Display name" clearable />
+          <q-input v-model="description" label="Description" type="textarea" />
+          <q-input v-model="name2" label="Logo" clearable />
+          <q-input v-model="name3" label="Site" clearable />
+        </q-card>
+      </q-form>
+
       <q-form class="q-gutter-md q-pa-md">
         <div class="row">
           <div class="col-lg-1 col-xs-3">
