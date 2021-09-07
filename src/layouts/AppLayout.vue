@@ -1,17 +1,23 @@
 <template>
   <q-layout view="lHh Lpr lFf" class="q-pa-md">
     <q-header elevated class="bg-white text-primary">
-      <q-toolbar>
-        <router-link :to="{ 'name': 'index' }">
+      <q-toolbar class="row">
+        <router-link :to="{ 'name': 'index' }" class="col-1">
           <img src="~/assets/evis-logo.png" width="35" alt="EVIS" />
         </router-link>
         <q-space></q-space>
+        <div class="col-auto">
           <CategoriesDropdown/>
+        </div>
+        <div class="col-4">
           <SearchAutocomplete/>
+        </div>
         <q-space></q-space>
-        <q-btn label="Sell data" color="indigo-3" class="q-mr-sm" :to="{ 'name': 'sellerProductsList' }"/>
-        <q-btn label="Request custom data" color="secondary" class="q-mr-sm" />
-        <q-btn label="Login" color="primary" />
+        <div class="col-auto q-ml-xl">
+            <q-btn label="Sell data" color="indigo-3" class="q-mr-sm" :to="{ 'name': 'sellerProductsList' }"/>
+            <q-btn label="Request custom data" color="secondary" class="q-mr-sm" />
+            <q-btn label="Login" color="primary" />
+        </div>
       </q-toolbar>
     </q-header>
     <q-page-container>

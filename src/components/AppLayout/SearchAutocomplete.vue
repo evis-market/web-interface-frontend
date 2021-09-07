@@ -1,5 +1,6 @@
 <template>
-  <q-input
+  <q-input dense
+    class="super-small full-width"
     v-model="search"
     debounce="500"
     outlined
