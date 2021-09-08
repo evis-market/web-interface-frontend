@@ -19,10 +19,10 @@
               <q-file dense v-model="logo" label="Logo" class="col" />
             </div>
             <div class="row">
-              <q-icon name="link" class="col-auto q-mr-md q-mt-md" size="sm" />
+              <q-icon name="link" class="col-auto q-mr-md q-mt-sm" size="sm" />
               <div class="col">
                 <div v-for="(field, idx) in sites" :key="field.id" class="row items-center q-gutter-sm q-mb-md">
-                  <q-input dense v-model="field.text" class="col" label="Site" />
+                  <q-input dense v-model="field.value" class="col" label="Site" />
                   <div class="row items-center justify-between q-gutter-x-sm buttons-group">
                     <q-btn
                       dense
@@ -47,17 +47,17 @@
               </div>
             </div>
             <div class="row q-mt-none">
-              <q-icon name="email" class="col-auto q-mr-md q-mt-md" size="sm" />
+              <q-icon name="email" class="col-auto q-mr-md q-mt-sm" size="sm" />
               <div class="col">
                 <div v-for="(field, idx) in emails" :key="field.id" class="row items-center q-gutter-sm q-mb-md">
                   <q-input
                     dense
-                    v-model="field.text"
+                    v-model="field.value"
                     type="email"
                     class="col"
                     label="Email"
                   />
-                  <q-input dense v-model="field.type" type="email" class="col" label="Label" />
+                  <q-input dense v-model="field.comment" type="email" class="col" label="Comment" />
                   <div class="row items-center justify-between q-gutter-x-sm buttons-group">
                     <q-btn
                       dense
@@ -82,17 +82,17 @@
               </div>
             </div>
             <div class="row q-mt-none">
-              <q-icon name="call" class="col-auto q-mr-md q-mt-md" size="sm" />
+              <q-icon name="call" class="col-auto q-mr-md q-mt-sm" size="sm" />
               <div class="col">
                 <div v-for="(field, idx) in phones" :key="field.id" class="row items-center q-gutter-sm q-mb-md">
                   <q-input
                     dense
-                    v-model="field.text"
+                    v-model="field.value"
                     type="tel"
                     class="col"
                     label="Phone"
                   />
-                  <q-input dense v-model="field.type" type="tel" class="col" label="Label" />
+                  <q-input dense v-model="field.comment" type="tel" class="col" label="Comment" />
                   <div class="row items-center justify-between q-gutter-x-sm buttons-group">
                     <q-btn
                       dense
@@ -139,25 +139,19 @@ export default {
   name: 'PageSellerSettings',
   data() {
     return {
-      name: 'TovoData',
-      description: 'We sell data.\n'
-        + 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut  labore et dolore magna aliqua.\n',
+      name: '',
+      description: '',
       logo: null,
       sites: [
-        { id: 1, text: 'tovodata.com' },
-        { id: 2, text: 'tovodata.com/sales' },
+        { type_id: 1, value: '', comment: '' },
       ],
       emails: [
-        { id: 1, text: 'sales@tovodata.com', type: 'Sales' },
-        { id: 2, text: 'marketing@tovodata.com', type: 'Marketing' },
-        { id: 3, text: 'support@tovodata.com', type: 'Support' },
+        { type_id: 3, value: '', comment: '' },
       ],
       phones: [
-        { id: 1, text: '+1(123)456-7890', type: 'Sales' },
-        { id: 2, text: '+1(123)456-7891', type: 'Marketing' },
-        { id: 3, text: '+1(123)456-7892', type: 'Support' },
+        { type_id: 2, value: '', comment: '' },
       ],
-      wallet: 'ERC-20 wallet',
+      wallet: '',
     };
   },
   methods: {
@@ -171,6 +165,25 @@ export default {
         type: '',
       });
     },
+  },
+  async beforeCreate() {
+    const response = await this.$svc.seller.getSettings();
+    if (response.status === 'OK') {
+      const { seller } = response;
+      this.name = seller.name;
+      this.description = seller.description;
+      // this.logo = seller.logo_url;
+      this.wallet = seller.wallet_for_payments_erc20;
+      const { contacts } = seller;
+      const sites = contacts.filter((contact) => contact.type_id === 1);
+      if (sites.length) this.sites = sites;
+      const phones = contacts.filter((contact) => contact.type_id === 2);
+      if (phones.length) this.phones = phones;
+      const emails = contacts.filter((contact) => contact.type_id === 3);
+      if (emails.length) this.emails = emails;
+    } else {
+      console.error(response.error.msg);
+    }
   },
   components: {
     TabMenu,

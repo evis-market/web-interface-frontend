@@ -1,12 +1,14 @@
 import { boot } from 'quasar/wrappers';
 import HTTPSvc from 'services/http';
 import CategoriesSvc from 'services/categories';
+import SellerSvc from 'services/seller';
 
 const httpSvc = new HTTPSvc();
 
 const svc = {
   http: httpSvc,
   categories: new CategoriesSvc(httpSvc, process.env.API_BASE_URL),
+  seller: new SellerSvc(httpSvc, process.env.API_BASE_URL),
 };
 
 export default boot(({ app }) => {
