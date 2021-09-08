@@ -122,7 +122,7 @@
             </div>
             <div class="row justify-end">
               <q-btn label="Cancel" type="reset" color="primary" flat />
-              <q-btn label="Save" type="submit" color="primary" class="q-ml-sm" @click.prevent="" />
+              <q-btn label="Save" type="submit" color="primary" class="q-ml-sm" @click.prevent="updateSettings" />
             </div>
           </q-form>
         </q-card-section>
@@ -159,10 +159,20 @@ export default {
       this[targetObjectName].splice(this[targetObjectName].findIndex((item) => item.id === id), 1);
     },
     addField(targetObjectName) {
+      const typeIDs = { sites: 1, phones: 2, emails: 3 };
       this[targetObjectName].push({
-        id: this[targetObjectName].length + 1,
-        text: '',
-        type: '',
+        type_id: typeIDs[targetObjectName],
+        value: '',
+        comment: '',
+      });
+    },
+    async updateSettings() {
+      await this.$svc.seller.updateSettings({
+        name: this.name,
+        description: this.description,
+        logo_url: window.location + (this.logo?.name || ''),
+        wallet_for_payments_erc20: this.wallet,
+        contacts: [...this.sites, ...this.emails, ...this.phones],
       });
     },
   },
