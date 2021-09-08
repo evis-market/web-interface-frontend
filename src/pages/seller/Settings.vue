@@ -172,8 +172,9 @@ export default {
       const { seller } = response;
       this.name = seller.name;
       this.description = seller.description;
-      // this.logo = seller.logo_url;
       this.wallet = seller.wallet_for_payments_erc20;
+      const logo = seller.logo_url;
+      if (logo) this.logo = new File([logo], logo, { type: 'image/jpeg' });
       const { contacts } = seller;
       const sites = contacts.filter((contact) => contact.type_id === 1);
       if (sites.length) this.sites = sites;
