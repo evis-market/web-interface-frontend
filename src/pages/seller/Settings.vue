@@ -155,15 +155,23 @@
                 <q-icon name="account_balance_wallet" class="col-auto q-mr-md q-mt-sm" size="sm" />
                 <q-input
                   dense
-                  v-model="wallet"
+                  v-model="v$.wallet.$model"
                   label="Wallet"
                   class="col"
-                  :rules="[val => true]"
+                  :error="v$.wallet.$error"
+                  error-message="Incorrect wallet"
                 />
               </div>
               <div class="row justify-end">
                 <q-btn label="Cancel" type="reset" color="primary" flat />
-                <q-btn label="Save" type="submit" color="primary" class="q-ml-sm" @click.prevent="updateSettings" />
+                <q-btn
+                  label="Save"
+                  type="submit"
+                  color="primary"
+                  class="q-ml-sm"
+                  @click.prevent="updateSettings"
+                  :disabled="disableSaving"
+                />
               </div>
             </q-form>
           </q-card-section>
@@ -188,8 +196,13 @@
 import TabMenu from 'components/AppLayout/TabMenu';
 import SellerTabs from 'components/Seller/SellerTabs';
 
+import useVuelidate from '@vuelidate/core';
+
 export default {
   name: 'PageSellerSettings',
+  setup() {
+    return { v$: useVuelidate() };
+  },
   data() {
     return {
       name: '',
@@ -208,6 +221,22 @@ export default {
       error: false,
       errorMessage: '',
     };
+  },
+  validations: {
+    wallet: {
+      erc20_validator(val) {
+        if (!val) return true;
+        return !!val.match(/^0x[a-fA-F0-9]{40}$/gi);
+      },
+    },
+  },
+  computed: {
+    emailValues() {
+      return this.emails.reduce((acc, curr) => acc + curr.value, '');
+    },
+    disableSaving() {
+      return !this.name || !this.emailValues || this.v$.$errors.length;
+    },
   },
   methods: {
     clearField(targetObjectName, id) {
