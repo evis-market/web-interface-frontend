@@ -33,7 +33,7 @@
       type="password"
       label="Password"
       hide-bottom-space
-      error-message="Minimum password length is 8 characters"
+      error-message="Password length of 8 to 32 characters"
       :error="password.length && v.password.$invalid"
       class="q-mb-md"
     />
@@ -81,11 +81,13 @@
 <script>
 import useVuelidate from '@vuelidate/core';
 import {
-  required, email, minLength,
+  required, email, minLength, maxLength,
   // sameAs,
 } from '@vuelidate/validators';
 
+// From global constants (or API?) for backlog
 const MIN_PASSWORD_LENGTH = 8;
+const MAX_PASSWORD_LENGTH = 32;
 
 export default {
   name: 'RegistrationForm',
@@ -109,6 +111,7 @@ export default {
     password: {
       required,
       minLength: minLength(MIN_PASSWORD_LENGTH),
+      maxLength: maxLength(MAX_PASSWORD_LENGTH),
       // Password complexity from util's for backlog
       // goodPassword: (password) => {
       //   /[a-z]/.test(password) &&
@@ -120,6 +123,7 @@ export default {
       // sameAs('password') not working
       sameAsPassword: function (confirm) { // from util's for backlog
         return this.password.length >= MIN_PASSWORD_LENGTH
+          && this.password.length <= MAX_PASSWORD_LENGTH
           ? this.password === confirm
           : true;
       },
