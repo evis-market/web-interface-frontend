@@ -82,9 +82,8 @@
                           type="email"
                           class="col"
                           label="Email"
-                          :rules="[val => !!val]"
                           :error="v.value.$error"
-                          error-message="Empty or incorrect email"
+                          :error-message="v.value.$errors.map(err => err.$message).join('. ')"
                         />
                         <q-input
                           dense
@@ -210,13 +209,13 @@ import SellerTabs from 'components/Seller/SellerTabs';
 import useVuelidate from '@vuelidate/core';
 import { reactive } from 'vue';
 import { ValidateEach } from '@vuelidate/components';
-import { email } from '@vuelidate/validators';
+import { email, required } from '@vuelidate/validators';
 
 export default {
   name: 'PageSellerSettings',
   setup() {
     const rules = {
-      value: { email },
+      value: { email, required },
     };
     const emails = reactive([
       { type_id: 3, value: '', comment: '' },
