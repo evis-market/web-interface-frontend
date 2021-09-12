@@ -14,7 +14,7 @@
           <a href="#faq">FAQ</a>
         </nav>
         <q-space></q-space>
-        <q-btn label="Login" color="primary" />
+        <q-btn label="Login" color="primary" :to="{ name: 'login' }" />
       </q-toolbar>
     </q-header>
     <q-page-container>
