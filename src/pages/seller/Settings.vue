@@ -11,7 +11,7 @@
                 <q-icon name="person" class="col-auto q-mr-md q-mt-sm" size="sm" />
                 <q-input
                   dense
-                  v-model="name"
+                  v-model.trim="name"
                   label="Display Name"
                   class="col"
                   :rules="[val => !!val || 'Field is required']"
@@ -21,7 +21,7 @@
                 <q-icon name="description" class="col-auto q-mr-md q-mt-sm" size="sm" />
                 <q-input
                   dense
-                  v-model="description"
+                  v-model.trim="description"
                   label="Description"
                   class="col"
                   :rules="[val => true]"
@@ -37,7 +37,7 @@
                   <div v-for="(field, idx) in sites" :key="field.id" class="row items-center q-gutter-sm">
                     <q-input
                       dense
-                      v-model="field.value"
+                      v-model.trim="field.value"
                       class="col"
                       label="Site"
                       :rules="[val => true]"
@@ -78,7 +78,7 @@
                       <div class="row items-center q-gutter-sm">
                         <q-input
                           dense
-                          v-model="v.value.$model"
+                          v-model.trim="v.value.$model"
                           type="email"
                           class="col"
                           label="Email"
@@ -87,7 +87,7 @@
                         />
                         <q-input
                           dense
-                          v-model="item.comment"
+                          v-model.trim="item.comment"
                           type="email"
                           class="col"
                           label="Comment"
@@ -124,7 +124,7 @@
                   <div v-for="(field, idx) in phones" :key="field.id" class="row items-center q-gutter-sm">
                     <q-input
                       dense
-                      v-model="field.value"
+                      v-model.trim="field.value"
                       type="tel"
                       class="col"
                       label="Phone"
@@ -132,7 +132,7 @@
                     />
                     <q-input
                       dense
-                      v-model="field.comment"
+                      v-model.trim="field.comment"
                       type="tel"
                       class="col"
                       label="Comment"
@@ -165,7 +165,7 @@
                 <q-icon name="account_balance_wallet" class="col-auto q-mr-md q-mt-sm" size="sm" />
                 <q-input
                   dense
-                  v-model="v.wallet.$model"
+                  v-model.trim="v.wallet.$model"
                   label="Wallet"
                   class="col"
                   :error="v.wallet.$error"
