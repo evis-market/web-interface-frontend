@@ -68,44 +68,55 @@
               <div class="row q-mt-none">
                 <q-icon name="email" class="col-auto q-mr-md q-mt-sm" size="sm" />
                 <div class="col">
-                  <div v-for="(field, idx) in emails" :key="field.id" class="row items-center q-gutter-sm">
-                    <q-input
-                      dense
-                      v-model="field.value"
-                      type="email"
-                      class="col"
-                      label="Email"
-                      :rules="[val => !!val || 'Field is required']"
-                    />
-                    <q-input
-                      dense
-                      v-model="field.comment"
-                      type="email"
-                      class="col"
-                      label="Comment"
-                      :rules="[val => true]"
-                    />
-                    <div class="row q-mb-lg justify-between q-gutter-x-sm buttons-group">
-                      <q-btn
-                        dense
-                        v-if="emails.length > 1"
-                        round
-                        icon="close"
-                        color="red"
-                        align="center"
-                        @click="clearField('emails', field.id)"
-                      />
-                      <q-btn
-                        dense
-                        v-if="emails.length - 1 === idx"
-                        round
-                        icon="add"
-                        color="green"
-                        align="center"
-                        @click="addField('emails')"
-                      />
-                    </div>
-                  </div>
+                  <ValidateEach
+                    v-for="(item, index) in emails"
+                    :key="index"
+                    :state="item"
+                    :rules="rules"
+                  >
+                    <template #default="{ v }">
+                      <div class="row items-center q-gutter-sm">
+                        <q-input
+                          dense
+                          v-model="v.value.$model"
+                          type="email"
+                          class="col"
+                          label="Email"
+                          :rules="[val => !!val]"
+                          :error="v.value.$error"
+                          error-message="Empty or incorrect email"
+                        />
+                        <q-input
+                          dense
+                          v-model="item.comment"
+                          type="email"
+                          class="col"
+                          label="Comment"
+                          :rules="[val => true]"
+                        />
+                        <div class="row q-mb-lg justify-between q-gutter-x-sm buttons-group">
+                          <q-btn
+                            dense
+                            v-if="emails.length > 1"
+                            round
+                            icon="close"
+                            color="red"
+                            align="center"
+                            @click="clearField('emails', item.id)"
+                          />
+                          <q-btn
+                            dense
+                            v-if="emails.length - 1 === index"
+                            round
+                            icon="add"
+                            color="green"
+                            align="center"
+                            @click="addField('emails')"
+                          />
+                        </div>
+                      </div>
+                    </template>
+                  </ValidateEach>
                 </div>
               </div>
               <div class="row q-mt-none">
@@ -155,10 +166,10 @@
                 <q-icon name="account_balance_wallet" class="col-auto q-mr-md q-mt-sm" size="sm" />
                 <q-input
                   dense
-                  v-model="v$.wallet.$model"
+                  v-model="v.wallet.$model"
                   label="Wallet"
                   class="col"
-                  :error="v$.wallet.$error"
+                  :error="v.wallet.$error"
                   error-message="Incorrect wallet"
                 />
               </div>
@@ -197,11 +208,21 @@ import TabMenu from 'components/AppLayout/TabMenu';
 import SellerTabs from 'components/Seller/SellerTabs';
 
 import useVuelidate from '@vuelidate/core';
+import { reactive } from 'vue';
+import { ValidateEach } from '@vuelidate/components';
+import { email } from '@vuelidate/validators';
 
 export default {
   name: 'PageSellerSettings',
   setup() {
-    return { v$: useVuelidate() };
+    const rules = {
+      value: { email },
+    };
+    const emails = reactive([
+      { type_id: 3, value: '', comment: '' },
+    ]);
+    const v = useVuelidate();
+    return { rules, emails, v };
   },
   data() {
     return {
@@ -210,9 +231,6 @@ export default {
       logo: null,
       sites: [
         { type_id: 1, value: '', comment: '' },
-      ],
-      emails: [
-        { type_id: 3, value: '', comment: '' },
       ],
       phones: [
         { type_id: 2, value: '', comment: '' },
@@ -235,7 +253,7 @@ export default {
       return this.emails.reduce((acc, curr) => acc + curr.value, '');
     },
     disableSaving() {
-      return !this.name || !this.emailValues || this.v$.$errors.length;
+      return !this.name || !this.emailValues || this.v.$errors.length;
     },
   },
   methods: {
@@ -288,6 +306,7 @@ export default {
   components: {
     TabMenu,
     SellerTabs,
+    ValidateEach,
   },
 };
 </script>
