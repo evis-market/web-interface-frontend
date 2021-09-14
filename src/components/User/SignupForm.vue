@@ -62,7 +62,7 @@
       and
       <router-link :to="{}">Privacy Policy</router-link>
     </p>
-    <div class="flex q-mt-xl">
+    <div class="row q-mt-md">
       <div>
         Already have an account?
       </div>
@@ -91,6 +91,7 @@ export default {
     const v = useVuelidate();
     return { v };
   },
+
   data() {
     return {
       name: '',
@@ -102,6 +103,7 @@ export default {
       errorMessages: [],
     };
   },
+
   validations: {
     email: { required, email },
     password: {
@@ -125,6 +127,7 @@ export default {
       },
     },
   },
+
   methods: {
     signupSubmit() {
       console.log({

@@ -1,14 +1,16 @@
 <template>
-  <div class="row justify-center">
-    <div class="">
-      <!-- <LoginForm /> -->
-      <q-btn label="Signup" color="primary" :to="{ name: 'signup' }"/>
+  <q-page class="row justify-center">
+    <div class="col-lg-3 col-md-6 col-xs-11">
+      <LoginForm />
     </div>
-  </div>
+  </q-page>
 </template>
 
 <script>
+import LoginForm from 'components/User/LoginForm';
+
 export default {
-  name: 'Login',
+  name: 'PageLogin',
+  components: { LoginForm },
 };
 </script>
