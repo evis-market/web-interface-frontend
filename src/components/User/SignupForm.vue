@@ -1,5 +1,5 @@
 <template>
-  <form @submit.prevent="registrationSubmit" class="q-pa-md">
+  <q-form @submit.prevent="signupSubmit" class="q-gutter-y-md">
     <h5>
       Create an account
     </h5>
@@ -7,13 +7,11 @@
       filled
       v-model.trim="name"
       label="Name"
-      class="q-mb-md"
     />
     <q-input
       filled
       v-model.trim="lastname"
       label="Lastname"
-      class="q-mb-md"
     />
     <q-input
       filled
@@ -24,7 +22,6 @@
       hide-bottom-space
       error-message="Please enter a valid email address"
       :error="email.length && v.email.$invalid"
-      class="q-mb-md"
     />
     <q-input
       filled
@@ -35,7 +32,6 @@
       hide-bottom-space
       error-message="Password length of 8 to 32 characters"
       :error="password.length && v.password.$invalid"
-      class="q-mb-md"
     />
     <q-input
       filled
@@ -46,13 +42,13 @@
       hide-bottom-space
       error-message="Confirm password must be identical"
       :error="v.confirmPassword.$invalid"
-      class="q-mb-md"
     />
+    <!--
     <q-checkbox
       v-model="rememberMe"
       label="Remember me"
-      class="q-mb-md"
     />
+    -->
     <q-btn
       type="submit"
       label="Create account"
@@ -75,7 +71,7 @@
         <router-link :to="{ name: 'login' }">Sign in</router-link>
       </div>
     </div>
-  </form>
+  </q-form>
 </template>
 
 <script>
@@ -90,7 +86,7 @@ const MIN_PASSWORD_LENGTH = 8;
 const MAX_PASSWORD_LENGTH = 32;
 
 export default {
-  name: 'RegistrationForm',
+  name: 'SignupForm',
   setup() {
     const v = useVuelidate();
     return { v };
@@ -130,7 +126,7 @@ export default {
     },
   },
   methods: {
-    registrationSubmit() {
+    signupSubmit() {
       console.log({
         name: this.name,
         lastname: this.lastname,

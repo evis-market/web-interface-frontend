@@ -1,8 +1,8 @@
 <template>
   <div class="row justify-center">
-    <div class="col-4 col-md-none">
+    <div class="">
       <!-- <LoginForm /> -->
-      <q-btn label="Go to Registration" color="primary" :to="{ name: 'registration' }"/>
+      <q-btn label="Signup" color="primary" :to="{ name: 'signup' }"/>
     </div>
   </div>
 </template>
