@@ -4,6 +4,7 @@ import HTTPAuthSvc from 'services/http_auth';
 import CategoriesSvc from 'services/categories';
 import SellerSvc from 'services/seller';
 import AuthSvc from 'services/auth';
+import SellerProductsSvc from 'services/seller_products';
 
 const httpSvc = new HTTPSvc();
 const httpAuthSvc = new HTTPAuthSvc();
@@ -13,6 +14,7 @@ const svc = {
   http_auth: httpAuthSvc,
   categories: new CategoriesSvc(httpSvc, process.env.API_BASE_URL),
   seller: new SellerSvc(httpAuthSvc, process.env.API_BASE_URL),
+  seller_products: new SellerProductsSvc(httpAuthSvc, process.env.API_BASE_URL),
   auth: new AuthSvc(httpSvc, process.env.API_BASE_URL),
 };
 
