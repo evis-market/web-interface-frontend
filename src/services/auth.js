@@ -9,8 +9,12 @@ export default class AuthSvc {
   /*
   Authentication by email or phone
   */
-  async auth(data) {
-    const response = await this.httpSvc.post(`${this.apiBaseURL}/api/v1/auth/jwt/grant`, data);
+  async grantTokenByPassword(login, password) {
+    const response = await this.httpSvc.post(`${this.apiBaseURL}/api/v1/auth/jwt/grant`, {
+      grant_type: 'password',
+      login,
+      password,
+    });
     if (response.status === 'OK') {
       store().commit('common/saveToken', response);
     }
@@ -20,8 +24,11 @@ export default class AuthSvc {
   /*
   Refresh tokens
   */
-  async refresh(data) {
-    const response = await this.httpSvc.post(`${this.apiBaseURL}/api/v1/auth/jwt/grant`, data);
+  async grantTokenByRefreshToken(refreshToken) {
+    const response = await this.httpSvc.post(`${this.apiBaseURL}/api/v1/auth/jwt/grant`, {
+      grant_type: 'refresh_token',
+      refresh_token: refreshToken,
+    });
     if (response.status === 'OK') {
       store().commit('common/saveToken', response);
     }

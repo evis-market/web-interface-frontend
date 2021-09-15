@@ -35,10 +35,8 @@ export default class HTTPAuthSvc extends HTTPSvc {
       (response) => response,
       async (error) => {
         if (error.response.status === 401) {
-          return this.authSvc.refresh({
-            grant_type: 'refresh_token',
-            refresh_token: store().getters['common/token'].refresh_token,
-          }).then((res) => {
+          const refreshToken = store().getters['common/token'].refresh_token;
+          return this.authSvc.grantTokenByRefreshToken(refreshToken).then((res) => {
             if (res.status === 'OK') {
               store().commit('common/saveToken', res);
               this.setAuthHeader(error.config);
