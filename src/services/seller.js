@@ -8,13 +8,13 @@ export default class SellerSvc {
   Get seller settings
   */
   async getSettings() {
-    return this.httpSvc.get(`${this.apiBaseURL}/api/v1/sellers/settings/my`);
+    return this.httpSvc.get(`${this.apiBaseURL}/api/v1/sellers/settings/my/`);
   }
 
   /*
   Update seller settings
   */
   async updateSettings(data) {
-    return this.httpSvc.put(`${this.apiBaseURL}/api/v1/sellers/settings/my`, data);
+    return this.httpSvc.put(`${this.apiBaseURL}/api/v1/sellers/settings/my/`, data);
   }
 }

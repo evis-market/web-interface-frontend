@@ -12,7 +12,7 @@ const svc = {
   http: httpSvc,
   http_auth: httpAuthSvc,
   categories: new CategoriesSvc(httpSvc, process.env.API_BASE_URL),
-  seller: new SellerSvc(httpSvc, process.env.API_BASE_URL),
+  seller: new SellerSvc(httpAuthSvc, process.env.API_BASE_URL),
   auth: new AuthSvc(httpSvc, process.env.API_BASE_URL),
 };
 
