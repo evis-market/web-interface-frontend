@@ -187,17 +187,6 @@
           </q-card-section>
         </q-card>
       </div>
-      <q-dialog v-model="error">
-        <q-card class="error-alert">
-          <q-card-section>
-            <div class="text-h6">Error</div>
-          </q-card-section>
-          <q-card-section class="q-pt-none">{{ errorMessage }}</q-card-section>
-          <q-card-actions align="right">
-            <q-btn flat label="OK" color="primary" v-close-popup />
-          </q-card-actions>
-        </q-card>
-      </q-dialog>
     </div>
   </div>
 </template>
@@ -235,8 +224,6 @@ export default {
         { type_id: 2, value: '', comment: '' },
       ],
       wallet: '',
-      error: false,
-      errorMessage: '',
     };
   },
   validations: {
@@ -275,32 +262,28 @@ export default {
         wallet_for_payments_erc20: this.wallet,
         contacts: [...this.sites, ...this.emails, ...this.phones],
       });
-      if (response.status !== 'OK') {
-        this.errorMessage = response.error.msg;
-        this.error = true;
-      }
+      this.processError(response);
     },
   },
   async beforeCreate() {
     const response = await this.$svc.seller.getSettings();
-    if (response.status === 'OK') {
-      const { seller } = response;
-      this.name = seller.name;
-      this.description = seller.description;
-      this.wallet = seller.wallet_for_payments_erc20;
-      const logo = seller.logo_url;
-      if (logo) this.logo = new File([logo], logo, { type: 'image/jpeg' });
-      const { contacts } = seller;
-      const sites = contacts.filter((contact) => contact.type_id === 1);
-      if (sites.length) this.sites = sites;
-      const phones = contacts.filter((contact) => contact.type_id === 2);
-      if (phones.length) this.phones = phones;
-      const emails = contacts.filter((contact) => contact.type_id === 3);
-      if (emails.length) this.emails = emails;
-    } else {
-      this.errorMessage = response.error.msg;
-      this.error = true;
+    if (this.processError(response)) {
+      return;
     }
+
+    const { seller } = response;
+    this.name = seller.name;
+    this.description = seller.description;
+    this.wallet = seller.wallet_for_payments_erc20;
+    const logo = seller.logo_url;
+    if (logo) this.logo = new File([logo], logo, { type: 'image/jpeg' });
+    const { contacts } = seller;
+    const sites = contacts.filter((contact) => contact.type_id === 1);
+    if (sites.length) this.sites = sites;
+    const phones = contacts.filter((contact) => contact.type_id === 2);
+    if (phones.length) this.phones = phones;
+    const emails = contacts.filter((contact) => contact.type_id === 3);
+    if (emails.length) this.emails = emails;
   },
   components: {
     TabMenu,
@@ -313,9 +296,5 @@ export default {
 <style scoped>
   .buttons-group {
     width: 85px
-  }
-  .error-alert {
-    width: 700px;
-    max-width: 80vw;
   }
 </style>
