@@ -187,17 +187,6 @@
           </q-card-section>
         </q-card>
       </div>
-      <q-dialog v-model="error">
-        <q-card class="error-alert">
-          <q-card-section>
-            <div class="text-h6">Error</div>
-          </q-card-section>
-          <q-card-section class="q-pt-none">{{ errorMessage }}</q-card-section>
-          <q-card-actions align="right">
-            <q-btn flat label="OK" color="primary" v-close-popup />
-          </q-card-actions>
-        </q-card>
-      </q-dialog>
     </div>
   </div>
 </template>
@@ -235,8 +224,6 @@ export default {
         { type_id: 2, value: '', comment: '' },
       ],
       wallet: '',
-      error: false,
-      errorMessage: '',
     };
   },
   validations: {
@@ -276,8 +263,7 @@ export default {
         contacts: [...this.sites, ...this.emails, ...this.phones],
       });
       if (response.status !== 'OK') {
-        this.errorMessage = response.error.msg;
-        this.error = true;
+        this.$dialog.error(response.error.msg);
       }
     },
   },
@@ -298,8 +284,7 @@ export default {
       const emails = contacts.filter((contact) => contact.type_id === 3);
       if (emails.length) this.emails = emails;
     } else {
-      this.errorMessage = response.error.msg;
-      this.error = true;
+      this.$dialog.error(response.error.msg);
     }
   },
   components: {
@@ -313,9 +298,5 @@ export default {
 <style scoped>
   .buttons-group {
     width: 85px
-  }
-  .error-alert {
-    width: 700px;
-    max-width: 80vw;
   }
 </style>
