@@ -33,16 +33,21 @@ export default class HTTPAuthSvc extends HTTPSvc {
   setResponseInterceptor() {
     this.httpSvc.interceptors.response.use(
       (response) => response,
-      async (error) => {
+      (error) => {
         if (error.response.status === 401) {
-          const refreshToken = store().getters['common/token'].refresh_token;
-          return this.authSvc.grantTokenByRefreshToken(refreshToken).then((res) => {
-            if (res.status === 'OK') {
-              store().commit('common/saveToken', res);
-              this.setAuthHeader(error.config);
-              return axios(error.config);
-            }
-          });
+          const refreshToken = store().getters['common/token']?.refresh_token;
+          if (refreshToken) {
+            return this.authSvc.grantTokenByRefreshToken(refreshToken).then((res) => {
+              if (res.status === 'OK') {
+                store().commit('common/saveToken', res);
+                this.setAuthHeader(error.config);
+                return axios(error.config);
+              }
+              window.location = '/login';
+              return Promise.reject(error);
+            });
+          }
+          window.location = '/login';
         }
         return Promise.reject(error);
       },
