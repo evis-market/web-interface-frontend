@@ -262,14 +262,12 @@ export default {
         wallet_for_payments_erc20: this.wallet,
         contacts: [...this.sites, ...this.emails, ...this.phones],
       });
-      if (response.status !== 'OK') {
-        this.$dialog.error(response.error.msg);
-      }
+      this.processError(response);
     },
   },
   async beforeCreate() {
     const response = await this.$svc.seller.getSettings();
-    if (response.status === 'OK') {
+    if (!this.processError(response)) {
       const { seller } = response;
       this.name = seller.name;
       this.description = seller.description;
@@ -283,8 +281,6 @@ export default {
       if (phones.length) this.phones = phones;
       const emails = contacts.filter((contact) => contact.type_id === 3);
       if (emails.length) this.emails = emails;
-    } else {
-      this.$dialog.error(response.error.msg);
     }
   },
   components: {
