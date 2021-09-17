@@ -21,7 +21,11 @@ export default boot(({ app }) => {
         if (!this.isError(res)) {
           return false;
         }
-        this.$dialog.error(res.error.msg);
+
+        if (this.errorCode(res) !== 401) {
+          this.$dialog.error(res.error.msg);
+        }
+
         return true;
       },
 

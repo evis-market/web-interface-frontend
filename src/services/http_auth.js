@@ -43,11 +43,11 @@ export default class HTTPAuthSvc extends HTTPSvc {
                 this.setAuthHeader(error.config);
                 return axios(error.config);
               }
-              setTimeout(() => { window.location = '/login'; }, 300);
+              window.location = '/login';
               return Promise.reject(error);
             });
           }
-          setTimeout(() => { window.location = '/login'; }, 300);
+          window.location = '/login';
         }
         return Promise.reject(error);
       },
