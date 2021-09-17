@@ -199,6 +199,7 @@ import useVuelidate from '@vuelidate/core';
 import { reactive } from 'vue';
 import { ValidateEach } from '@vuelidate/components';
 import { email, required } from '@vuelidate/validators';
+import { svc } from 'boot/svc';
 
 export default {
   name: 'PageSellerSettings',
@@ -207,7 +208,7 @@ export default {
       value: { email, required },
     };
     const emails = reactive([
-      { type_id: 3, value: '', comment: '' },
+      { type_id: svc.seller.ContactTypeIDEmail, value: '', comment: '' },
     ]);
     const v = useVuelidate();
     return { rules, emails, v };
@@ -218,10 +219,10 @@ export default {
       description: '',
       logo: null,
       sites: [
-        { type_id: 1, value: '', comment: '' },
+        { type_id: this.$svc.seller.ContactTypeIDSite, value: '', comment: '' },
       ],
       phones: [
-        { type_id: 2, value: '', comment: '' },
+        { type_id: this.$svc.seller.ContactTypeIDPhone, value: '', comment: '' },
       ],
       wallet: '',
     };
@@ -247,7 +248,11 @@ export default {
       this[targetObjectName].splice(this[targetObjectName].findIndex((item) => item.id === id), 1);
     },
     addField(targetObjectName) {
-      const typeIDs = { sites: 1, phones: 2, emails: 3 };
+      const typeIDs = {
+        sites: this.$svc.seller.ContactTypeIDSite,
+        phones: this.$svc.seller.ContactTypeIDPhone,
+        emails: this.$svc.seller.ContactTypeIDEmail,
+      };
       this[targetObjectName].push({
         type_id: typeIDs[targetObjectName],
         value: '',
