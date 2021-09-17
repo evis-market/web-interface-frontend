@@ -282,15 +282,15 @@ export default {
 
     const { contacts } = seller;
     if (contacts) {
-      const sites = contacts.filter((contact) => contact.type_id === 1);
+      const sites = contacts.filter((contact) => contact.type_id === this.$svc.seller.ContactTypeIDSite);
       if (sites.length) {
         this.sites = sites;
       }
-      const phones = contacts.filter((contact) => contact.type_id === 2);
+      const phones = contacts.filter((contact) => contact.type_id === this.$svc.seller.ContactTypeIDPhone);
       if (phones.length) {
         this.phones = phones;
       }
-      const emails = contacts.filter((contact) => contact.type_id === 3);
+      const emails = contacts.filter((contact) => contact.type_id === this.$svc.seller.ContactTypeIDEmail);
       if (emails.length) {
         this.emails = emails;
       }
