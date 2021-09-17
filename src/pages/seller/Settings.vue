@@ -199,6 +199,7 @@ import useVuelidate from '@vuelidate/core';
 import { reactive } from 'vue';
 import { ValidateEach } from '@vuelidate/components';
 import { email, required } from '@vuelidate/validators';
+import { svc } from 'boot/svc';
 
 export default {
   name: 'PageSellerSettings',
@@ -207,7 +208,7 @@ export default {
       value: { email, required },
     };
     const emails = reactive([
-      { type_id: 3, value: '', comment: '' },
+      { type_id: svc.seller.ContactTypeIDEmail, value: '', comment: '' },
     ]);
     const v = useVuelidate();
     return { rules, emails, v };
@@ -218,10 +219,10 @@ export default {
       description: '',
       logo: null,
       sites: [
-        { type_id: 1, value: '', comment: '' },
+        { type_id: this.$svc.seller.ContactTypeIDSite, value: '', comment: '' },
       ],
       phones: [
-        { type_id: 2, value: '', comment: '' },
+        { type_id: this.$svc.seller.ContactTypeIDPhone, value: '', comment: '' },
       ],
       wallet: '',
     };
@@ -247,7 +248,11 @@ export default {
       this[targetObjectName].splice(this[targetObjectName].findIndex((item) => item.id === id), 1);
     },
     addField(targetObjectName) {
-      const typeIDs = { sites: 1, phones: 2, emails: 3 };
+      const typeIDs = {
+        sites: this.$svc.seller.ContactTypeIDSite,
+        phones: this.$svc.seller.ContactTypeIDPhone,
+        emails: this.$svc.seller.ContactTypeIDEmail,
+      };
       this[targetObjectName].push({
         type_id: typeIDs[targetObjectName],
         value: '',
@@ -267,23 +272,34 @@ export default {
   },
   async beforeCreate() {
     const response = await this.$svc.seller.getSettings();
-    if (this.processError(response)) {
+    if (response.error.code !== 404 && this.processError(response)) {
       return;
     }
 
-    const { seller } = response;
-    this.name = seller.name;
-    this.description = seller.description;
-    this.wallet = seller.wallet_for_payments_erc20;
+    const seller = response.seller || {};
+    this.name = seller.name || '';
+    this.description = seller.description || '';
+    this.wallet = seller.wallet_for_payments_erc20 || '';
     const logo = seller.logo_url;
-    if (logo) this.logo = new File([logo], logo, { type: 'image/jpeg' });
+    if (logo) {
+      this.logo = new File([logo], logo, { type: 'image/jpeg' });
+    }
+
     const { contacts } = seller;
-    const sites = contacts.filter((contact) => contact.type_id === 1);
-    if (sites.length) this.sites = sites;
-    const phones = contacts.filter((contact) => contact.type_id === 2);
-    if (phones.length) this.phones = phones;
-    const emails = contacts.filter((contact) => contact.type_id === 3);
-    if (emails.length) this.emails = emails;
+    if (contacts) {
+      const sites = contacts.filter((contact) => contact.type_id === this.$svc.seller.ContactTypeIDSite);
+      if (sites.length) {
+        this.sites = sites;
+      }
+      const phones = contacts.filter((contact) => contact.type_id === this.$svc.seller.ContactTypeIDPhone);
+      if (phones.length) {
+        this.phones = phones;
+      }
+      const emails = contacts.filter((contact) => contact.type_id === this.$svc.seller.ContactTypeIDEmail);
+      if (emails.length) {
+        this.emails = emails;
+      }
+    }
   },
   components: {
     TabMenu,

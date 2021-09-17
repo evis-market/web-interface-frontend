@@ -2,6 +2,9 @@ export default class SellerSvc {
   constructor(httpSvc, apiBaseURL) {
     this.httpSvc = httpSvc;
     this.apiBaseURL = apiBaseURL;
+    this.ContactTypeIDSite = 1;
+    this.ContactTypeIDPhone = 2;
+    this.ContactTypeIDEmail = 3;
   }
 
   /*
