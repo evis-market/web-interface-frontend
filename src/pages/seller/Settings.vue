@@ -267,23 +267,34 @@ export default {
   },
   async beforeCreate() {
     const response = await this.$svc.seller.getSettings();
-    if (this.processError(response)) {
+    if (response.error.code !== 404 && this.processError(response)) {
       return;
     }
 
-    const { seller } = response;
-    this.name = seller.name;
-    this.description = seller.description;
-    this.wallet = seller.wallet_for_payments_erc20;
+    const seller = response.seller || {};
+    this.name = seller.name || '';
+    this.description = seller.description || '';
+    this.wallet = seller.wallet_for_payments_erc20 || '';
     const logo = seller.logo_url;
-    if (logo) this.logo = new File([logo], logo, { type: 'image/jpeg' });
+    if (logo) {
+      this.logo = new File([logo], logo, { type: 'image/jpeg' });
+    }
+
     const { contacts } = seller;
-    const sites = contacts.filter((contact) => contact.type_id === 1);
-    if (sites.length) this.sites = sites;
-    const phones = contacts.filter((contact) => contact.type_id === 2);
-    if (phones.length) this.phones = phones;
-    const emails = contacts.filter((contact) => contact.type_id === 3);
-    if (emails.length) this.emails = emails;
+    if (contacts) {
+      const sites = contacts.filter((contact) => contact.type_id === 1);
+      if (sites.length) {
+        this.sites = sites;
+      }
+      const phones = contacts.filter((contact) => contact.type_id === 2);
+      if (phones.length) {
+        this.phones = phones;
+      }
+      const emails = contacts.filter((contact) => contact.type_id === 3);
+      if (emails.length) {
+        this.emails = emails;
+      }
+    }
   },
   components: {
     TabMenu,
