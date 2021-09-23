@@ -122,8 +122,10 @@
                       class="col"
                       :rules="[val => true]"
                     >
-                      <q-chip dense>{{ url.deliveryMethod }}</q-chip>
-                      <q-chip dense>{{ url.dataFormat }}</q-chip>
+                      <template v-slot:prepend>
+                        <q-chip dense>{{ url.deliveryMethod }}</q-chip>
+                        <q-chip dense>{{ url.dataFormat }}</q-chip>
+                      </template>
                     </q-input>
                   </div>
                 </div>
