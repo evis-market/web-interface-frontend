@@ -272,7 +272,7 @@ export default {
   },
   async beforeCreate() {
     const response = await this.$svc.seller.getSettings();
-    if (response.error.code !== 404 && this.processError(response)) {
+    if (response.error?.code !== 404 && this.processError(response)) {
       return;
     }
 

@@ -11,7 +11,7 @@
       label="Email"
       hide-bottom-space
       error-message="Please enter a valid email address"
-      :error="email.length && v.email.$invalid"
+      :error="!!email.length && v.email.$invalid"
     />
     <q-input
       filled
@@ -21,7 +21,7 @@
       label="Password"
       hide-bottom-space
       error-message="Password length of 8 to 32 characters"
-      :error="password.length && v.password.$invalid"
+      :error="!!password.length && v.password.$invalid"
     />
     <!--
     <q-checkbox
@@ -77,11 +77,12 @@ export default {
   },
 
   methods: {
-    loginSubmit() {
-      console.log({
-        email: this.email,
-        password: this.password,
-      });
+    async loginSubmit() {
+      const response = await this.$svc.auth.grantTokenByPassword(this.email, this.password);
+      if (this.processError(response)) {
+        return;
+      }
+      this.$router.push({ name: 'sellerProductsList' });
     },
   },
 };
