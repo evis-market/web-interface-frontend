@@ -111,14 +111,14 @@
                   :rules="[val => true]"
                 />
               </div>
-              <div class="row">
+              <div class="row" v-if="dataURLs.length">
                 <q-icon name="link" class="col-auto q-mr-md q-mt-sm" size="sm" />
                 <div class="col">
-                  <div class="row" v-for="url in dataURLs" :key="url.deliveryMethod + url.dataFormat">
+                  <div class="row" v-for="(url, idx) in dataURLs" :key="url.deliveryMethod + url.dataFormat">
                     <q-input
                       dense
                       label="Data URL"
-                      v-model="url.value"
+                      v-model="dataURLsModel[idx]"
                       class="col"
                       :rules="[val => true]"
                     >
@@ -220,6 +220,7 @@ export default {
       dataFormats: ['XLSX', 'XML'],
       selectedDeliveryMethods: ['SFTP', 'S3'],
       deliveryMethods: ['SFTP', 'S3'],
+      dataURLsModel: [],
       prices: [
         { type: 'One-Time', value: '' },
         { type: 'Per Month', value: '' },
@@ -231,6 +232,9 @@ export default {
       usageDetails: '',
     };
   },
+  mounted() {
+    this.createDataURLsModel();
+  },
   computed: {
     dataURLs() {
       const dataURLs = [];
@@ -240,6 +244,16 @@ export default {
         });
       });
       return dataURLs;
+    },
+  },
+  methods: {
+    createDataURLsModel() {
+      this.dataURLsModel = this.dataURLs.map(() => '');
+    },
+  },
+  watch: {
+    dataURLs() {
+      this.createDataURLsModel();
     },
   },
   components: {
