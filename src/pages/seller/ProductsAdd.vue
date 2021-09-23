@@ -12,6 +12,7 @@
                 <q-input
                   dense
                   label="Display Name"
+                  v-model="name"
                   class="col"
                   :rules="[val => !!val || 'Field is required']"
                 />
@@ -21,6 +22,7 @@
                 <q-input
                   dense
                   label="Description"
+                  v-model="description"
                   class="col"
                   :rules="[val => true]"
                 />
@@ -110,10 +112,50 @@
                 />
               </div>
               <div class="row">
+                <q-icon name="link" class="col-auto q-mr-md q-mt-sm" size="sm" />
+                <div class="col">
+                  <div class="row" v-for="url in dataURLs" :key="url.deliveryMethod + url.dataFormat">
+                    <q-input
+                      dense
+                      label="Data URL"
+                      v-model="url.value"
+                      class="col"
+                      :rules="[val => true]"
+                    >
+                      <q-chip dense>{{ url.deliveryMethod }}</q-chip>
+                      <q-chip dense>{{ url.dataFormat }}</q-chip>
+                    </q-input>
+                  </div>
+                </div>
+              </div>
+              <div class="row">
+                <q-icon name="attach_money" class="col-auto q-mr-md q-mt-sm" size="sm" />
+                <div class="col">
+                  <div class="row" v-for="price in prices" :key="price.type">
+                    <q-input
+                      dense
+                      :label="`Price (${price.type})`"
+                      v-model="price.value"
+                      class="col"
+                      :rules="[val => true]"
+                    />
+                  </div>
+                </div>
+              </div>
+              <div class="row">
                 <q-checkbox
                   v-model="pricePerUsage"
                   label="Per Usage"
                   class="col q-ml-lg"
+                />
+              </div>
+              <div class="row">
+                <q-input
+                  dense
+                  label="Usage Details"
+                  v-model="usageDetails"
+                  class="col q-ml-lg"
+                  :rules="[val => true]"
                 />
               </div>
               <div class="row">
@@ -160,6 +202,8 @@ export default {
   name: 'PageSellerProductsAdd',
   data() {
     return {
+      name: '',
+      description: '',
       selectedDataLanguages: ['English'],
       dataLanguages: [
         'English', 'Spanish',
@@ -178,10 +222,27 @@ export default {
       dataFormats: ['XLSX', 'XML'],
       selectedDeliveryMethods: ['SFTP', 'S3'],
       deliveryMethods: ['SFTP', 'S3'],
+      prices: [
+        { type: 'One-Time', value: '' },
+        { type: 'Per Month', value: '' },
+        { type: 'Per Year', value: '' },
+      ],
       dataSamples: [],
       pricingUponRequest: false,
       pricePerUsage: false,
+      usageDetails: '',
     };
+  },
+  computed: {
+    dataURLs() {
+      const dataURLs = [];
+      this.selectedDeliveryMethods.forEach((deliveryMethod) => {
+        this.selectedDataFormats.forEach((dataFormat) => {
+          dataURLs.push({ deliveryMethod, dataFormat, value: '' });
+        });
+      });
+      return dataURLs;
+    },
   },
   components: {
     TabMenu,
