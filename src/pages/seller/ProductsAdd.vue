@@ -140,32 +140,28 @@
                       :rules="[val => true]"
                     />
                   </div>
+                  <q-checkbox
+                    v-model="pricePerUsage"
+                    label="Per Usage"
+                    class="col"
+                    dense
+                  />
+                  <q-input
+                    dense
+                    label="Usage Details"
+                    v-model="usageDetails"
+                    class="col"
+                    :rules="[val => true]"
+                  />
+                  <q-checkbox
+                    v-model="pricingUponRequest"
+                    label="Pricing available upon request"
+                    class="col"
+                    dense
+                  />
                 </div>
               </div>
-              <div class="row">
-                <q-checkbox
-                  v-model="pricePerUsage"
-                  label="Per Usage"
-                  class="col q-ml-lg"
-                />
-              </div>
-              <div class="row">
-                <q-input
-                  dense
-                  label="Usage Details"
-                  v-model="usageDetails"
-                  class="col q-ml-lg"
-                  :rules="[val => true]"
-                />
-              </div>
-              <div class="row">
-                <q-checkbox
-                  v-model="pricingUponRequest"
-                  label="Pricing available upon request"
-                  class="col q-ml-lg"
-                />
-              </div>
-              <div class="row">
+              <div class="row q-mt-sm">
                 <q-icon name="attach_file" class="col-auto q-mr-md q-mt-sm" size="sm" />
                 <q-file
                   dense
