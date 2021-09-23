@@ -240,7 +240,7 @@ export default {
       const dataURLs = [];
       this.selectedDeliveryMethods.forEach((deliveryMethod) => {
         this.selectedDataFormats.forEach((dataFormat) => {
-          dataURLs.push({ deliveryMethod, dataFormat, value: '' });
+          dataURLs.push({ deliveryMethod, dataFormat });
         });
       });
       return dataURLs;
