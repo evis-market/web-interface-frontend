@@ -13,3 +13,7 @@ export function token(state) {
   }
   return null;
 }
+
+export function isLoggedIn(state) {
+  return !!state.accessToken;
+}

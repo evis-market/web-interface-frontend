@@ -2,6 +2,7 @@ import { route } from 'quasar/wrappers';
 import {
   createRouter, createMemoryHistory, createWebHistory, createWebHashHistory,
 } from 'vue-router';
+import store from 'src/store/index';
 import routes from './routes';
 
 /*
@@ -26,6 +27,18 @@ export default route((/* { store, ssrContext } */) => {
     // quasar.conf.js -> build -> vueRouterMode
     // quasar.conf.js -> build -> publicPath
     history: createHistory(process.env.MODE === 'ssr' ? void 0 : process.env.VUE_ROUTER_BASE),
+  });
+
+  Router.beforeEach((to, from, next) => {
+    if (to.matched.some((record) => record.meta.loginRequired)) {
+      if (store().getters['common/isLoggedIn']) {
+        next();
+        return;
+      }
+      next({ name: 'login' });
+      return;
+    }
+    next();
   });
 
   return Router;

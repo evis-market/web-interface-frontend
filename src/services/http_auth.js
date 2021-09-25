@@ -43,10 +43,12 @@ export default class HTTPAuthSvc extends HTTPSvc {
                 this.setAuthHeader(error.config);
                 return axios(error.config);
               }
+              store().commit('common/removeToken');
               window.location = '/login';
               return Promise.reject(error);
             });
           }
+          store().commit('common/removeToken');
           window.location = '/login';
         }
         return Promise.reject(error);
