@@ -1,5 +1,5 @@
 <template>
-  <q-form @submit.prevent="signupSubmit" class="q-gutter-y-md">
+  <q-form @submit.prevent="signUpSubmit" class="q-gutter-y-md">
     <h5>
       Create an account
     </h5>
@@ -10,28 +10,28 @@
     />
     <q-input
       filled
-      v-model.trim="lastname"
+      v-model.trim="lastName"
       label="Lastname"
     />
     <q-input
       filled
       ref="email"
-      v-model.trim="email"
+      v-model.trim="v.email.$model"
       type="email"
       label="Email"
       hide-bottom-space
-      error-message="Please enter a valid email address"
-      :error="email.length && v.email.$invalid"
+      :error-message="v.email.$errors.map(err => err.$message).join('. ')"
+      :error="v.email.$error"
     />
     <q-input
       filled
       ref="password"
-      v-model="password"
+      v-model="v.password.$model"
       type="password"
       label="Password"
       hide-bottom-space
-      error-message="Password length of 8 to 32 characters"
-      :error="password.length && v.password.$invalid"
+      :error-message="v.password.$errors.map(err => err.$message).join('. ')"
+      :error="v.password.$error"
     />
     <q-input
       filled
@@ -95,12 +95,16 @@ export default {
   data() {
     return {
       name: '',
-      lastname: '',
+      lastName: '',
       email: '',
       password: '',
       confirmPassword: '',
       rememberMe: false,
       errorMessages: [],
+      vuelidateExternalResults: {
+        email: [],
+        password: [],
+      },
     };
   },
 
@@ -129,13 +133,23 @@ export default {
   },
 
   methods: {
-    signupSubmit() {
-      console.log({
-        name: this.name,
-        lastname: this.lastname,
+    async signUpSubmit() {
+      const signUpResponse = await this.$svc.users.signUpByEmailOrPhone({
+        first_name: this.name,
+        last_name: this.lastName,
         email: this.email,
         password: this.password,
       });
+      if (this.processErrorWithInvalidFields(signUpResponse, this.vuelidateExternalResults)) {
+        return;
+      }
+
+      const authResponse = await this.$svc.auth.grantTokenByPassword(this.email, this.password);
+      if (this.processError(authResponse)) {
+        return;
+      }
+
+      await this.$router.push({ name: 'sellerProductsList' });
     },
   },
 };

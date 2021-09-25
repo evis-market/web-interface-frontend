@@ -43,15 +43,16 @@ export default boot(({ app }) => {
         return false;
       },
 
-      processErrorWithInvalidFields(res, fieldsValidator, formErrors) {
+      processErrorWithInvalidFields(res, validator) {
         if (!this.isError(res)) {
           return false;
         }
 
-        if ('invalid_fields' in res) {
-          fieldsValidator.setErrors(res.invalid_fields, formErrors);
+        const invalidFields = res.error?.invalid_fields;
+        if (invalidFields) {
+          Object.assign(validator, invalidFields);
         } else {
-          this.$dialog.error(res.error.msg);
+          this.processError(res);
         }
 
         return true;
