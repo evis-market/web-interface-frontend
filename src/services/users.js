@@ -1,6 +1,7 @@
 export default class UsersSvc {
-  constructor(httpSvc, apiBaseURL) {
+  constructor(httpSvc, httpAuthSvc, apiBaseURL) {
     this.httpSvc = httpSvc;
+    this.httpAuthSvc = httpAuthSvc;
     this.apiBaseURL = apiBaseURL;
   }
 
@@ -49,20 +50,20 @@ export default class UsersSvc {
   Get logged in user profile
   */
   async getLoggedInUserProfile() {
-    return this.httpSvc.get(`${this.apiBaseURL}/api/v1/users/my/profile`);
+    return this.httpAuthSvc.get(`${this.apiBaseURL}/api/v1/users/my/profile`);
   }
 
   /*
   Update logged in user profile
   */
   async updateLoggedInUserProfile(data) {
-    return this.httpSvc.put(`${this.apiBaseURL}/api/v1/users/my/profile`, data);
+    return this.httpAuthSvc.put(`${this.apiBaseURL}/api/v1/users/my/profile`, data);
   }
 
   /*
   Change logged in user password
   */
   async changeLoggedInUserPassword(password) {
-    return this.httpSvc.put(`${this.apiBaseURL}/api/v1/users/my/password`, { password });
+    return this.httpAuthSvc.put(`${this.apiBaseURL}/api/v1/users/my/password`, { password });
   }
 }

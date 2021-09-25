@@ -17,7 +17,7 @@ const svc = {
   seller: new SellerSvc(httpAuthSvc, process.env.API_BASE_URL),
   seller_products: new SellerProductsSvc(httpAuthSvc, process.env.API_BASE_URL),
   auth: new AuthSvc(httpSvc, process.env.API_BASE_URL),
-  users: new UsersSvc(httpAuthSvc, process.env.API_BASE_URL),
+  users: new UsersSvc(httpSvc, httpAuthSvc, process.env.API_BASE_URL),
 };
 
 export default boot(({ app }) => {
