@@ -10,3 +10,12 @@ export function saveToken(state, token) {
   state.refreshToken = token.refresh_token;
   state.tokenType = token.token_type;
 }
+
+export function removeToken(state) {
+  localStorage.removeItem('access_token');
+  localStorage.removeItem('refresh_token');
+  localStorage.removeItem('token_type');
+  state.accessToken = '';
+  state.refreshToken = '';
+  state.tokenType = '';
+}

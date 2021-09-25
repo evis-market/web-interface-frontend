@@ -16,6 +16,7 @@ const routes = [
   {
     path: '/my/',
     component: () => import('layouts/AppLayout.vue'),
+    meta: { loginRequired: true },
     children: [
       { path: 'seller/sales/', name: 'sellerSalesList', component: () => import('pages/seller/SalesList.vue') },
       { path: 'seller/products/', name: 'sellerProductsList', component: () => import('pages/seller/ProductsList.vue') },

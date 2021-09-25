@@ -82,7 +82,7 @@ export default {
       if (this.processError(response)) {
         return;
       }
-      this.$router.push({ name: 'sellerProductsList' });
+      await this.$router.push({ name: 'sellerProductsList' });
     },
   },
 };
