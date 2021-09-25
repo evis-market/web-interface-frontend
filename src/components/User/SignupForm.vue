@@ -16,22 +16,22 @@
     <q-input
       filled
       ref="email"
-      v-model.trim="email"
+      v-model.trim="v.email.$model"
       type="email"
       label="Email"
       hide-bottom-space
-      error-message="Please enter a valid email address"
-      :error="!!email.length && v.email.$invalid"
+      :error-message="v.email.$errors.map(err => err.$message).join('. ')"
+      :error="v.email.$error"
     />
     <q-input
       filled
       ref="password"
-      v-model="password"
+      v-model="v.password.$model"
       type="password"
       label="Password"
       hide-bottom-space
-      error-message="Password length of 8 to 32 characters"
-      :error="!!password.length && v.password.$invalid"
+      :error-message="v.password.$errors.map(err => err.$message).join('. ')"
+      :error="v.password.$error"
     />
     <q-input
       filled
@@ -101,6 +101,10 @@ export default {
       confirmPassword: '',
       rememberMe: false,
       errorMessages: [],
+      vuelidateExternalResults: {
+        email: [],
+        password: [],
+      },
     };
   },
 
@@ -136,7 +140,7 @@ export default {
         email: this.email,
         password: this.password,
       });
-      if (this.processErrorWithInvalidFields(signUpResponse)) {
+      if (this.processErrorWithInvalidFields(signUpResponse, this.vuelidateExternalResults)) {
         return;
       }
 
