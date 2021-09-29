@@ -1,7 +1,3 @@
-export function pushCategories(state, categories) {
-  state.allCategories.push(...categories);
-}
-
 export function saveToken(state, token) {
   localStorage.setItem('access_token', token.access_token);
   localStorage.setItem('refresh_token', token.refresh_token);
@@ -18,4 +14,13 @@ export function removeToken(state) {
   state.accessToken = '';
   state.refreshToken = '';
   state.tokenType = '';
+}
+
+export function saveAllOptions(state, options) {
+  state.allCategories = options.categories;
+  state.dataDeliveryTypes = options.data_delivery_types;
+  state.dataFormats = options.data_formats;
+  state.dataTypes = options.data_types;
+  state.geoRegions = options.geo_regions;
+  state.languages = options.languages;
 }

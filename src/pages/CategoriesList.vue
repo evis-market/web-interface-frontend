@@ -16,18 +16,8 @@ export default {
   name: 'PageCategoriesList',
   computed: {
     categories() {
-      return this.$store.getters['common/allCategories'].filter((category) => category.parent_id === null);
+      return this.$store.getters['common/getMainCategories'];
     },
-  },
-  async mounted() {
-    if (!this.categories.length) {
-      const response = await this.$svc.categories.list({});
-      if (response.status === 'OK') {
-        this.$store.commit('common/pushCategories', response.categories);
-      } else {
-        alert(response.error.msg);
-      }
-    }
   },
   components: { CategoryPreview },
 };
