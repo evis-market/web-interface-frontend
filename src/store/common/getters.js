@@ -2,6 +2,10 @@ export function allCategories(state) {
   return state.allCategories;
 }
 
+export function getMainCategories(state) {
+  return state.allCategories.filter((category) => category.parent_id === null);
+}
+
 export function token(state) {
   const { accessToken, refreshToken, tokenType } = state;
   if (accessToken && refreshToken && tokenType) {
