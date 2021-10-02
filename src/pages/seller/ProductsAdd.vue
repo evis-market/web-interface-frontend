@@ -34,7 +34,7 @@
                   v-model="selectedDataLanguages"
                   multiple
                   dense
-                  :options="dataLanguages"
+                  :options="dataLanguages.map(lang => lang.name_en)"
                   use-chips
                   stack-label
                   label="Data Languages"
@@ -48,7 +48,7 @@
                   v-model="selectedCategories"
                   multiple
                   dense
-                  :options="categories"
+                  :options="categories.map(category => category.name).sort()"
                   use-chips
                   stack-label
                   label="Categories"
@@ -62,7 +62,7 @@
                   v-model="selectedGeography"
                   multiple
                   dense
-                  :options="geography"
+                  :options="geography.filter(geo => !geo.parent_id).map(geo => geo.name)"
                   use-chips
                   stack-label
                   label="Geography"
@@ -76,7 +76,7 @@
                   v-model="selectedDataTypes"
                   multiple
                   dense
-                  :options="dataTypes"
+                  :options="dataTypes.map(dataType => dataType.name)"
                   use-chips
                   stack-label
                   label="Data Types"
@@ -90,7 +90,7 @@
                   v-model="selectedDataFormats"
                   multiple
                   dense
-                  :options="dataFormats"
+                  :options="dataFormats.map(format => format.name)"
                   use-chips
                   stack-label
                   label="Data Formats"
@@ -104,7 +104,7 @@
                   v-model="selectedDeliveryMethods"
                   multiple
                   dense
-                  :options="deliveryMethods"
+                  :options="deliveryMethods.map(deliveryMethod => deliveryMethod.name)"
                   use-chips
                   stack-label
                   label="Delivery Methods"
@@ -181,7 +181,7 @@
                   type="submit"
                   color="primary"
                   class="q-ml-sm"
-                  @click.prevent=""
+                  @click.prevent="addProduct"
                 />
               </div>
             </q-form>
@@ -202,24 +202,12 @@ export default {
     return {
       name: '',
       description: '',
-      selectedDataLanguages: ['English'],
-      dataLanguages: [
-        'English', 'Spanish',
-      ],
-      selectedCategories: ['Proprietary Market Data'],
-      categories: [
-        'Proprietary Market Data', 'Hello World',
-      ],
-      selectedGeography: ['USA', 'Europe'],
-      geography: [
-        'USA', 'Europe',
-      ],
-      selectedDataTypes: ['Table'],
-      dataTypes: ['Table'],
-      selectedDataFormats: ['XLSX', 'XML'],
-      dataFormats: ['XLSX', 'XML'],
-      selectedDeliveryMethods: ['SFTP', 'S3'],
-      deliveryMethods: ['SFTP', 'S3'],
+      selectedDataLanguages: [],
+      selectedCategories: [],
+      selectedGeography: [],
+      selectedDataTypes: [],
+      selectedDataFormats: [],
+      selectedDeliveryMethods: [],
       dataURLsModel: [],
       prices: [
         { type: 'One-Time', value: '' },
@@ -236,11 +224,33 @@ export default {
     this.createDataURLsModel();
   },
   computed: {
+    dataFormats() {
+      return this.$store.state.common.dataFormats;
+    },
+    geography() {
+      return this.$store.state.common.geoRegions;
+    },
+    dataLanguages() {
+      return this.$store.state.common.languages;
+    },
+    categories() {
+      return this.$store.state.common.allCategories;
+    },
+    dataTypes() {
+      return this.$store.state.common.dataTypes;
+    },
+    deliveryMethods() {
+      return this.$store.state.common.dataDeliveryTypes;
+    },
     dataURLs() {
       const dataURLs = [];
       this.selectedDeliveryMethods.forEach((deliveryMethod) => {
+        const deliveryMethodID = this.deliveryMethods.find((method) => method.name === deliveryMethod).id;
         this.selectedDataFormats.forEach((dataFormat) => {
-          dataURLs.push({ deliveryMethod, dataFormat });
+          const dataFormatID = this.dataFormats.find((format) => format.name === dataFormat).id;
+          dataURLs.push({
+            deliveryMethod, dataFormat, deliveryMethodID, dataFormatID,
+          });
         });
       });
       return dataURLs;
@@ -248,7 +258,44 @@ export default {
   },
   methods: {
     createDataURLsModel() {
-      this.dataURLsModel = this.dataURLs.map(() => '');
+      this.dataURLsModel = this.dataURLs.map((url) => {
+        url.value = '';
+        return url;
+      });
+    },
+    getArrayOfIDs(computedName, selectedItems) {
+      return this[computedName].filter((item) => selectedItems.includes(item.name)).map((item) => item.id);
+    },
+    async addProduct() {
+      const response = await this.$svc.seller_products.createSellerProduct({
+        name: this.name,
+        descr: this.description,
+        price_one_time: this.prices.find((price) => price.type === 'One-Time').value,
+        price_per_month: this.prices.find((price) => price.type === 'Per Month').value,
+        price_per_year: this.prices.find((price) => price.type === 'Per Year').value,
+        price_by_request: this.pricingUponRequest,
+        price_per_usage: this.pricePerUsage,
+        price_per_usage_descr: this.usageDetails,
+        data_categories_ids: this.getArrayOfIDs('categories', this.selectedCategories),
+        data_langs_ids: this.getArrayOfIDs('dataLanguages', this.selectedDataLanguages),
+        data_geo_regions_ids: this.getArrayOfIDs('geography', this.selectedGeography),
+        data_types_ids: this.getArrayOfIDs('dataTypes', this.selectedDataTypes),
+        data_formats_ids: this.getArrayOfIDs('dataFormats', this.selectedDataFormats),
+        data_delivery_types_ids: this.getArrayOfIDs('deliveryMethods', this.selectedDeliveryMethods),
+        data_urls: this.dataURLsModel.map((model) => ({
+          data_delivery_type_id: model.deliveryMethodID,
+          data_format_id: model.dataFormatID,
+          url: model.value,
+        })),
+        data_sample_urls: [
+          'http://domain.com/data_sample1.xls',
+          'http://domain.com/data_sample2.xls',
+        ],
+      });
+      if (this.processError(response)) {
+        return;
+      }
+      console.log({ response });
     },
   },
   watch: {

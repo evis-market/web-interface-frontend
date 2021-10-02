@@ -22,20 +22,20 @@ export default class SellerProductsSvc {
   Create seller product
   */
   async createSellerProduct(productData) {
-    return this.httpSvc.post(`${this.apiBaseURL}/api/v1/sellers/settings/my/`, productData);
+    return this.httpSvc.post(`${this.apiBaseURL}/api/v1/seller_products/my/`, productData);
   }
 
   /*
   Update seller product
   */
   async updateSellerProduct(productID, productData) {
-    return this.httpSvc.put(`${this.apiBaseURL}/api/v1/sellers/settings/my/${productID}`, productData);
+    return this.httpSvc.put(`${this.apiBaseURL}/api/v1/seller_products/my/${productID}`, productData);
   }
 
   /*
   Delete seller product
   */
   async deleteSellerProduct(productID) {
-    return this.httpSvc.delete(`${this.apiBaseURL}/api/v1/sellers/settings/my/${productID}`);
+    return this.httpSvc.delete(`${this.apiBaseURL}/api/v1/seller_products/my/${productID}`);
   }
 }
