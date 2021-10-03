@@ -24,7 +24,7 @@
                   label="Description"
                   v-model="description"
                   class="col"
-                  :rules="[val => true]"
+                  :rules="[val => !!val || 'Field is required']"
                 />
               </div>
               <div class="row">
@@ -38,7 +38,7 @@
                   use-chips
                   stack-label
                   label="Data Languages"
-                  :rules="[val => true]"
+                  :rules="[val => !!val || 'Field is required']"
                 />
               </div>
               <div class="row">
@@ -52,7 +52,7 @@
                   use-chips
                   stack-label
                   label="Categories"
-                  :rules="[val => true]"
+                  :rules="[val => !!val || 'Field is required']"
                 />
               </div>
               <div class="row">
@@ -66,7 +66,7 @@
                   use-chips
                   stack-label
                   label="Geography"
-                  :rules="[val => true]"
+                  :rules="[val => !!val || 'Field is required']"
                 />
               </div>
               <div class="row">
@@ -80,7 +80,7 @@
                   use-chips
                   stack-label
                   label="Data Types"
-                  :rules="[val => true]"
+                  :rules="[val => !!val || 'Field is required']"
                 />
               </div>
               <div class="row">
@@ -94,7 +94,7 @@
                   use-chips
                   stack-label
                   label="Data Formats"
-                  :rules="[val => true]"
+                  :rules="[val => !!val || 'Field is required']"
                 />
               </div>
               <div class="row">
@@ -108,7 +108,7 @@
                   use-chips
                   stack-label
                   label="Delivery Methods"
-                  :rules="[val => true]"
+                  :rules="[val => !!val || 'Field is required']"
                 />
               </div>
               <div class="row" v-if="dataURLs.length">
@@ -133,15 +133,23 @@
               <div class="row">
                 <q-icon name="attach_money" class="col-auto q-mr-md q-mt-sm" size="sm" />
                 <div class="col">
-                  <div class="row" v-for="price in prices" :key="price.type">
-                    <q-input
-                      dense
-                      :label="`Price (${price.type})`"
-                      v-model.number="price.value"
-                      class="col"
-                      :rules="[val => true]"
-                    />
-                  </div>
+                  <ValidateEach
+                    v-for="(price, index) in prices"
+                    :key="index"
+                    :state="price"
+                    :rules="rules"
+                  >
+                    <template #default="{ v }">
+                      <q-input
+                        dense
+                        :label="`Price (${price.type})`"
+                        v-model.number.trim="v.value.$model"
+                        class="col"
+                        :error="v.value.$error"
+                        :error-message="v.value.$errors.map(err => err.$message).join('. ')"
+                      />
+                    </template>
+                  </ValidateEach>
                   <q-checkbox
                     v-model="pricePerUsage"
                     label="Per Usage"
@@ -196,9 +204,25 @@
 <script>
 import TabMenu from 'components/AppLayout/TabMenu';
 import SellerTabs from 'components/Seller/SellerTabs';
+import useVuelidate from '@vuelidate/core';
+import { reactive } from 'vue';
+import { ValidateEach } from '@vuelidate/components';
+import { numeric } from '@vuelidate/validators';
 
 export default {
   name: 'PageSellerProductsAdd',
+  setup() {
+    const rules = {
+      value: { numeric },
+    };
+    const prices = reactive([
+      { type: 'One-Time', value: '' },
+      { type: 'Per Month', value: '' },
+      { type: 'Per Year', value: '' },
+    ]);
+    const v = useVuelidate();
+    return { v, prices, rules };
+  },
   data() {
     return {
       name: '',
@@ -210,11 +234,6 @@ export default {
       selectedDataFormats: [],
       selectedDeliveryMethods: [],
       dataURLsModel: [],
-      prices: [
-        { type: 'One-Time', value: '' },
-        { type: 'Per Month', value: '' },
-        { type: 'Per Year', value: '' },
-      ],
       dataSamples: [],
       pricingUponRequest: false,
       pricePerUsage: false,
@@ -233,7 +252,7 @@ export default {
       if (!this.selectedDataTypes.length) return true;
       if (!this.selectedDataFormats.length) return true;
       if (!this.selectedDeliveryMethods.length) return true;
-      return !this.name || !this.description;
+      return !this.name || !this.description || !!this.v.$errors.length;
     },
     dataFormats() {
       return this.$store.state.common.dataFormats;
@@ -317,6 +336,7 @@ export default {
   components: {
     TabMenu,
     SellerTabs,
+    ValidateEach,
   },
 };
 </script>
