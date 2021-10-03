@@ -11,25 +11,34 @@
                 <q-icon name="person" class="col-auto q-mr-md q-mt-sm" size="sm" />
                 <q-input
                   dense
-                  v-model.trim="name"
+                  v-model.trim="v.name.$model"
                   label="Display Name"
                   class="col"
-                  :rules="[val => !!val || 'Field is required']"
+                  :error-message="v.name.$errors.map(err => err.$message).join('. ')"
+                  :error="v.name.$error"
                 />
               </div>
               <div class="row">
                 <q-icon name="description" class="col-auto q-mr-md q-mt-sm" size="sm" />
                 <q-input
                   dense
-                  v-model.trim="description"
+                  v-model.trim="v.description.$model"
                   label="Description"
                   class="col"
-                  :rules="[val => true]"
+                  :error-message="v.description.$errors.map(err => err.$message).join('. ')"
+                  :error="v.description.$error"
                 />
               </div>
               <div class="row">
                 <q-icon name="attach_file" class="col-auto q-mr-md q-mt-sm" size="sm" />
-                <q-file dense v-model="logo" label="Logo" class="col" :rules="[val => true]" />
+                <q-file
+                  dense
+                  v-model="v.logo_url.$model"
+                  label="Logo"
+                  class="col"
+                  :error-message="v.logo_url.$errors.map(err => err.$message).join('. ')"
+                  :error="v.logo_url.$error"
+                />
               </div>
               <div class="row">
                 <q-icon name="link" class="col-auto q-mr-md q-mt-sm" size="sm" />
@@ -165,11 +174,11 @@
                 <q-icon name="account_balance_wallet" class="col-auto q-mr-md q-mt-sm" size="sm" />
                 <q-input
                   dense
-                  v-model.trim="v.wallet.$model"
+                  v-model.trim="v.wallet_for_payments_erc20.$model"
                   label="Wallet"
                   class="col"
-                  :error="v.wallet.$error"
-                  error-message="Incorrect wallet"
+                  :error="v.wallet_for_payments_erc20.$error"
+                  :error-message="v.wallet_for_payments_erc20.$errors.map(err => err.$message).join('. ')"
                 />
               </div>
               <div class="row justify-end">
@@ -198,7 +207,7 @@ import SellerTabs from 'components/Seller/SellerTabs';
 import useVuelidate from '@vuelidate/core';
 import { reactive } from 'vue';
 import { ValidateEach } from '@vuelidate/components';
-import { email, required } from '@vuelidate/validators';
+import { email, required, helpers } from '@vuelidate/validators';
 import { svc } from 'boot/svc';
 
 export default {
@@ -217,22 +226,31 @@ export default {
     return {
       name: '',
       description: '',
-      logo: null,
+      logo_url: null,
       sites: [
         { type_id: this.$svc.seller.ContactTypeIDSite, value: '', comment: '' },
       ],
       phones: [
         { type_id: this.$svc.seller.ContactTypeIDPhone, value: '', comment: '' },
       ],
-      wallet: '',
+      wallet_for_payments_erc20: '',
+      vuelidateExternalResults: {
+        name: [],
+        description: [],
+        logo_url: [],
+        wallet_for_payments_erc20: [],
+      },
     };
   },
   validations: {
-    wallet: {
-      erc20_validator(val) {
+    name: { required },
+    description: {},
+    logo_url: {},
+    wallet_for_payments_erc20: {
+      erc20_validator: helpers.withMessage('Incorrect wallet', (val) => {
         if (!val) return true;
         return !!val.match(/^0x[a-fA-F0-9]{40}$/gi);
-      },
+      }),
     },
   },
   computed: {
@@ -263,11 +281,11 @@ export default {
       const response = await this.$svc.seller.updateSettings({
         name: this.name,
         description: this.description,
-        logo_url: window.location + (this.logo?.name || ''),
-        wallet_for_payments_erc20: this.wallet,
+        logo_url: window.location + (this.logo_url?.name || ''),
+        wallet_for_payments_erc20: this.wallet_for_payments_erc20,
         contacts: [...this.sites, ...this.emails, ...this.phones],
       });
-      this.processError(response);
+      this.processErrorWithInvalidFields(response, this.vuelidateExternalResults);
     },
   },
   async beforeCreate() {
@@ -279,10 +297,10 @@ export default {
     const seller = response.seller || {};
     this.name = seller.name || '';
     this.description = seller.description || '';
-    this.wallet = seller.wallet_for_payments_erc20 || '';
+    this.wallet_for_payments_erc20 = seller.wallet_for_payments_erc20 || '';
     const logo = seller.logo_url;
     if (logo) {
-      this.logo = new File([logo], logo, { type: 'image/jpeg' });
+      this.logo_url = new File([logo], logo, { type: 'image/jpeg' });
     }
 
     const { contacts } = seller;
