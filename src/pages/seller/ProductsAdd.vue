@@ -118,7 +118,7 @@
                     <q-input
                       dense
                       label="Data URL"
-                      v-model="dataURLsModel[idx]"
+                      v-model="dataURLsModel[idx].value"
                       class="col"
                       :rules="[val => true]"
                     >
@@ -137,7 +137,7 @@
                     <q-input
                       dense
                       :label="`Price (${price.type})`"
-                      v-model="price.value"
+                      v-model.number="price.value"
                       class="col"
                       :rules="[val => true]"
                     />
@@ -181,6 +181,7 @@
                   type="submit"
                   color="primary"
                   class="q-ml-sm"
+                  :disable="disableSaving"
                   @click.prevent="addProduct"
                 />
               </div>
@@ -224,6 +225,16 @@ export default {
     this.createDataURLsModel();
   },
   computed: {
+    disableSaving() {
+      if (!this.name || !this.description) return true;
+      if (!this.selectedDataLanguages.length) return true;
+      if (!this.selectedCategories.length) return true;
+      if (!this.selectedGeography.length) return true;
+      if (!this.selectedDataTypes.length) return true;
+      if (!this.selectedDataFormats.length) return true;
+      if (!this.selectedDeliveryMethods.length) return true;
+      return !this.name || !this.description;
+    },
     dataFormats() {
       return this.$store.state.common.dataFormats;
     },
@@ -263,8 +274,8 @@ export default {
         return url;
       });
     },
-    getArrayOfIDs(computedName, selectedItems) {
-      return this[computedName].filter((item) => selectedItems.includes(item.name)).map((item) => item.id);
+    getArrayOfIDs(computedName, selectedItems, selectedItemsPropertyName = 'name') {
+      return this[computedName].filter((item) => selectedItems.includes(item[selectedItemsPropertyName])).map((item) => item.id);
     },
     async addProduct() {
       const response = await this.$svc.seller_products.createSellerProduct({
@@ -277,7 +288,7 @@ export default {
         price_per_usage: this.pricePerUsage,
         price_per_usage_descr: this.usageDetails,
         data_categories_ids: this.getArrayOfIDs('categories', this.selectedCategories),
-        data_langs_ids: this.getArrayOfIDs('dataLanguages', this.selectedDataLanguages),
+        data_langs_ids: this.getArrayOfIDs('dataLanguages', this.selectedDataLanguages, 'name_en'),
         data_geo_regions_ids: this.getArrayOfIDs('geography', this.selectedGeography),
         data_types_ids: this.getArrayOfIDs('dataTypes', this.selectedDataTypes),
         data_formats_ids: this.getArrayOfIDs('dataFormats', this.selectedDataFormats),
