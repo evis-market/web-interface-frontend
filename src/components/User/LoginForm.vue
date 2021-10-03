@@ -6,22 +6,22 @@
     <q-input
       filled
       ref="email"
-      v-model.trim="login"
+      v-model.trim="v.login.$model"
       type="email"
       label="Email"
       hide-bottom-space
-      error-message="Please enter a valid email address"
-      :error="!!login.length && v.login.$invalid"
+      :error-message="v.login.$errors.map(err => err.$message).join('. ')"
+      :error="v.login.$error"
     />
     <q-input
       filled
       ref="password"
-      v-model="password"
+      v-model="v.password.$model"
       type="password"
       label="Password"
       hide-bottom-space
-      error-message="Password length of 8 to 32 characters"
-      :error="!!password.length && v.password.$invalid"
+      :error-message="v.password.$errors.map(err => err.$message).join('. ')"
+      :error="v.password.$error"
     />
     <!--
     <q-checkbox

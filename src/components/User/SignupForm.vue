@@ -5,13 +5,17 @@
     </h5>
     <q-input
       filled
-      v-model.trim="first_name"
+      v-model.trim="v.first_name.$model"
       label="Name"
+      :error-message="v.first_name.$errors.map(err => err.$message).join('. ')"
+      :error="v.first_name.$error"
     />
     <q-input
       filled
-      v-model.trim="last_name"
+      v-model.trim="v.last_name.$model"
       label="Lastname"
+      :error-message="v.last_name.$errors.map(err => err.$message).join('. ')"
+      :error="v.last_name.$error"
     />
     <q-input
       filled
@@ -111,6 +115,8 @@ export default {
   },
 
   validations: {
+    first_name: {},
+    last_name: {},
     email: { required, email },
     password: {
       required,
