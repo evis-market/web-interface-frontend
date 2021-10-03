@@ -5,12 +5,12 @@
     </h5>
     <q-input
       filled
-      v-model.trim="name"
+      v-model.trim="first_name"
       label="Name"
     />
     <q-input
       filled
-      v-model.trim="lastName"
+      v-model.trim="last_name"
       label="Lastname"
     />
     <q-input
@@ -94,14 +94,16 @@ export default {
 
   data() {
     return {
-      name: '',
-      lastName: '',
+      first_name: '',
+      last_name: '',
       email: '',
       password: '',
       confirmPassword: '',
       rememberMe: false,
       errorMessages: [],
       vuelidateExternalResults: {
+        first_name: [],
+        last_name: [],
         email: [],
         password: [],
       },
@@ -123,7 +125,7 @@ export default {
     },
     confirmPassword: {
       // sameAs('password') not working
-      sameAsPassword: function (confirm) { // from util's for backlog
+      sameAsPassword(confirm) { // from util's for backlog
         return this.password.length >= MIN_PASSWORD_LENGTH
           && this.password.length <= MAX_PASSWORD_LENGTH
           ? this.password === confirm
@@ -135,8 +137,8 @@ export default {
   methods: {
     async signUpSubmit() {
       const signUpResponse = await this.$svc.users.signUpByEmailOrPhone({
-        first_name: this.name,
-        last_name: this.lastName,
+        first_name: this.first_name,
+        last_name: this.last_name,
         email: this.email,
         password: this.password,
       });
