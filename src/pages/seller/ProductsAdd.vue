@@ -114,20 +114,30 @@
               <div class="row" v-if="dataURLs.length">
                 <q-icon name="link" class="col-auto q-mr-md q-mt-sm" size="sm" />
                 <div class="col">
-                  <div class="row" v-for="(url, idx) in dataURLs" :key="url.deliveryMethod + url.dataFormat">
-                    <q-input
-                      dense
-                      label="Data URL"
-                      v-model="dataURLsModel[idx].value"
-                      class="col"
-                      :rules="[val => true]"
-                    >
-                      <template v-slot:prepend>
-                        <q-chip dense>{{ url.deliveryMethod }}</q-chip>
-                        <q-chip dense>{{ url.dataFormat }}</q-chip>
-                      </template>
-                    </q-input>
-                  </div>
+                  <ValidateEach
+                    v-for="(url, index) in dataURLsModel"
+                    :key="index"
+                    :state="url"
+                    :rules="dataUrlRules"
+                  >
+                    <template #default="{ v }">
+                      <div class="row">
+                        <q-input
+                          dense
+                          label="Data URL"
+                          v-model.trim="v.value.$model"
+                          class="col"
+                          :error="v.value.$error"
+                          :error-message="v.value.$errors.map(err => err.$message).join('. ')"
+                        >
+                          <template v-slot:prepend>
+                            <q-chip dense>{{ url.deliveryMethod }}</q-chip>
+                            <q-chip dense>{{ url.dataFormat }}</q-chip>
+                          </template>
+                        </q-input>
+                      </div>
+                    </template>
+                  </ValidateEach>
                 </div>
               </div>
               <div class="row">
@@ -137,7 +147,7 @@
                     v-for="(price, index) in prices"
                     :key="index"
                     :state="price"
-                    :rules="rules"
+                    :rules="priceRules"
                   >
                     <template #default="{ v }">
                       <q-input
@@ -205,14 +215,14 @@
 import TabMenu from 'components/AppLayout/TabMenu';
 import SellerTabs from 'components/Seller/SellerTabs';
 import useVuelidate from '@vuelidate/core';
-import { reactive } from 'vue';
+import { reactive, ref } from 'vue';
 import { ValidateEach } from '@vuelidate/components';
-import { numeric } from '@vuelidate/validators';
+import { numeric, url } from '@vuelidate/validators';
 
 export default {
   name: 'PageSellerProductsAdd',
   setup() {
-    const rules = {
+    const priceRules = {
       value: { numeric },
     };
     const prices = reactive([
@@ -220,8 +230,14 @@ export default {
       { type: 'Per Month', value: '' },
       { type: 'Per Year', value: '' },
     ]);
+    const dataUrlRules = {
+      value: { url },
+    };
+    const dataURLsModel = reactive([]);
     const v = useVuelidate();
-    return { v, prices, rules };
+    return {
+      v, prices, priceRules, dataUrlRules, dataURLsModel,
+    };
   },
   data() {
     return {
@@ -233,7 +249,6 @@ export default {
       selectedDataTypes: [],
       selectedDataFormats: [],
       selectedDeliveryMethods: [],
-      dataURLsModel: [],
       dataSamples: [],
       pricingUponRequest: false,
       pricePerUsage: false,
@@ -289,7 +304,7 @@ export default {
   methods: {
     createDataURLsModel() {
       this.dataURLsModel = this.dataURLs.map((url) => {
-        url.value = '';
+        url.value = ref('');
         return url;
       });
     },
