@@ -38,7 +38,7 @@
                   use-chips
                   stack-label
                   label="Data Languages"
-                  :rules="[val => !!val || 'Field is required']"
+                  :rules="[val => !!val.length || 'Field is required']"
                 />
               </div>
               <div class="row">
@@ -52,7 +52,7 @@
                   use-chips
                   stack-label
                   label="Categories"
-                  :rules="[val => !!val || 'Field is required']"
+                  :rules="[val => !!val.length || 'Field is required']"
                 />
               </div>
               <div class="row">
@@ -66,7 +66,7 @@
                   use-chips
                   stack-label
                   label="Geography"
-                  :rules="[val => !!val || 'Field is required']"
+                  :rules="[val => !!val.length || 'Field is required']"
                 />
               </div>
               <div class="row">
@@ -80,7 +80,7 @@
                   use-chips
                   stack-label
                   label="Data Types"
-                  :rules="[val => !!val || 'Field is required']"
+                  :rules="[val => !!val.length || 'Field is required']"
                 />
               </div>
               <div class="row">
@@ -94,7 +94,7 @@
                   use-chips
                   stack-label
                   label="Data Formats"
-                  :rules="[val => !!val || 'Field is required']"
+                  :rules="[val => !!val.length || 'Field is required']"
                 />
               </div>
               <div class="row">
@@ -108,7 +108,7 @@
                   use-chips
                   stack-label
                   label="Delivery Methods"
-                  :rules="[val => !!val || 'Field is required']"
+                  :rules="[val => !!val.length || 'Field is required']"
                 />
               </div>
               <div class="row" v-if="dataURLs.length">
