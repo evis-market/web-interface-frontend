@@ -22,11 +22,11 @@
                 <q-icon name="description" class="col-auto q-mr-md q-mt-sm" size="sm" />
                 <q-input
                   dense
-                  v-model.trim="v.description.$model"
+                  v-model.trim="v.descr.$model"
                   label="Description"
                   class="col"
-                  :error-message="v.description.$errors.map(err => err.$message).join('. ')"
-                  :error="v.description.$error"
+                  :error-message="v.descr.$errors.map(err => err.$message).join('. ')"
+                  :error="v.descr.$error"
                 />
               </div>
               <div class="row">
@@ -225,7 +225,7 @@ export default {
   data() {
     return {
       name: '',
-      description: '',
+      descr: '',
       logo_url: null,
       sites: [
         { type_id: this.$svc.seller.ContactTypeIDSite, value: '', comment: '' },
@@ -236,7 +236,7 @@ export default {
       wallet_for_payments_erc20: '',
       vuelidateExternalResults: {
         name: [],
-        description: [],
+        descr: [],
         logo_url: [],
         wallet_for_payments_erc20: [],
       },
@@ -244,7 +244,7 @@ export default {
   },
   validations: {
     name: { required },
-    description: {},
+    descr: {},
     logo_url: {},
     wallet_for_payments_erc20: {
       erc20_validator: helpers.withMessage('Incorrect wallet', (val) => {
@@ -280,12 +280,14 @@ export default {
     async updateSettings() {
       const response = await this.$svc.seller.updateSettings({
         name: this.name,
-        description: this.description,
+        descr: this.descr,
         logo_url: window.location + (this.logo_url?.name || ''),
         wallet_for_payments_erc20: this.wallet_for_payments_erc20,
         contacts: [...this.sites, ...this.emails, ...this.phones],
       });
-      this.processErrorWithInvalidFields(response, this.vuelidateExternalResults);
+      if (this.processErrorWithInvalidFields(response, this.vuelidateExternalResults)) {
+        this.v.$touch();
+      }
     },
   },
   async beforeCreate() {
@@ -296,7 +298,7 @@ export default {
 
     const seller = response.seller || {};
     this.name = seller.name || '';
-    this.description = seller.description || '';
+    this.descr = seller.descr || '';
     this.wallet_for_payments_erc20 = seller.wallet_for_payments_erc20 || '';
     const logo = seller.logo_url;
     if (logo) {
