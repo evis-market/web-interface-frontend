@@ -12,9 +12,10 @@
                 <q-input
                   dense
                   label="Display Name"
-                  v-model="name"
+                  v-model="v.name.$model"
                   class="col"
-                  :rules="[val => !!val || 'Field is required']"
+                  :error="v.name.$error"
+                  :error-message="v.name.$errors.map(err => err.$message).join('. ')"
                 />
               </div>
               <div class="row">
@@ -22,100 +23,107 @@
                 <q-input
                   dense
                   label="Description"
-                  v-model="description"
+                  v-model="v.descr.$model"
                   class="col"
-                  :rules="[val => !!val || 'Field is required']"
+                  :error="v.descr.$error"
+                  :error-message="v.descr.$errors.map(err => err.$message).join('. ')"
                 />
               </div>
               <div class="row">
                 <q-icon name="language" class="col-auto q-mr-md q-mt-sm" size="sm" />
                 <q-select
                   class="col"
-                  v-model="selectedDataLanguages"
+                  v-model="v.data_langs_ids.$model"
                   multiple
                   dense
                   :options="dataLanguages.map(lang => lang.name_en)"
                   use-chips
                   stack-label
                   label="Data Languages"
-                  :rules="[val => !!val.length || 'Field is required']"
+                  :error="v.data_langs_ids.$error"
+                  :error-message="v.data_langs_ids.$errors.map(err => err.$message).join('. ')"
                 />
               </div>
               <div class="row">
                 <q-icon name="category" class="col-auto q-mr-md q-mt-sm" size="sm" />
                 <q-select
                   class="col"
-                  v-model="selectedCategories"
+                  v-model="v.data_categories_ids.$model"
                   multiple
                   dense
                   :options="categories.map(category => category.name).sort()"
                   use-chips
                   stack-label
                   label="Categories"
-                  :rules="[val => !!val.length || 'Field is required']"
+                  :error="v.data_categories_ids.$error"
+                  :error-message="v.data_categories_ids.$errors.map(err => err.$message).join('. ')"
                 />
               </div>
               <div class="row">
                 <q-icon name="place" class="col-auto q-mr-md q-mt-sm" size="sm" />
                 <q-select
                   class="col"
-                  v-model="selectedGeography"
+                  v-model="v.data_geo_regions_ids.$model"
                   multiple
                   dense
                   :options="geography.filter(geo => !geo.parent_id).map(geo => geo.name)"
                   use-chips
                   stack-label
                   label="Geography"
-                  :rules="[val => !!val.length || 'Field is required']"
+                  :error="v.data_geo_regions_ids.$error"
+                  :error-message="v.data_geo_regions_ids.$errors.map(err => err.$message).join('. ')"
                 />
               </div>
               <div class="row">
                 <q-icon name="toc" class="col-auto q-mr-md q-mt-sm" size="sm" />
                 <q-select
                   class="col"
-                  v-model="selectedDataTypes"
+                  v-model="v.data_types_ids.$model"
                   multiple
                   dense
                   :options="dataTypes.map(dataType => dataType.name)"
                   use-chips
                   stack-label
                   label="Data Types"
-                  :rules="[val => !!val.length || 'Field is required']"
+                  :error="v.data_types_ids.$error"
+                  :error-message="v.data_types_ids.$errors.map(err => err.$message).join('. ')"
                 />
               </div>
               <div class="row">
                 <q-icon name="picture_as_pdf" class="col-auto q-mr-md q-mt-sm" size="sm" />
                 <q-select
                   class="col"
-                  v-model="selectedDataFormats"
+                  v-model="v.data_formats_ids.$model"
                   multiple
                   dense
                   :options="dataFormats.map(format => format.name)"
                   use-chips
                   stack-label
                   label="Data Formats"
-                  :rules="[val => !!val.length || 'Field is required']"
+                  :error="v.data_formats_ids.$error"
+                  :error-message="v.data_formats_ids.$errors.map(err => err.$message).join('. ')"
                 />
               </div>
               <div class="row">
                 <q-icon name="sync_alt" class="col-auto q-mr-md q-mt-sm" size="sm" />
                 <q-select
                   class="col"
-                  v-model="selectedDeliveryMethods"
+                  v-model="v.data_delivery_types_ids.$model"
                   multiple
                   dense
                   :options="deliveryMethods.map(deliveryMethod => deliveryMethod.name)"
                   use-chips
                   stack-label
                   label="Delivery Methods"
-                  :rules="[val => !!val.length || 'Field is required']"
+                  :error="v.data_delivery_types_ids.$error"
+                  :error-message="v.data_delivery_types_ids.$errors.map(err => err.$message).join('. ')"
                 />
               </div>
               <div class="row" v-if="dataURLs.length">
                 <q-icon name="link" class="col-auto q-mr-md q-mt-sm" size="sm" />
                 <div class="col">
                   <ValidateEach
-                    v-for="(url, index) in dataURLsModel"
+                    v-for="(url, index) in data_urls"
                     :key="index"
                     :state="url"
                     :rules="dataUrlRules"
@@ -153,7 +161,7 @@
                       <q-input
                         dense
                         :label="`Price (${price.type})`"
-                        v-model.number.trim="v.value.$model"
+                        v-model.trim="v.value.$model"
                         class="col"
                         :error="v.value.$error"
                         :error-message="v.value.$errors.map(err => err.$message).join('. ')"
@@ -161,7 +169,7 @@
                     </template>
                   </ValidateEach>
                   <q-checkbox
-                    v-model="pricePerUsage"
+                    v-model="price_per_usage"
                     label="Per Usage"
                     class="col"
                     dense
@@ -169,12 +177,12 @@
                   <q-input
                     dense
                     label="Usage Details"
-                    v-model="usageDetails"
+                    v-model="price_per_usage_descr"
                     class="col"
                     :rules="[val => true]"
                   />
                   <q-checkbox
-                    v-model="pricingUponRequest"
+                    v-model="price_by_request"
                     label="Pricing available upon request"
                     class="col"
                     dense
@@ -186,10 +194,11 @@
                 <q-file
                   dense
                   multiple
-                  v-model="dataSamples"
+                  v-model="v.data_samples.$model"
                   label="Data Samples"
                   class="col"
-                  :rules="[val => true]"
+                  :error="v.data_samples.$error"
+                  :error-message="v.data_samples.$errors.map(err => err.$message).join('. ')"
                 />
               </div>
               <div class="row justify-end">
@@ -217,7 +226,7 @@ import SellerTabs from 'components/Seller/SellerTabs';
 import useVuelidate from '@vuelidate/core';
 import { reactive, ref } from 'vue';
 import { ValidateEach } from '@vuelidate/components';
-import { numeric, url } from '@vuelidate/validators';
+import { numeric, url, required } from '@vuelidate/validators';
 
 export default {
   name: 'PageSellerProductsAdd',
@@ -233,41 +242,66 @@ export default {
     const dataUrlRules = {
       value: { url },
     };
-    const dataURLsModel = reactive([]);
+    const data_urls = reactive([]);
     const v = useVuelidate();
     return {
-      v, prices, priceRules, dataUrlRules, dataURLsModel,
+      v, prices, priceRules, dataUrlRules, data_urls,
     };
   },
   data() {
     return {
       name: '',
-      description: '',
-      selectedDataLanguages: [],
-      selectedCategories: [],
-      selectedGeography: [],
-      selectedDataTypes: [],
-      selectedDataFormats: [],
-      selectedDeliveryMethods: [],
-      dataSamples: [],
-      pricingUponRequest: false,
-      pricePerUsage: false,
-      usageDetails: '',
+      descr: '',
+      data_langs_ids: [],
+      data_categories_ids: [],
+      data_geo_regions_ids: [],
+      data_types_ids: [],
+      data_formats_ids: [],
+      data_delivery_types_ids: [],
+      data_samples: [],
+      price_by_request: false,
+      price_per_usage: false,
+      price_per_usage_descr: '',
+      vuelidateExternalResults: {
+        name: [],
+        descr: [],
+        data_langs_ids: [],
+        data_categories_ids: [],
+        data_geo_regions_ids: [],
+        data_types_ids: [],
+        data_formats_ids: [],
+        data_delivery_types_ids: [],
+        data_samples: [],
+        price_by_request: [],
+        price_per_usage: [],
+        price_per_usage_descr: [],
+      },
     };
+  },
+  validations: {
+    name: { required },
+    descr: { required },
+    data_langs_ids: { required },
+    data_categories_ids: { required },
+    data_geo_regions_ids: { required },
+    data_types_ids: { required },
+    data_formats_ids: { required },
+    data_delivery_types_ids: { required },
+    data_samples: { required },
   },
   mounted() {
     this.createDataURLsModel();
   },
   computed: {
     disableSaving() {
-      if (!this.name || !this.description) return true;
-      if (!this.selectedDataLanguages.length) return true;
-      if (!this.selectedCategories.length) return true;
-      if (!this.selectedGeography.length) return true;
-      if (!this.selectedDataTypes.length) return true;
-      if (!this.selectedDataFormats.length) return true;
-      if (!this.selectedDeliveryMethods.length) return true;
-      return !this.name || !this.description || !!this.v.$errors.length;
+      if (!this.name || !this.descr) return true;
+      if (!this.data_langs_ids.length) return true;
+      if (!this.data_categories_ids.length) return true;
+      if (!this.data_geo_regions_ids.length) return true;
+      if (!this.data_types_ids.length) return true;
+      if (!this.data_formats_ids.length) return true;
+      if (!this.data_delivery_types_ids.length) return true;
+      return !this.name || !this.descr || !!this.v.$errors.length;
     },
     dataFormats() {
       return this.$store.state.common.dataFormats;
@@ -289,9 +323,9 @@ export default {
     },
     dataURLs() {
       const dataURLs = [];
-      this.selectedDeliveryMethods.forEach((deliveryMethod) => {
+      this.data_delivery_types_ids.forEach((deliveryMethod) => {
         const deliveryMethodID = this.deliveryMethods.find((method) => method.name === deliveryMethod).id;
-        this.selectedDataFormats.forEach((dataFormat) => {
+        this.data_formats_ids.forEach((dataFormat) => {
           const dataFormatID = this.dataFormats.find((format) => format.name === dataFormat).id;
           dataURLs.push({
             deliveryMethod, dataFormat, deliveryMethodID, dataFormatID,
@@ -303,7 +337,7 @@ export default {
   },
   methods: {
     createDataURLsModel() {
-      this.dataURLsModel = this.dataURLs.map((url) => {
+      this.data_urls = this.dataURLs.map((url) => {
         url.value = ref('');
         return url;
       });
@@ -314,30 +348,31 @@ export default {
     async addProduct() {
       const response = await this.$svc.seller_products.createSellerProduct({
         name: this.name,
-        descr: this.description,
-        price_one_time: this.prices.find((price) => price.type === 'One-Time').value,
-        price_per_month: this.prices.find((price) => price.type === 'Per Month').value,
-        price_per_year: this.prices.find((price) => price.type === 'Per Year').value,
-        price_by_request: this.pricingUponRequest,
-        price_per_usage: this.pricePerUsage,
-        price_per_usage_descr: this.usageDetails,
-        data_categories_ids: this.getArrayOfIDs('categories', this.selectedCategories),
-        data_langs_ids: this.getArrayOfIDs('dataLanguages', this.selectedDataLanguages, 'name_en'),
-        data_geo_regions_ids: this.getArrayOfIDs('geography', this.selectedGeography),
-        data_types_ids: this.getArrayOfIDs('dataTypes', this.selectedDataTypes),
-        data_formats_ids: this.getArrayOfIDs('dataFormats', this.selectedDataFormats),
-        data_delivery_types_ids: this.getArrayOfIDs('deliveryMethods', this.selectedDeliveryMethods),
-        data_urls: this.dataURLsModel.map((model) => ({
+        descr: this.descr,
+        price_one_time: +this.prices.find((price) => price.type === 'One-Time').value,
+        price_per_month: +this.prices.find((price) => price.type === 'Per Month').value,
+        price_per_year: +this.prices.find((price) => price.type === 'Per Year').value,
+        price_by_request: this.price_by_request,
+        price_per_usage: this.price_per_usage,
+        price_per_usage_descr: this.price_per_usage_descr,
+        data_categories_ids: this.getArrayOfIDs('categories', this.data_categories_ids),
+        data_langs_ids: this.getArrayOfIDs('dataLanguages', this.data_langs_ids, 'name_en'),
+        data_geo_regions_ids: this.getArrayOfIDs('geography', this.data_geo_regions_ids),
+        data_types_ids: this.getArrayOfIDs('dataTypes', this.data_types_ids),
+        data_formats_ids: this.getArrayOfIDs('dataFormats', this.data_formats_ids),
+        data_delivery_types_ids: this.getArrayOfIDs('deliveryMethods', this.data_delivery_types_ids),
+        data_urls: this.data_urls.map((model) => ({
           data_delivery_type_id: model.deliveryMethodID,
           data_format_id: model.dataFormatID,
-          url: model.value,
+          url: model.value.value,
         })),
-        data_sample_urls: [
+        data_samples: [
           'http://domain.com/data_sample1.xls',
           'http://domain.com/data_sample2.xls',
         ],
       });
-      if (this.processError(response)) {
+      if (this.processErrorWithInvalidFields(response, this.vuelidateExternalResults)) {
+        this.v.$touch();
         return;
       }
       console.log({ response });
