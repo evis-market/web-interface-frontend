@@ -119,7 +119,7 @@
                   :error-message="v.data_delivery_types_ids.$errors.map(err => err.$message).join('. ')"
                 />
               </div>
-              <div class="row" v-if="dataURLs.length">
+              <div class="row" v-if="dataURLs.length" :key="dataURLsKey">
                 <q-icon name="link" class="col-auto q-mr-md q-mt-sm" size="sm" />
                 <div class="col">
                   <ValidateEach
@@ -250,6 +250,7 @@ export default {
   },
   data() {
     return {
+      dataURLsKey: 0,
       name: '',
       descr: '',
       data_langs_ids: [],
@@ -338,6 +339,7 @@ export default {
         url.value = ref('');
         return url;
       });
+      this.dataURLsKey += 1;
     },
     getArrayOfIDs(computedName, selectedItems, selectedItemsPropertyName = 'name') {
       return this[computedName].filter((item) => selectedItems.includes(item[selectedItemsPropertyName])).map((item) => item.id);
