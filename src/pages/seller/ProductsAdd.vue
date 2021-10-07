@@ -287,10 +287,7 @@ export default {
     data_types_ids: { required },
     data_formats_ids: { required },
     data_delivery_types_ids: { required },
-    data_samples: { required },
-  },
-  mounted() {
-    this.createDataURLsModel();
+    data_samples: {},
   },
   computed: {
     disableSaving() {
@@ -366,10 +363,7 @@ export default {
           data_format_id: model.dataFormatID,
           url: model.value.value,
         })),
-        data_samples: [
-          'http://domain.com/data_sample1.xls',
-          'http://domain.com/data_sample2.xls',
-        ],
+        data_samples: [],
       });
       if (this.processErrorWithInvalidFields(response, this.vuelidateExternalResults)) {
         this.v.$touch();
