@@ -344,6 +344,21 @@ export default {
     getArrayOfIDs(computedName, selectedItems, selectedItemsPropertyName = 'name') {
       return this[computedName].filter((item) => selectedItems.includes(item[selectedItemsPropertyName])).map((item) => item.id);
     },
+    clearAllFields() {
+      this.name = '';
+      this.descr = '';
+      this.price_per_usage_descr = '';
+      this.data_langs_ids = [];
+      this.data_categories_ids = [];
+      this.data_geo_regions_ids = [];
+      this.data_types_ids = [];
+      this.data_formats_ids = [];
+      this.data_delivery_types_ids = [];
+      this.data_samples = [];
+      this.price_by_request = false;
+      this.price_per_usage = false;
+      this.prices.forEach((price) => { price.value = ''; });
+    },
     async addProduct() {
       const response = await this.$svc.seller_products.createSellerProduct({
         name: this.name,
@@ -371,7 +386,9 @@ export default {
         this.v.$touch();
         return;
       }
-      console.log({ response });
+      this.$notify.success('Product was added successfully');
+      this.clearAllFields();
+      this.v.$reset();
     },
   },
   watch: {
