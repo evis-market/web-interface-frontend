@@ -135,8 +135,9 @@
                           label="Data URL"
                           v-model.trim="v.value.$model"
                           class="col"
-                          :error="v.value.$error"
-                          :error-message="v.value.$errors.map(err => err.$message).join('. ')"
+                          @focus="clearServerSideErrors(index)"
+                          :error="v.value.$error || !!vuelidateExternalResults.data_urls?.[index]?.url"
+                          :error-message="dataURLErrorMessage(v.value, index)"
                         >
                           <template v-slot:prepend>
                             <q-chip dense>{{ url.deliveryMethod }}</q-chip>
@@ -272,6 +273,7 @@ export default {
         data_types_ids: [],
         data_formats_ids: [],
         data_delivery_types_ids: [],
+        data_urls: [],
         data_samples: [],
         price_by_request: [],
         price_per_usage: [],
@@ -334,6 +336,16 @@ export default {
     },
   },
   methods: {
+    dataURLErrorMessage(value, index) {
+      const veulidateMessage = value.$errors.map((err) => err.$message).join('. ');
+      const serverMessage = this.vuelidateExternalResults.data_urls?.[index]?.url?.join('. ');
+      return veulidateMessage || serverMessage;
+    },
+    clearServerSideErrors(index) {
+      if (this.vuelidateExternalResults.data_urls?.[index]) {
+        delete this.vuelidateExternalResults.data_urls?.[index];
+      }
+    },
     createDataURLsModel() {
       this.data_urls = this.dataURLs.map((url) => {
         url.value = ref('');
