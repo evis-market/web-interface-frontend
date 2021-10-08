@@ -135,7 +135,7 @@
                           label="Data URL"
                           v-model.trim="v.value.$model"
                           class="col"
-                          @focus="clearServerSideErrors(index)"
+                          @focus="clearServerSideDataURLErrors(index)"
                           :error="v.value.$error || !!vuelidateExternalResults.data_urls?.[index]?.url"
                           :error-message="dataURLErrorMessage(v.value, index)"
                         >
@@ -152,23 +152,30 @@
               <div class="row">
                 <q-icon name="attach_money" class="col-auto q-mr-md q-mt-sm" size="sm" />
                 <div class="col">
-                  <ValidateEach
-                    v-for="(price, index) in prices"
-                    :key="index"
-                    :state="price"
-                    :rules="priceRules"
-                  >
-                    <template #default="{ v }">
-                      <q-input
-                        dense
-                        :label="`Price (${price.type})`"
-                        v-model.trim="v.value.$model"
-                        class="col"
-                        :error="v.value.$error"
-                        :error-message="v.value.$errors.map(err => err.$message).join('. ')"
-                      />
-                    </template>
-                  </ValidateEach>
+                  <q-input
+                    dense
+                    label="Price (One-Time)"
+                    class="col"
+                    v-model="v.price_one_time.$model"
+                    :error="v.price_one_time.$error"
+                    :error-message="v.price_one_time.$errors.map(err => err.$message).join('. ')"
+                  />
+                  <q-input
+                    dense
+                    label="Price (Per Month)"
+                    class="col"
+                    v-model="v.price_per_month.$model"
+                    :error="v.price_per_month.$error"
+                    :error-message="v.price_per_month.$errors.map(err => err.$message).join('. ')"
+                  />
+                  <q-input
+                    dense
+                    label="Price (Per Year)"
+                    class="col"
+                    v-model="v.price_per_year.$model"
+                    :error="v.price_per_year.$error"
+                    :error-message="v.price_per_year.$errors.map(err => err.$message).join('. ')"
+                  />
                   <q-checkbox
                     v-model="price_per_usage"
                     label="Per Usage"
@@ -232,21 +239,13 @@ import { numeric, url, required } from '@vuelidate/validators';
 export default {
   name: 'PageSellerProductsAdd',
   setup() {
-    const priceRules = {
-      value: { numeric },
-    };
-    const prices = reactive([
-      { type: 'One-Time', value: '' },
-      { type: 'Per Month', value: '' },
-      { type: 'Per Year', value: '' },
-    ]);
     const dataUrlRules = {
       value: { url, required },
     };
     const data_urls = reactive([]);
     const v = useVuelidate();
     return {
-      v, prices, priceRules, dataUrlRules, data_urls,
+      v, dataUrlRules, data_urls,
     };
   },
   data() {
@@ -261,6 +260,9 @@ export default {
       data_formats_ids: [],
       data_delivery_types_ids: [],
       data_samples: [],
+      price_one_time: '',
+      price_per_month: '',
+      price_per_year: '',
       price_by_request: false,
       price_per_usage: false,
       price_per_usage_descr: '',
@@ -275,6 +277,9 @@ export default {
         data_delivery_types_ids: [],
         data_urls: [],
         data_samples: [],
+        price_one_time: [],
+        price_per_month: [],
+        price_per_year: [],
         price_by_request: [],
         price_per_usage: [],
         price_per_usage_descr: [],
@@ -291,6 +296,9 @@ export default {
     data_formats_ids: { required },
     data_delivery_types_ids: { required },
     data_samples: {},
+    price_one_time: { numeric },
+    price_per_month: { numeric },
+    price_per_year: { numeric },
   },
   computed: {
     disableSaving() {
@@ -342,7 +350,7 @@ export default {
       const serverMessage = this.vuelidateExternalResults.data_urls?.[index]?.url?.join('. ');
       return veulidateMessage || serverMessage;
     },
-    clearServerSideErrors(index) {
+    clearServerSideDataURLErrors(index) {
       if (this.vuelidateExternalResults.data_urls?.[index]) {
         delete this.vuelidateExternalResults.data_urls?.[index];
       }
@@ -368,17 +376,19 @@ export default {
       this.data_formats_ids = [];
       this.data_delivery_types_ids = [];
       this.data_samples = [];
+      this.price_one_time = '';
+      this.price_per_month = '';
+      this.price_per_year = '';
       this.price_by_request = false;
       this.price_per_usage = false;
-      this.prices.forEach((price) => { price.value = ''; });
     },
     async addProduct() {
       const response = await this.$svc.seller_products.createSellerProduct({
         name: this.name,
         descr: this.descr,
-        price_one_time: +this.prices.find((price) => price.type === 'One-Time').value,
-        price_per_month: +this.prices.find((price) => price.type === 'Per Month').value,
-        price_per_year: +this.prices.find((price) => price.type === 'Per Year').value,
+        price_one_time: +this.price_one_time,
+        price_per_month: +this.price_per_month,
+        price_per_year: +this.price_per_year,
         price_by_request: this.price_by_request,
         price_per_usage: this.price_per_usage,
         price_per_usage_descr: this.price_per_usage_descr,
