@@ -241,7 +241,7 @@ export default {
       { type: 'Per Year', value: '' },
     ]);
     const dataUrlRules = {
-      value: { url },
+      value: { url, required },
     };
     const data_urls = reactive([]);
     const v = useVuelidate();
@@ -301,6 +301,7 @@ export default {
       if (!this.data_types_ids.length) return true;
       if (!this.data_formats_ids.length) return true;
       if (!this.data_delivery_types_ids.length) return true;
+      if (this.data_urls.some((urlObj) => !urlObj.value.value)) return true;
       return !this.name || !this.descr || !!this.v.$errors.length;
     },
     dataFormats() {
