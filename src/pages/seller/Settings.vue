@@ -262,7 +262,7 @@ export default {
     async updateSettings() {
       const response = await this.$svc.seller.updateSettings({
         name: this.name,
-        description: this.description,
+        descr: this.description,
         logo_url: window.location + (this.logo?.name || ''),
         wallet_for_payments_erc20: this.wallet,
         contacts: [...this.sites, ...this.emails, ...this.phones],
