@@ -287,7 +287,10 @@ export default {
       });
       if (this.processErrorWithInvalidFields(response, this.vuelidateExternalResults)) {
         this.v.$touch();
+        return;
       }
+      this.$notify.success('Settings have been successfully updated');
+      this.v.$reset();
     },
   },
   async beforeCreate() {
