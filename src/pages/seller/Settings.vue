@@ -74,7 +74,7 @@
                   </div>
                 </div>
               </div>
-              <div class="row q-mt-none">
+              <div class="row q-mt-none" :key="emailsKey">
                 <q-icon name="email" class="col-auto q-mr-md q-mt-sm" size="sm" />
                 <div class="col">
                   <ValidateEach
@@ -224,6 +224,7 @@ export default {
   },
   data() {
     return {
+      emailsKey: 0,
       name: '',
       descr: '',
       logo_url: null,
@@ -264,6 +265,7 @@ export default {
   methods: {
     clearField(targetObjectName, id) {
       this[targetObjectName].splice(this[targetObjectName].findIndex((item) => item.id === id), 1);
+      this.emailsKey += 1;
     },
     addField(targetObjectName) {
       const typeIDs = {
@@ -276,6 +278,7 @@ export default {
         value: '',
         comment: '',
       });
+      this.emailsKey += 1;
     },
     async updateSettings() {
       const response = await this.$svc.seller.updateSettings({
