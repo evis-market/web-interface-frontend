@@ -225,6 +225,11 @@ export default {
   data() {
     return {
       emailsKey: 0,
+      fieldIDs: {
+        emails: 0,
+        phones: 0,
+        sites: 0,
+      },
       name: '',
       descr: '',
       logo_url: null,
@@ -295,8 +300,14 @@ export default {
       this.$notify.success('Settings have been successfully updated');
       this.v.$reset();
     },
+    addDynamicFieldIDs(fieldName) {
+      this[fieldName].forEach((el) => {
+        el.id = this.fieldIDs[fieldName];
+        this.fieldIDs[fieldName] += 1;
+      });
+    },
   },
-  async beforeCreate() {
+  async mounted() {
     const response = await this.$svc.seller.getSettings();
     if (response.error?.code !== 404 && this.processError(response)) {
       return;
@@ -326,6 +337,8 @@ export default {
         this.emails = emails;
       }
     }
+
+    ['phones', 'emails', 'sites'].forEach((arrName) => this.addDynamicFieldIDs(arrName));
   },
   components: {
     TabMenu,
