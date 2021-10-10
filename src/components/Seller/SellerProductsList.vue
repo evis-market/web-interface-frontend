@@ -33,11 +33,10 @@ export default {
     this.products = response['seller-products'].map((product) => ({
       id: product.id,
       name: product.name,
-      price: 0,
-      rating: 0,
+      price: this.getVisiblePrice(product),
+      rating: product.rating || 0,
       reviews: '0',
     }));
-    console.log({ response });
   },
   data() {
     return {
@@ -77,6 +76,23 @@ export default {
         },
       ],
     };
+  },
+  methods: {
+    getVisiblePrice(product) {
+      if (product.price_by_request) {
+        return 'by request';
+      }
+      if (product.price_per_month) {
+        return `$${product.price_per_month} / month`;
+      }
+      if (product.price_per_year) {
+        return `$${product.price_per_year} / year`;
+      }
+      if (product.price_one_time) {
+        return `$${product.price_one_time} / one time`;
+      }
+      return '$0 / month';
+    },
   },
 };
 </script>
