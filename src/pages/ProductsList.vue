@@ -1,0 +1,18 @@
+<template>
+  <div v-for="i in 10" :key="i">
+    <ProductPreview />
+  </div>
+</template>
+
+<script>
+import ProductPreview from 'components/Product/ProductPreview';
+
+export default {
+  name: 'ProductsList',
+  components: { ProductPreview },
+};
+</script>
+
+<style scoped>
+
+</style>

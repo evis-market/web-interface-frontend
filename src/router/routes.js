@@ -14,6 +14,13 @@ const routes = [
     ],
   },
   {
+    path: '/products/',
+    component: () => import('layouts/AppLayout.vue'),
+    children: [
+      { path: '', name: 'productsList', component: () => import('pages/ProductsList.vue') },
+    ],
+  },
+  {
     path: '/my/',
     component: () => import('layouts/AppLayout.vue'),
     meta: { loginRequired: true },
