@@ -10,6 +10,14 @@ import ProductPreview from 'components/Product/ProductPreview';
 export default {
   name: 'ProductsList',
   components: { ProductPreview },
+  data() {
+    return {
+      products: [],
+    };
+  },
+  mounted() {
+    const categoryID = this.$route.params.categoryID;
+  },
 };
 </script>
 
