@@ -5,9 +5,9 @@
       <q-item
         clickable
         v-ripple
-        :active="link === category.name"
-        @click="link = category.name"
-        active-class="active-menu-link"
+        :active="activeCategory === category.name"
+        @click="activeCategory = category.name"
+        active-class="active-category"
       >
         <q-item-section>{{ category.name }}</q-item-section>
       </q-item>
@@ -20,7 +20,7 @@ export default {
   name: 'ProductsCategories',
   data() {
     return {
-      link: 'Financial Market Data',
+      activeCategory: 'Financial Market Data',
     };
   },
   computed: {
@@ -32,7 +32,7 @@ export default {
 </script>
 
 <style scoped>
-  .active-menu-link {
+  .active-category {
     color: white;
     background: purple;
   }
