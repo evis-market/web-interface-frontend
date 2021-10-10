@@ -1,12 +1,12 @@
 <template>
-  <q-card class="q-mb-lg" flat bordered>
+  <q-card class="product-preview q-mb-lg" flat bordered>
     <q-card-section horizontal>
-      <q-card-section class="col-4 column">
+      <q-card-section class="left-section col-2 column">
         <q-icon name="polymer" size="xl" color="primary" class="q-mb-auto" />
         <p class="q-mb-none q-mt-md">Data types:</p>
       </q-card-section>
 
-      <q-card-section class="col-4">
+      <q-card-section class="middle-section col column">
         <div class="q-mb-auto">
           <h5 class="q-ma-none">Neighborhood Data</h5>
           <p>by TovoData</p>
@@ -22,7 +22,7 @@
 
       <q-separator vertical />
 
-      <q-card-section class="column full-width items-center">
+      <q-card-section class="right-section col column items-center">
         <p>Pricing available upon request</p>
         <q-btn-group class="column" outline>
           <q-btn color="red" label="Request sample" class="q-mb-md" />
@@ -47,5 +47,11 @@ export default {
 </script>
 
 <style scoped>
-
+  .right-section {
+    min-width: 250px;
+    max-width: 250px;
+  }
+  .product-preview {
+    min-width: 600px;
+  }
 </style>
