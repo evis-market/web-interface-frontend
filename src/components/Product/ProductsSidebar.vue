@@ -1,10 +1,13 @@
 <template>
-  <div></div>
+  <ProductsCategories />
 </template>
 
 <script>
+import ProductsCategories from './ProductsCategories';
+
 export default {
   name: 'ProductsSidebar',
+  components: { ProductsCategories },
 };
 </script>
 
