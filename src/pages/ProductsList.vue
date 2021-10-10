@@ -1,5 +1,5 @@
 <template>
-  <div v-for="i in 10" :key="i">
+  <div v-for="i in 10" :key="i" class="col-9">
     <ProductPreview />
   </div>
 </template>

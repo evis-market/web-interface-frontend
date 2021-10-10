@@ -1,5 +1,5 @@
 <template>
-  <q-layout view="lHh Lpr lFf" class="q-pa-md">
+  <q-layout view="hHh Lpr lFf" class="q-pa-md">
     <q-header elevated class="bg-white text-primary">
       <q-toolbar class="row">
         <router-link :to="{ 'name': 'index' }" class="col-1">
@@ -20,6 +20,11 @@
         </div>
       </q-toolbar>
     </q-header>
+    <div v-if="showLeftSidebar">
+      <q-drawer show-if-above side="left">
+        <ProductsSidebar />
+      </q-drawer>
+    </div>
     <q-page-container>
       <router-view />
     </q-page-container>
@@ -30,16 +35,19 @@
 import { defineComponent } from 'vue';
 import CategoriesDropdown from 'components/AppLayout/CategoriesDropdown';
 import SearchAutocomplete from 'components/AppLayout/SearchAutocomplete';
+import ProductsSidebar from 'components/Product/ProductsSidebar';
 
 export default defineComponent({
   name: 'AppLayout',
-
   components: {
     CategoriesDropdown,
     SearchAutocomplete,
+    ProductsSidebar,
   },
-
-  setup() {
+  computed: {
+    showLeftSidebar() {
+      return this.$route.name === 'productsList';
+    },
   },
 });
 </script>
