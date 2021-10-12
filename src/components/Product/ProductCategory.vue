@@ -9,7 +9,7 @@
         clickable
         v-ripple
         :active="activeSubCategory === subcategory.name"
-        @click="activeSubCategory = subcategory.name"
+        @click="getProducts(subcategory)"
         active-class="active-category"
       >
         <q-item-section class="q-pl-md">{{ subcategory.name }}</q-item-section>
@@ -37,6 +37,21 @@ export default {
     },
     subCategories() {
       return this.allCategories.filter((category) => category.parent_id === this.category.id);
+    },
+  },
+  methods: {
+    async getProducts(category) {
+      this.activeSubCategory = category.name;
+      const response = await this.$svc.shop.listCategoryProducts({
+        categoryIDs: category.id,
+        offset: 0,
+        limit: 20,
+        orderBy: 'name',
+      });
+      if (this.processError(response)) {
+        return;
+      }
+      this.$store.commit('common/setVisibleProducts', response.seller_products);
     },
   },
 };
