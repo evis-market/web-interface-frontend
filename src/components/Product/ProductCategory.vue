@@ -21,11 +21,11 @@
 <script>
 export default {
   name: 'ProductCategory',
-  props: ['category', 'expand'],
+  props: ['category', 'expand', 'activeSubCategory'],
+  emits: ['changeActiveSubCategory'],
   data() {
     return {
       expanded: false,
-      activeSubCategory: '',
     };
   },
   mounted() {
@@ -41,7 +41,7 @@ export default {
   },
   methods: {
     async getProducts(category) {
-      this.activeSubCategory = category.name;
+      this.$emit('changeActiveSubCategory', category.name);
       const response = await this.$svc.shop.listCategoryProducts({
         categoryIDs: category.id,
         offset: 0,
