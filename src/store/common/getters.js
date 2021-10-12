@@ -21,3 +21,7 @@ export function token(state) {
 export function isLoggedIn(state) {
   return !!state.accessToken;
 }
+
+export function visibleProducts(state) {
+  return state.visibleProducts;
+}

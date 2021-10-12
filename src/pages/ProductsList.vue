@@ -10,10 +10,10 @@ import ProductPreview from 'components/Product/ProductPreview';
 export default {
   name: 'ProductsList',
   components: { ProductPreview },
-  data() {
-    return {
-      products: [],
-    };
+  computed: {
+    products() {
+      return this.$store.getters['common/visibleProducts'];
+    },
   },
   async mounted() {
     const { categoryID = 1 } = this.$route.params;
@@ -26,7 +26,7 @@ export default {
     if (this.processError(response)) {
       return;
     }
-    this.products = response.seller_products;
+    this.$store.commit('common/setVisibleProducts', response.seller_products);
   },
 };
 </script>

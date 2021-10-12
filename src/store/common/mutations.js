@@ -24,3 +24,7 @@ export function saveAllOptions(state, options) {
   state.geoRegions = options.geo_regions;
   state.languages = options.languages;
 }
+
+export function setVisibleProducts(state, products) {
+  state.visibleProducts = products;
+}
