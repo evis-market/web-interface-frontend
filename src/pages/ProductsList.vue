@@ -1,6 +1,6 @@
 <template>
-  <div v-for="i in 10" :key="i" class="col-9">
-    <ProductPreview />
+  <div v-for="product in products" :key="product.id" class="col-9">
+    <ProductPreview :product="product" />
   </div>
 </template>
 
@@ -15,8 +15,18 @@ export default {
       products: [],
     };
   },
-  mounted() {
-    const categoryID = this.$route.params.categoryID;
+  async mounted() {
+    const { categoryID = 1 } = this.$route.params;
+    const response = await this.$svc.shop.listCategoryProducts({
+      categoryIDs: categoryID,
+      offset: 0,
+      limit: 20,
+      orderBy: 'name',
+    });
+    if (this.processError(response)) {
+      return;
+    }
+    this.products = response.seller_products;
   },
 };
 </script>
