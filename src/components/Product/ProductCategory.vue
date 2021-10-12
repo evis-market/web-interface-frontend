@@ -43,5 +43,8 @@ export default {
 </script>
 
 <style scoped>
-
+  .active-category {
+    color: white;
+    background: purple;
+  }
 </style>
