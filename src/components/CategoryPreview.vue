@@ -1,5 +1,5 @@
 <template>
-  <div class="category-preview column">
+  <div class="category-preview column cursor-pointer" @click="openProducts">
     <div
       class="row items-center q-mb-lg"
       :class="logo ? 'justify-between' : 'justify-end'"
@@ -40,6 +40,11 @@ export default {
     },
     description() {
       return this.category.descr;
+    },
+  },
+  methods: {
+    openProducts() {
+      this.$router.push({ name: 'productsList', params: { categoryID: this.category.id } });
     },
   },
 };

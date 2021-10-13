@@ -8,7 +8,7 @@
 
       <q-card-section class="middle-section col column">
         <div class="q-mb-auto">
-          <h5 class="q-ma-none">Neighborhood Data</h5>
+          <h5 class="q-ma-none">{{ product.name }}</h5>
           <p>by TovoData</p>
           <article>
             discover: Recent comp sales
@@ -23,7 +23,7 @@
       <q-separator vertical />
 
       <q-card-section class="right-section col column items-center">
-        <p>Pricing available upon request</p>
+        <p>{{ price }}</p>
         <q-btn-group class="column" outline>
           <q-btn color="red" label="Request sample" class="q-mb-md" />
           <q-btn color="purple" label="View product" class="q-mb-auto" />
@@ -32,7 +32,7 @@
           size="2em"
           color="orange"
           readonly
-          :model-value="0"
+          :model-value="product.rating || 0"
           class="q-mt-md"
         />
       </q-card-section>
@@ -43,6 +43,24 @@
 <script>
 export default {
   name: 'ProductPreview',
+  props: ['product'],
+  computed: {
+    price() {
+      if (this.product.price_by_request) {
+        return 'Pricing available upon request';
+      }
+      if (this.product.price_per_month) {
+        return `$${this.product.price_per_month} / month`;
+      }
+      if (this.product.price_per_year) {
+        return `$${this.product.price_per_year} / year`;
+      }
+      if (this.product.price_one_time) {
+        return `$${this.product.price_one_time} / one time`;
+      }
+      return '$0 / month';
+    },
+  },
 };
 </script>
 
