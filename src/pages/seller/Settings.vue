@@ -200,6 +200,7 @@ import { reactive } from 'vue';
 import { ValidateEach } from '@vuelidate/components';
 import { email, required } from '@vuelidate/validators';
 import { svc } from 'boot/svc';
+import erc20Validator from 'src/validators/erc20_validator';
 
 export default {
   name: 'PageSellerSettings',
@@ -228,12 +229,7 @@ export default {
     };
   },
   validations: {
-    wallet: {
-      erc20_validator(val) {
-        if (!val) return true;
-        return !!val.match(/^0x[a-fA-F0-9]{40}$/gi);
-      },
-    },
+    wallet: { erc20Validator },
   },
   computed: {
     emailValues() {
@@ -270,7 +266,7 @@ export default {
       this.processError(response);
     },
   },
-  async beforeCreate() {
+  async mounted() {
     const response = await this.$svc.seller.getSettings();
     if (response.error?.code !== 404 && this.processError(response)) {
       return;
