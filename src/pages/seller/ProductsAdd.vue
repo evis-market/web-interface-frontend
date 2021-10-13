@@ -322,7 +322,7 @@ export default {
       return this.$store.state.common.languages;
     },
     categories() {
-      return this.$store.state.common.allCategories;
+      return this.$store.state.common.allCategories.filter((category) => category.parent_id !== null);
     },
     dataTypes() {
       return this.$store.state.common.dataTypes;
