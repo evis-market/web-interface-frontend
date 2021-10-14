@@ -11,20 +11,22 @@
                 <q-icon name="person" class="col-auto q-mr-md q-mt-sm" size="sm" />
                 <q-input
                   dense
-                  v-model.trim="name"
+                  v-model.trim="v.first_name.$model"
                   label="Display Name"
                   class="col"
-                  :rules="[val => !!val || 'Field is required']"
+                  :error="v.first_name.$error"
+                  :error-message="v.first_name.$errors.map(err => err.$message).join('. ')"
                 />
               </div>
               <div class="row">
-                <q-icon name="description" class="col-auto q-mr-md q-mt-sm" size="sm" />
+                <q-icon name="badge" class="col-auto q-mr-md q-mt-sm" size="sm" />
                 <q-input
                   dense
-                  v-model.trim="description"
-                  label="Description"
+                  v-model.trim="v.last_name.$model"
+                  label="Last name"
                   class="col"
-                  :rules="[val => true]"
+                  :error="v.last_name.$error"
+                  :error-message="v.last_name.$errors.map(err => err.$message).join('. ')"
                 />
               </div>
               <div class="row q-mt-none">
@@ -43,22 +45,23 @@
                 <q-icon name="call" class="col-auto q-mr-md q-mt-sm" size="sm" />
                 <q-input
                   dense
-                  v-model.trim="phone"
+                  v-model.trim="v.phone.$model"
                   type="tel"
                   label="Phone"
                   class="col"
-                  :rules="[val => true]"
+                  :error="v.phone.$error"
+                  :error-message="v.phone.$errors.map(err => err.$message).join('. ')"
                 />
               </div>
               <div class="row q-mt-none">
                 <q-icon name="account_balance_wallet" class="col-auto q-mr-md q-mt-sm" size="sm" />
                 <q-input
                   dense
-                  v-model.trim="v.wallet.$model"
+                  v-model.trim="v.wallet_erc20.$model"
                   label="Wallet"
                   class="col"
-                  :error="v.wallet.$error"
-                  error-message="Incorrect wallet"
+                  :error="v.wallet_erc20.$error"
+                  :error-message="v.wallet_erc20.$errors.map(err => err.$message).join('. ')"
                 />
               </div>
               <div class="row justify-end">
@@ -85,31 +88,70 @@ import TabMenu from 'components/AppLayout/TabMenu';
 import BuyerTabs from 'components/Buyer/BuyerTabs';
 import useVuelidate from '@vuelidate/core';
 import erc20Validator from 'src/validators/erc20_validator';
-import { email, required } from '@vuelidate/validators';
+import { email, required, helpers } from '@vuelidate/validators';
 
 export default {
   name: 'PageBuyerSettings',
   data() {
     return {
       v: useVuelidate(),
-      name: '',
-      wallet: '',
+      first_name: '',
+      last_name: '',
+      wallet_erc20: '',
       email: '',
       phone: '',
-      description: '',
+      vuelidateExternalResults: {
+        first_name: [],
+        last_name: [],
+        wallet_erc20: [],
+        email: [],
+        phone: [],
+      },
     };
   },
   validations: {
-    wallet: { erc20Validator },
+    first_name: { required },
+    last_name: { required },
+    wallet_erc20: {
+      erc20Validator: helpers.withMessage('Incorrect wallet', erc20Validator),
+      required,
+    },
     email: { required, email },
+    phone: { required },
+  },
+  async mounted() {
+    const response = await this.$svc.users.getLoggedInUserProfile();
+    if (this.processError(response)) {
+      return;
+    }
+    const { profile = {} } = response;
+    this.first_name = profile.first_name || '';
+    this.last_name = profile.last_name || '';
+    this.wallet_erc20 = profile.wallet_erc20 || '';
+    this.email = profile.email || '';
+    this.phone = profile.phone || '';
   },
   computed: {
     disableSaving() {
-      return !this.name || !this.email || this.v.$errors.length;
+      return !this.first_name || !this.last_name || !this.email || !this.phone || !this.wallet_erc20 || this.v.$errors.length;
     },
   },
   methods: {
-    updateSettings() {},
+    async updateSettings() {
+      const response = await this.$svc.users.updateLoggedInUserProfile({
+        first_name: this.first_name,
+        last_name: this.last_name,
+        phone: this.phone,
+        email: this.email,
+        wallet_erc20: this.wallet_erc20,
+      });
+      if (this.processErrorWithInvalidFields(response, this.vuelidateExternalResults)) {
+        this.v.$touch();
+        return;
+      }
+      this.v.$reset();
+      this.$notify.success('Settings have been successfully updated');
+    },
   },
   components: {
     TabMenu,
