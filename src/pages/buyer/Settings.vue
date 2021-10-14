@@ -18,11 +18,11 @@
                 />
               </div>
               <div class="row">
-                <q-icon name="description" class="col-auto q-mr-md q-mt-sm" size="sm" />
+                <q-icon name="badge" class="col-auto q-mr-md q-mt-sm" size="sm" />
                 <q-input
                   dense
-                  v-model.trim="description"
-                  label="Description"
+                  v-model.trim="lastName"
+                  label="Last name"
                   class="col"
                   :rules="[val => true]"
                 />
@@ -96,12 +96,24 @@ export default {
       wallet: '',
       email: '',
       phone: '',
-      description: '',
+      lastName: '',
     };
   },
   validations: {
     wallet: { erc20Validator },
     email: { required, email },
+  },
+  async mounted() {
+    const response = await this.$svc.users.getLoggedInUserProfile();
+    if (this.processError(response)) {
+      return;
+    }
+    const { profile = {} } = response;
+    this.name = profile.first_name || '';
+    this.lastName = profile.last_name || '';
+    this.wallet = profile.wallet_erc20 || '';
+    this.email = profile.email || '';
+    this.phone = profile.phone || '';
   },
   computed: {
     disableSaving() {
