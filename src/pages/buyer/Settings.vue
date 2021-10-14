@@ -11,20 +11,22 @@
                 <q-icon name="person" class="col-auto q-mr-md q-mt-sm" size="sm" />
                 <q-input
                   dense
-                  v-model.trim="first_name"
+                  v-model.trim="v.first_name.$model"
                   label="Display Name"
                   class="col"
-                  :rules="[val => !!val || 'Field is required']"
+                  :error="v.first_name.$error"
+                  :error-message="v.first_name.$errors.map(err => err.$message).join('. ')"
                 />
               </div>
               <div class="row">
                 <q-icon name="badge" class="col-auto q-mr-md q-mt-sm" size="sm" />
                 <q-input
                   dense
-                  v-model.trim="last_name"
+                  v-model.trim="v.last_name.$model"
                   label="Last name"
                   class="col"
-                  :rules="[val => true]"
+                  :error="v.last_name.$error"
+                  :error-message="v.last_name.$errors.map(err => err.$message).join('. ')"
                 />
               </div>
               <div class="row q-mt-none">
@@ -43,11 +45,12 @@
                 <q-icon name="call" class="col-auto q-mr-md q-mt-sm" size="sm" />
                 <q-input
                   dense
-                  v-model.trim="phone"
+                  v-model.trim="v.phone.$model"
                   type="tel"
                   label="Phone"
                   class="col"
-                  :rules="[val => true]"
+                  :error="v.phone.$error"
+                  :error-message="v.phone.$errors.map(err => err.$message).join('. ')"
                 />
               </div>
               <div class="row q-mt-none">
@@ -58,7 +61,7 @@
                   label="Wallet"
                   class="col"
                   :error="v.wallet_erc20.$error"
-                  error-message="Incorrect wallet"
+                  :error-message="v.wallet_erc20.$errors.map(err => err.$message).join('. ')"
                 />
               </div>
               <div class="row justify-end">
@@ -85,7 +88,7 @@ import TabMenu from 'components/AppLayout/TabMenu';
 import BuyerTabs from 'components/Buyer/BuyerTabs';
 import useVuelidate from '@vuelidate/core';
 import erc20Validator from 'src/validators/erc20_validator';
-import { email, required } from '@vuelidate/validators';
+import { email, required, helpers } from '@vuelidate/validators';
 
 export default {
   name: 'PageBuyerSettings',
@@ -107,8 +110,11 @@ export default {
     };
   },
   validations: {
-    wallet_erc20: { erc20Validator },
+    first_name: { required },
+    last_name: { required },
+    wallet_erc20: { erc20Validator: helpers.withMessage('Incorrect wallet', erc20Validator) },
     email: { required, email },
+    phone: { required },
   },
   async mounted() {
     const response = await this.$svc.users.getLoggedInUserProfile();
@@ -124,7 +130,7 @@ export default {
   },
   computed: {
     disableSaving() {
-      return !this.first_name || !this.email || this.v.$errors.length;
+      return !this.first_name || !this.last_name || !this.email || !this.phone || this.v.$errors.length;
     },
   },
   methods: {
@@ -137,8 +143,10 @@ export default {
         wallet_erc20: this.wallet_erc20,
       });
       if (this.processErrorWithInvalidFields(response, this.vuelidateExternalResults)) {
+        this.v.$touch();
         return;
       }
+      this.v.$reset();
       this.$notify.success('Settings have been successfully updated');
     },
   },
