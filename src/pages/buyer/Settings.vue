@@ -112,7 +112,10 @@ export default {
   validations: {
     first_name: { required },
     last_name: { required },
-    wallet_erc20: { erc20Validator: helpers.withMessage('Incorrect wallet', erc20Validator) },
+    wallet_erc20: {
+      erc20Validator: helpers.withMessage('Incorrect wallet', erc20Validator),
+      required,
+    },
     email: { required, email },
     phone: { required },
   },
