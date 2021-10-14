@@ -133,7 +133,7 @@ export default {
   },
   computed: {
     disableSaving() {
-      return !this.first_name || !this.last_name || !this.email || !this.phone || this.v.$errors.length;
+      return !this.first_name || !this.last_name || !this.email || !this.phone || !this.wallet_erc20 || this.v.$errors.length;
     },
   },
   methods: {
