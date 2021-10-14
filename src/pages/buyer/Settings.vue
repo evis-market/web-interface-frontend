@@ -11,7 +11,7 @@
                 <q-icon name="person" class="col-auto q-mr-md q-mt-sm" size="sm" />
                 <q-input
                   dense
-                  v-model.trim="name"
+                  v-model.trim="first_name"
                   label="Display Name"
                   class="col"
                   :rules="[val => !!val || 'Field is required']"
@@ -21,7 +21,7 @@
                 <q-icon name="badge" class="col-auto q-mr-md q-mt-sm" size="sm" />
                 <q-input
                   dense
-                  v-model.trim="lastName"
+                  v-model.trim="last_name"
                   label="Last name"
                   class="col"
                   :rules="[val => true]"
@@ -54,10 +54,10 @@
                 <q-icon name="account_balance_wallet" class="col-auto q-mr-md q-mt-sm" size="sm" />
                 <q-input
                   dense
-                  v-model.trim="v.wallet.$model"
+                  v-model.trim="v.wallet_erc20.$model"
                   label="Wallet"
                   class="col"
-                  :error="v.wallet.$error"
+                  :error="v.wallet_erc20.$error"
                   error-message="Incorrect wallet"
                 />
               </div>
@@ -92,15 +92,22 @@ export default {
   data() {
     return {
       v: useVuelidate(),
-      name: '',
-      wallet: '',
+      first_name: '',
+      last_name: '',
+      wallet_erc20: '',
       email: '',
       phone: '',
-      lastName: '',
+      vuelidateExternalResults: {
+        first_name: [],
+        last_name: [],
+        wallet_erc20: [],
+        email: [],
+        phone: [],
+      },
     };
   },
   validations: {
-    wallet: { erc20Validator },
+    wallet_erc20: { erc20Validator },
     email: { required, email },
   },
   async mounted() {
@@ -109,19 +116,31 @@ export default {
       return;
     }
     const { profile = {} } = response;
-    this.name = profile.first_name || '';
-    this.lastName = profile.last_name || '';
-    this.wallet = profile.wallet_erc20 || '';
+    this.first_name = profile.first_name || '';
+    this.last_name = profile.last_name || '';
+    this.wallet_erc20 = profile.wallet_erc20 || '';
     this.email = profile.email || '';
     this.phone = profile.phone || '';
   },
   computed: {
     disableSaving() {
-      return !this.name || !this.email || this.v.$errors.length;
+      return !this.first_name || !this.email || this.v.$errors.length;
     },
   },
   methods: {
-    updateSettings() {},
+    async updateSettings() {
+      const response = await this.$svc.users.updateLoggedInUserProfile({
+        first_name: this.first_name,
+        last_name: this.last_name,
+        phone: this.phone,
+        email: this.email,
+        wallet_erc20: this.wallet_erc20,
+      });
+      if (this.processErrorWithInvalidFields(response, this.vuelidateExternalResults)) {
+        return;
+      }
+      this.$notify.success('Settings have been successfully updated');
+    },
   },
   components: {
     TabMenu,
