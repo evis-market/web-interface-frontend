@@ -265,7 +265,9 @@ export default {
     name: { required },
     descr: { required },
     logo_url: {},
-    wallet_for_payments_erc20: { erc20Validator, required },
+    wallet_for_payments_erc20: {
+      erc20Validator: helpers.withMessage('Incorrect wallet', erc20Validator),
+    },
   },
   computed: {
     emailValues() {
