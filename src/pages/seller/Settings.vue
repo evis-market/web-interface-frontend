@@ -250,13 +250,14 @@ export default {
   },
   validations: {
     name: { required },
-    descr: {},
+    descr: { required },
     logo_url: {},
     wallet_for_payments_erc20: {
       erc20_validator: helpers.withMessage('Incorrect wallet', (val) => {
         if (!val) return true;
         return !!val.match(/^0x[a-fA-F0-9]{40}$/gi);
       }),
+      required,
     },
   },
   computed: {
@@ -286,13 +287,16 @@ export default {
       this.emailsKey += 1;
     },
     async updateSettings() {
-      const response = await this.$svc.seller.updateSettings({
+      const data = {
         name: this.name,
         descr: this.descr,
         logo_url: window.location + (this.logo_url?.name || ''),
         wallet_for_payments_erc20: this.wallet_for_payments_erc20,
-        contacts: [...this.sites, ...this.emails, ...this.phones],
-      });
+        contacts: [...this.emails],
+      };
+      if (this.sites.some((obj) => obj.value)) data.contacts.push(this.sites);
+      if (this.phones.some((obj) => obj.value)) data.contacts.push(this.phones);
+      const response = await this.$svc.seller.updateSettings(data);
       if (this.processErrorWithInvalidFields(response, this.vuelidateExternalResults)) {
         this.v.$touch();
         return;
@@ -339,6 +343,7 @@ export default {
     }
 
     ['phones', 'emails', 'sites'].forEach((arrName) => this.addDynamicFieldIDs(arrName));
+    this.emailsKey += 1;
   },
   components: {
     TabMenu,
