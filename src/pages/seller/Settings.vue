@@ -311,9 +311,9 @@ export default {
 
       const response = await this.$svc.seller.updateSettings(data);
       if (this.processErrorWithInvalidFields(response, this.vuelidateExternalResults)) {
-        const { contacts } = this.vuelidateExternalResults;
-        Object.keys(contacts).forEach((idx) => {
-          data.contacts[idx].errorMessage = contacts[idx];
+        const contactsErrors = this.vuelidateExternalResults.contacts;
+        Object.keys(contactsErrors).forEach((idx) => {
+          data.contacts[idx].errorMessage = contactsErrors[idx];
         });
         this.v.$touch();
         return;
