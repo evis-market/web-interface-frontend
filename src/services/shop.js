@@ -17,7 +17,7 @@ export default class ShopSvc {
   async listCategoryProducts(params) {
     return this.httpSvc.get(`${this.apiBaseURL}/api/v1/shop/products/`, {
       params: {
-        category_ids: params.parentID,
+        category_ids: params.categoryIDs,
         offset: params.offset,
         limit: params.limit,
         order_by: params.orderBy,

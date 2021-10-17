@@ -214,6 +214,7 @@ import { reactive } from 'vue';
 import { ValidateEach } from '@vuelidate/components';
 import { email, required, helpers } from '@vuelidate/validators';
 import { svc } from 'boot/svc';
+import erc20Validator from 'src/validators/erc20_validator';
 
 export default {
   name: 'PageSellerSettings',
@@ -264,13 +265,7 @@ export default {
     name: { required },
     descr: { required },
     logo_url: {},
-    wallet_for_payments_erc20: {
-      erc20_validator: helpers.withMessage('Incorrect wallet', (val) => {
-        if (!val) return true;
-        return !!val.match(/^0x[a-fA-F0-9]{40}$/gi);
-      }),
-      required,
-    },
+    wallet_for_payments_erc20: { erc20Validator, required },
   },
   computed: {
     emailValues() {
