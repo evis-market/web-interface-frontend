@@ -49,7 +49,9 @@
                       v-model.trim="field.value"
                       class="col"
                       label="Site"
-                      :rules="[val => true]"
+                      @focus="field.errorMessage = ''"
+                      :error="!!field.errorMessage.length"
+                      :error-message="field.errorMessage"
                     />
                     <div class="row q-mb-lg justify-between q-gutter-x-sm buttons-group">
                       <q-btn
@@ -91,8 +93,9 @@
                           type="email"
                           class="col"
                           label="Email"
-                          :error="v.value.$error"
-                          :error-message="v.value.$errors.map(err => err.$message).join('. ')"
+                          @focus="item.errorMessage = ''"
+                          :error="v.value.$error || !!item.errorMessage.length"
+                          :error-message="v.value.$errors.map(err => err.$message).join('. ') || item.errorMessage"
                         />
                         <q-input
                           dense
@@ -137,7 +140,9 @@
                       type="tel"
                       class="col"
                       label="Phone"
-                      :rules="[val => true]"
+                      @focus="field.errorMessage = ''"
+                      :error="!!field.errorMessage.length"
+                      :error-message="field.errorMessage"
                     />
                     <q-input
                       dense
@@ -217,7 +222,9 @@ export default {
       value: { email, required },
     };
     const emails = reactive([
-      { type_id: svc.seller.ContactTypeIDEmail, value: '', comment: '' },
+      {
+        type_id: svc.seller.ContactTypeIDEmail, value: '', comment: '', errorMessage: '',
+      },
     ]);
     const v = useVuelidate();
     return { rules, emails, v };
@@ -234,10 +241,14 @@ export default {
       descr: '',
       logo_url: null,
       sites: [
-        { type_id: this.$svc.seller.ContactTypeIDSite, value: '', comment: '' },
+        {
+          type_id: this.$svc.seller.ContactTypeIDSite, value: '', comment: '', errorMessage: '',
+        },
       ],
       phones: [
-        { type_id: this.$svc.seller.ContactTypeIDPhone, value: '', comment: '' },
+        {
+          type_id: this.$svc.seller.ContactTypeIDPhone, value: '', comment: '', errorMessage: '',
+        },
       ],
       wallet_for_payments_erc20: '',
       vuelidateExternalResults: {
@@ -245,6 +256,7 @@ export default {
         descr: [],
         logo_url: [],
         wallet_for_payments_erc20: [],
+        contacts: [],
       },
     };
   },
@@ -294,15 +306,25 @@ export default {
         wallet_for_payments_erc20: this.wallet_for_payments_erc20,
         contacts: [...this.emails],
       };
-      if (this.sites.some((obj) => obj.value)) data.contacts.push(this.sites);
-      if (this.phones.some((obj) => obj.value)) data.contacts.push(this.phones);
+      if (this.sites.some((obj) => obj.value)) data.contacts.push(...this.sites);
+      if (this.phones.some((obj) => obj.value)) data.contacts.push(...this.phones);
+
       const response = await this.$svc.seller.updateSettings(data);
       if (this.processErrorWithInvalidFields(response, this.vuelidateExternalResults)) {
+        const { contacts } = this.vuelidateExternalResults;
+        Object.keys(contacts).forEach((idx) => {
+          data.contacts[idx].errorMessage = contacts[idx];
+        });
         this.v.$touch();
         return;
       }
       this.$notify.success('Settings have been successfully updated');
       this.v.$reset();
+    },
+    addEmptyErrorMessages(fieldName) {
+      this[fieldName].forEach((el) => {
+        el.errorMessage = '';
+      });
     },
     addDynamicFieldIDs(fieldName) {
       this[fieldName].forEach((el) => {
@@ -330,19 +352,25 @@ export default {
     if (contacts) {
       const sites = contacts.filter((contact) => contact.type_id === this.$svc.seller.ContactTypeIDSite);
       if (sites.length) {
-        this.sites = sites;
+        this.sites.splice(0);
+        this.sites.push(...sites);
       }
       const phones = contacts.filter((contact) => contact.type_id === this.$svc.seller.ContactTypeIDPhone);
       if (phones.length) {
-        this.phones = phones;
+        this.phones.splice(0);
+        this.phones.push(...phones);
       }
       const emails = contacts.filter((contact) => contact.type_id === this.$svc.seller.ContactTypeIDEmail);
       if (emails.length) {
-        this.emails = emails;
+        this.emails.splice(0);
+        this.emails.push(...emails);
       }
     }
 
-    ['phones', 'emails', 'sites'].forEach((arrName) => this.addDynamicFieldIDs(arrName));
+    ['phones', 'emails', 'sites'].forEach((arrName) => {
+      this.addEmptyErrorMessages(arrName);
+      this.addDynamicFieldIDs(arrName);
+    });
     this.emailsKey += 1;
   },
   components: {
