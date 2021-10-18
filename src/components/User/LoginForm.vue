@@ -6,22 +6,22 @@
     <q-input
       filled
       ref="email"
-      v-model.trim="email"
+      v-model.trim="v.login.$model"
       type="email"
       label="Email"
       hide-bottom-space
-      error-message="Please enter a valid email address"
-      :error="!!email.length && v.email.$invalid"
+      :error-message="v.login.$errors.map(err => err.$message).join('. ')"
+      :error="v.login.$error"
     />
     <q-input
       filled
       ref="password"
-      v-model="password"
+      v-model="v.password.$model"
       type="password"
       label="Password"
       hide-bottom-space
-      error-message="Password length of 8 to 32 characters"
-      :error="!!password.length && v.password.$invalid"
+      :error-message="v.password.$errors.map(err => err.$message).join('. ')"
+      :error="v.password.$error"
     />
     <!--
     <q-checkbox
@@ -65,21 +65,25 @@ export default {
 
   data() {
     return {
-      email: '',
+      login: '',
       password: '',
       errorMessages: [],
+      vuelidateExternalResults: {
+        login: [],
+        password: [],
+      },
     };
   },
 
   validations: {
-    email: { required, email },
+    login: { required, email },
     password: { required },
   },
 
   methods: {
     async loginSubmit() {
-      const response = await this.$svc.auth.grantTokenByPassword(this.email, this.password);
-      if (this.processError(response)) {
+      const response = await this.$svc.auth.grantTokenByPassword(this.login, this.password);
+      if (this.processErrorWithInvalidFields(response, this.vuelidateExternalResults)) {
         return;
       }
       await this.$router.push({ name: 'sellerProductsList' });

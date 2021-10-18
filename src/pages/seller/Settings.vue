@@ -11,25 +11,34 @@
                 <q-icon name="person" class="col-auto q-mr-md q-mt-sm" size="sm" />
                 <q-input
                   dense
-                  v-model.trim="name"
+                  v-model.trim="v.name.$model"
                   label="Display Name"
                   class="col"
-                  :rules="[val => !!val || 'Field is required']"
+                  :error-message="v.name.$errors.map(err => err.$message).join('. ')"
+                  :error="v.name.$error"
                 />
               </div>
               <div class="row">
                 <q-icon name="description" class="col-auto q-mr-md q-mt-sm" size="sm" />
                 <q-input
                   dense
-                  v-model.trim="description"
+                  v-model.trim="v.descr.$model"
                   label="Description"
                   class="col"
-                  :rules="[val => true]"
+                  :error-message="v.descr.$errors.map(err => err.$message).join('. ')"
+                  :error="v.descr.$error"
                 />
               </div>
               <div class="row">
                 <q-icon name="attach_file" class="col-auto q-mr-md q-mt-sm" size="sm" />
-                <q-file dense v-model="logo" label="Logo" class="col" :rules="[val => true]" />
+                <q-file
+                  dense
+                  v-model="v.logo_url.$model"
+                  label="Logo"
+                  class="col"
+                  :error-message="v.logo_url.$errors.map(err => err.$message).join('. ')"
+                  :error="v.logo_url.$error"
+                />
               </div>
               <div class="row">
                 <q-icon name="link" class="col-auto q-mr-md q-mt-sm" size="sm" />
@@ -40,7 +49,9 @@
                       v-model.trim="field.value"
                       class="col"
                       label="Site"
-                      :rules="[val => true]"
+                      @focus="field.errorMessage = ''"
+                      :error="!!field.errorMessage.length"
+                      :error-message="field.errorMessage"
                     />
                     <div class="row q-mb-lg justify-between q-gutter-x-sm buttons-group">
                       <q-btn
@@ -65,7 +76,7 @@
                   </div>
                 </div>
               </div>
-              <div class="row q-mt-none">
+              <div class="row q-mt-none" :key="emailsKey">
                 <q-icon name="email" class="col-auto q-mr-md q-mt-sm" size="sm" />
                 <div class="col">
                   <ValidateEach
@@ -82,8 +93,9 @@
                           type="email"
                           class="col"
                           label="Email"
-                          :error="v.value.$error"
-                          :error-message="v.value.$errors.map(err => err.$message).join('. ')"
+                          @focus="item.errorMessage = ''"
+                          :error="v.value.$error || !!item.errorMessage.length"
+                          :error-message="v.value.$errors.map(err => err.$message).join('. ') || item.errorMessage"
                         />
                         <q-input
                           dense
@@ -128,7 +140,9 @@
                       type="tel"
                       class="col"
                       label="Phone"
-                      :rules="[val => true]"
+                      @focus="field.errorMessage = ''"
+                      :error="!!field.errorMessage.length"
+                      :error-message="field.errorMessage"
                     />
                     <q-input
                       dense
@@ -165,11 +179,11 @@
                 <q-icon name="account_balance_wallet" class="col-auto q-mr-md q-mt-sm" size="sm" />
                 <q-input
                   dense
-                  v-model.trim="v.wallet.$model"
+                  v-model.trim="v.wallet_for_payments_erc20.$model"
                   label="Wallet"
                   class="col"
-                  :error="v.wallet.$error"
-                  error-message="Incorrect wallet"
+                  :error="v.wallet_for_payments_erc20.$error"
+                  :error-message="v.wallet_for_payments_erc20.$errors.map(err => err.$message).join('. ')"
                 />
               </div>
               <div class="row justify-end">
@@ -198,7 +212,7 @@ import SellerTabs from 'components/Seller/SellerTabs';
 import useVuelidate from '@vuelidate/core';
 import { reactive } from 'vue';
 import { ValidateEach } from '@vuelidate/components';
-import { email, required } from '@vuelidate/validators';
+import { email, required, helpers } from '@vuelidate/validators';
 import { svc } from 'boot/svc';
 import erc20Validator from 'src/validators/erc20_validator';
 
@@ -209,27 +223,51 @@ export default {
       value: { email, required },
     };
     const emails = reactive([
-      { type_id: svc.seller.ContactTypeIDEmail, value: '', comment: '' },
+      {
+        type_id: svc.seller.ContactTypeIDEmail, value: '', comment: '', errorMessage: '',
+      },
     ]);
     const v = useVuelidate();
     return { rules, emails, v };
   },
   data() {
     return {
+      emailsKey: 0,
+      fieldIDs: {
+        emails: 0,
+        phones: 0,
+        sites: 0,
+      },
       name: '',
-      description: '',
-      logo: null,
+      descr: '',
+      logo_url: null,
       sites: [
-        { type_id: this.$svc.seller.ContactTypeIDSite, value: '', comment: '' },
+        {
+          type_id: this.$svc.seller.ContactTypeIDSite, value: '', comment: '', errorMessage: '',
+        },
       ],
       phones: [
-        { type_id: this.$svc.seller.ContactTypeIDPhone, value: '', comment: '' },
+        {
+          type_id: this.$svc.seller.ContactTypeIDPhone, value: '', comment: '', errorMessage: '',
+        },
       ],
-      wallet: '',
+      wallet_for_payments_erc20: '',
+      vuelidateExternalResults: {
+        name: [],
+        descr: [],
+        logo_url: [],
+        wallet_for_payments_erc20: [],
+        contacts: [],
+      },
     };
   },
   validations: {
-    wallet: { erc20Validator },
+    name: { required },
+    descr: { required },
+    logo_url: {},
+    wallet_for_payments_erc20: {
+      erc20Validator: helpers.withMessage('Incorrect wallet', erc20Validator),
+    },
   },
   computed: {
     emailValues() {
@@ -242,6 +280,7 @@ export default {
   methods: {
     clearField(targetObjectName, id) {
       this[targetObjectName].splice(this[targetObjectName].findIndex((item) => item.id === id), 1);
+      this.emailsKey += 1;
     },
     addField(targetObjectName) {
       const typeIDs = {
@@ -254,16 +293,41 @@ export default {
         value: '',
         comment: '',
       });
+      this.emailsKey += 1;
     },
     async updateSettings() {
-      const response = await this.$svc.seller.updateSettings({
+      const data = {
         name: this.name,
-        descr: this.description,
-        logo_url: window.location + (this.logo?.name || ''),
-        wallet_for_payments_erc20: this.wallet,
-        contacts: [...this.sites, ...this.emails, ...this.phones],
+        descr: this.descr,
+        logo_url: window.location + (this.logo_url?.name || ''),
+        wallet_for_payments_erc20: this.wallet_for_payments_erc20,
+        contacts: [...this.emails],
+      };
+      if (this.sites.some((obj) => obj.value)) data.contacts.push(...this.sites);
+      if (this.phones.some((obj) => obj.value)) data.contacts.push(...this.phones);
+
+      const response = await this.$svc.seller.updateSettings(data);
+      if (this.processErrorWithInvalidFields(response, this.vuelidateExternalResults)) {
+        const contactsErrors = this.vuelidateExternalResults.contacts;
+        Object.keys(contactsErrors).forEach((idx) => {
+          data.contacts[idx].errorMessage = contactsErrors[idx];
+        });
+        this.v.$touch();
+        return;
+      }
+      this.$notify.success('Settings have been successfully updated');
+      this.v.$reset();
+    },
+    addEmptyErrorMessages(fieldName) {
+      this[fieldName].forEach((el) => {
+        el.errorMessage = '';
       });
-      this.processError(response);
+    },
+    addDynamicFieldIDs(fieldName) {
+      this[fieldName].forEach((el) => {
+        el.id = this.fieldIDs[fieldName];
+        this.fieldIDs[fieldName] += 1;
+      });
     },
   },
   async mounted() {
@@ -274,28 +338,37 @@ export default {
 
     const seller = response.seller || {};
     this.name = seller.name || '';
-    this.description = seller.description || '';
-    this.wallet = seller.wallet_for_payments_erc20 || '';
+    this.descr = seller.descr || '';
+    this.wallet_for_payments_erc20 = seller.wallet_for_payments_erc20 || '';
     const logo = seller.logo_url;
     if (logo) {
-      this.logo = new File([logo], logo, { type: 'image/jpeg' });
+      this.logo_url = new File([logo], logo, { type: 'image/jpeg' });
     }
 
     const { contacts } = seller;
     if (contacts) {
       const sites = contacts.filter((contact) => contact.type_id === this.$svc.seller.ContactTypeIDSite);
       if (sites.length) {
-        this.sites = sites;
+        this.sites.splice(0);
+        this.sites.push(...sites);
       }
       const phones = contacts.filter((contact) => contact.type_id === this.$svc.seller.ContactTypeIDPhone);
       if (phones.length) {
-        this.phones = phones;
+        this.phones.splice(0);
+        this.phones.push(...phones);
       }
       const emails = contacts.filter((contact) => contact.type_id === this.$svc.seller.ContactTypeIDEmail);
       if (emails.length) {
-        this.emails = emails;
+        this.emails.splice(0);
+        this.emails.push(...emails);
       }
     }
+
+    ['phones', 'emails', 'sites'].forEach((arrName) => {
+      this.addEmptyErrorMessages(arrName);
+      this.addDynamicFieldIDs(arrName);
+    });
+    this.emailsKey += 1;
   },
   components: {
     TabMenu,
