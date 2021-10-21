@@ -1,5 +1,5 @@
 <template>
-  <q-card class="product-preview q-mb-lg" flat bordered>
+  <q-card class="product-preview q-mb-lg cursor-pointer" flat bordered @click="openProduct">
     <q-card-section horizontal>
       <q-card-section class="left-section col-2 column">
         <q-icon name="polymer" size="xl" color="primary" class="q-mb-auto" />
@@ -59,6 +59,11 @@ export default {
         return `$${this.product.price_one_time} / one time`;
       }
       return '$0 / month';
+    },
+  },
+  methods: {
+    openProduct() {
+      this.$router.push({ name: 'product', params: { id: this.product.id } });
     },
   },
 };
