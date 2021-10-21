@@ -1,6 +1,58 @@
 <template>
   <q-card>
     <q-card-section>
+      <div class="row q-mb-lg">
+        <div class="col-12 col-sm q-mr-lg">
+          <div class="text-h5">TovoData U.S. Neighborhood Data</div>
+          <q-rating
+            size="2em"
+            color="orange"
+            readonly
+            :model-value="0"
+            class="q-mb-md"
+          />
+          <p>
+            Gain the insight on local markets.
+            You can discover:
+            Recent comp sales
+            Comp owner name
+            Comp sale price
+            Comp bed / bath
+            Owner occupied
+            Comp taxes
+            and much, much more!
+          </p>
+        </div>
+        <div class="seller-card col-4">
+          <div class="q-mb-sm text-center">Pricing available upon request</div>
+          <q-card class="q-mb-md">
+            <q-card-section class="q-pa-md">
+              <div class="row justify-between items-center">
+                <q-icon name="polymer" size="xl" color="primary" class="col q-mr-md" />
+                <div class="col">
+                  <div class="text-h6">TovoData</div>
+                  <div class="text-subtitle2">Real Estate Data To Fuel Your Apps</div>
+                </div>
+              </div>
+            </q-card-section>
+            <q-separator />
+            <q-card-section class="q-pa-md">
+              <div><span class="q-mr-xs"><q-icon name="done" /></span>Verified Provider</div>
+              <div>100% Response Rate</div>
+            </q-card-section>
+            <q-separator />
+            <q-card-section class="q-pa-md">
+              <div>tovodata.com</div>
+              <div>sales@tovodata.com</div>
+              <div>+1 (877) 245-3237</div>
+            </q-card-section>
+          </q-card>
+          <q-btn-group class="column full-width" outline>
+            <q-btn color="red" label="Request Data Sample" class="q-mb-md" />
+            <q-btn color="green" label="Buy" />
+          </q-btn-group>
+        </div>
+      </div>
       <div class="row">
         <div class="col-6 col-sm-4 q-mb-lg">
           <div class="text-h5">Data Types</div>
@@ -86,5 +138,8 @@ export default {
 </script>
 
 <style scoped>
-
+  .seller-card {
+    max-width: 300px;
+    min-width: 300px;
+  }
 </style>
