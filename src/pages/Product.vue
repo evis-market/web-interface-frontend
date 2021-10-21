@@ -1,6 +1,37 @@
 <template>
   <q-card>
     <q-card-section>
+      <div class="row">
+        <div class="col-6 col-sm-4 q-mb-lg">
+          <div class="text-h5">Data Types</div>
+          <q-chip size="md">Image</q-chip>
+          <q-chip size="md">Table</q-chip>
+        </div>
+        <div class="col-6 col-sm-4 q-mb-lg">
+          <div class="text-h5">Languages</div>
+          <q-chip size="md">English</q-chip>
+          <q-chip size="md">Spanish</q-chip>
+        </div>
+        <div class="col-6 col-sm-4 q-mb-lg">
+          <div class="text-h5">Delivery Methods</div>
+          <q-chip size="md">S3</q-chip>
+          <q-chip size="md">SFTP</q-chip>
+          <q-chip size="md">Email</q-chip>
+        </div>
+        <div class="col-6 col-sm-4 q-mb-lg">
+          <div class="text-h5">Data Formats</div>
+          <q-chip size="md">XML</q-chip>
+          <q-chip size="md">XLS</q-chip>
+          <q-chip size="md">JSON</q-chip>
+          <q-chip size="md">SQL</q-chip>
+        </div>
+        <div class="col-6 col-sm-4 q-mb-lg">
+          <div class="text-h5">Geography</div>
+          <q-chip size="md">USA</q-chip>
+          <q-chip size="md">Mexico</q-chip>
+          <q-chip size="md">Canada</q-chip>
+        </div>
+      </div>
       <div class="text-h5 q-mb-sm">Reviews</div>
       <div class="row items-center q-mb-md" v-for="i in reviewsCount" :key="i">
         <div class="col">
