@@ -27,7 +27,7 @@ export default {
       return this.$store.getters['common/getMainCategories'];
     },
     activeCategory() {
-      return this.$route.params.categoryID || 1;
+      return this.$route.params.categoryID;
     },
   },
   methods: {

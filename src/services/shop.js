@@ -20,7 +20,7 @@ export default class ShopSvc {
       limit: data.limit || 20,
       order_by: data.orderBy || 'name',
     };
-    if (data.category_ids) {
+    if (data.categoryIDs) {
       params.category_ids = data.categoryIDs;
     }
     if (data.productName) {
