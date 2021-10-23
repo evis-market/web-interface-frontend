@@ -23,7 +23,7 @@
       <q-separator vertical />
 
       <q-card-section class="right-section col column items-center">
-        <p>{{ price }}</p>
+        <p>{{ productPrice }}</p>
         <q-btn-group class="column" outline>
           <q-btn color="red" label="Request sample" class="q-mb-md" />
           <q-btn color="purple" label="View product" class="q-mb-auto" />
@@ -41,25 +41,15 @@
 </template>
 
 <script>
+import getProductPrice from 'src/composables/productPrice';
+import { toRefs } from 'vue';
+
 export default {
   name: 'ProductPreview',
   props: ['product'],
-  computed: {
-    price() {
-      if (this.product.price_by_request) {
-        return 'Pricing available upon request';
-      }
-      if (this.product.price_per_month) {
-        return `$${this.product.price_per_month} / month`;
-      }
-      if (this.product.price_per_year) {
-        return `$${this.product.price_per_year} / year`;
-      }
-      if (this.product.price_one_time) {
-        return `$${this.product.price_one_time} / one time`;
-      }
-      return '$0 / month';
-    },
+  setup(props) {
+    const { product } = toRefs(props);
+    return getProductPrice(product);
   },
   methods: {
     openProduct() {
