@@ -131,24 +131,8 @@ export default {
   },
   async mounted() {
     const productID = Number(this.$route.params.id);
-    const response = await this.$svc.seller_products.getSellerProduct(productID);
-    if (this.processError(response)) {
-      return;
-    }
-
-    this.product.name = response.name;
-    this.product.description = response.descr;
-    this.product.sellerName = response.seller?.name || '';
-
-    const { productPrice } = getProductPrice(response);
-    this.productPrice = productPrice;
-
-    const relatedProductsResponse = await this.$svc.shop.getRelatedProducts(productID);
-    if (this.processError(relatedProductsResponse)) {
-      return;
-    }
-    const relatedProducts = relatedProductsResponse.related_products.filter((prod) => prod.id !== productID);
-    this.relatedProducts.push(...relatedProducts);
+    this.fetchProduct(productID);
+    this.fetchRelatedProducts(productID);
   },
   computed: {
     reviewsButtonText() {
@@ -162,6 +146,27 @@ export default {
       } else {
         this.reviewsCount = 3;
       }
+    },
+    async fetchProduct(productID) {
+      const response = await this.$svc.seller_products.getSellerProduct(productID);
+      if (this.processError(response)) {
+        return;
+      }
+
+      this.product.name = response.name;
+      this.product.description = response.descr;
+      this.product.sellerName = response.seller?.name || '';
+
+      const { productPrice } = getProductPrice(response);
+      this.productPrice = productPrice;
+    },
+    async fetchRelatedProducts(productID) {
+      const response = await this.$svc.shop.getRelatedProducts(productID);
+      if (this.processError(response)) {
+        return;
+      }
+      const relatedProducts = response.related_products.filter((prod) => prod.id !== productID);
+      this.relatedProducts.push(...relatedProducts);
     },
   },
   components: { ProductPreview },
