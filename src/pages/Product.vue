@@ -91,9 +91,10 @@
       </div>
       <q-btn color="blue" :label="reviewsButtonText" @click="manageReviews"></q-btn>
       <q-separator spaced="xl" color="white" />
-      <div class="text-h5 q-mb-sm">Related Products</div>
-      <ProductPreview :product="{ name: 'Some product', id: 100 }"/>
-      <ProductPreview :product="{ name: 'Related product', id: 101 }" />
+      <div class="text-h5 q-mb-sm" v-if="relatedProducts.length">Related Products</div>
+      <div v-for="product in relatedProducts" :key="product.id">
+        <ProductPreview :product="product"/>
+      </div>
     </q-card-section>
   </q-card>
 </template>
@@ -125,10 +126,12 @@ export default {
     return {
       reviewsCount: 3,
       reviewsOpened: false,
+      relatedProducts: [],
     };
   },
   async mounted() {
-    const response = await this.$svc.seller_products.getSellerProduct(this.$route.params.id);
+    const productID = Number(this.$route.params.id);
+    const response = await this.$svc.seller_products.getSellerProduct(productID);
     if (this.processError(response)) {
       return;
     }
@@ -139,6 +142,13 @@ export default {
 
     const { productPrice } = getProductPrice(response);
     this.productPrice = productPrice;
+
+    const relatedProductsResponse = await this.$svc.shop.getRelatedProducts(productID);
+    if (this.processError(relatedProductsResponse)) {
+      return;
+    }
+    const relatedProducts = relatedProductsResponse.related_products.filter((prod) => prod.id !== productID);
+    this.relatedProducts.push(...relatedProducts);
   },
   computed: {
     reviewsButtonText() {
