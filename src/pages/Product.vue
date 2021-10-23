@@ -136,6 +136,9 @@ export default {
     this.product.name = response.name;
     this.product.description = response.descr;
     this.product.sellerName = response.seller?.name || '';
+
+    const { productPrice } = getProductPrice(response);
+    this.productPrice = productPrice;
   },
   computed: {
     reviewsButtonText() {
