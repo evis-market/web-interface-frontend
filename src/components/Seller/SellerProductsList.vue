@@ -23,6 +23,8 @@
 </template>
 
 <script>
+import getProductPrice from 'src/composables/productPrice';
+
 export default {
   name: 'SellerProductsList',
   async mounted() {
@@ -30,13 +32,17 @@ export default {
     if (this.processError(response)) {
       return;
     }
-    this.products = response['seller-products'].map((product) => ({
-      id: product.id,
-      name: product.name,
-      price: this.getVisiblePrice(product),
-      rating: product.rating || 0,
-      reviews: '0',
-    }));
+    this.products = response['seller-products'].map((product) => {
+      let { productPrice } = getProductPrice(product);
+      productPrice = productPrice.value.replace('Pricing available upon request', 'by request');
+      return {
+        id: product.id,
+        name: product.name,
+        price: productPrice,
+        rating: product.rating || 0,
+        reviews: '0',
+      };
+    });
   },
   data() {
     return {
@@ -76,23 +82,6 @@ export default {
         },
       ],
     };
-  },
-  methods: {
-    getVisiblePrice(product) {
-      if (product.price_by_request) {
-        return 'by request';
-      }
-      if (product.price_per_month) {
-        return `$${product.price_per_month} / month`;
-      }
-      if (product.price_per_year) {
-        return `$${product.price_per_year} / year`;
-      }
-      if (product.price_one_time) {
-        return `$${product.price_one_time} / one time`;
-      }
-      return '$0 / month';
-    },
   },
 };
 </script>

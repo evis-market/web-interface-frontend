@@ -46,7 +46,7 @@ export default defineComponent({
   },
   computed: {
     showLeftSidebar() {
-      return this.$route.name === 'productsList';
+      return this.$route.name?.includes('productsList');
     },
   },
 });
