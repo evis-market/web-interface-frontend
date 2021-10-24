@@ -8,7 +8,7 @@
       <q-item
         clickable
         v-ripple
-        :active="activeSubCategory === subcategory.name"
+        :active="activeSubCategorySlug === subcategory.slug"
         @click="getProducts(subcategory)"
         active-class="active-category"
       >
@@ -21,8 +21,7 @@
 <script>
 export default {
   name: 'ProductCategory',
-  props: ['category', 'expand', 'activeSubCategory'],
-  emits: ['changeActiveSubCategory'],
+  props: ['category', 'expand'],
   data() {
     return {
       expanded: false,
@@ -38,10 +37,13 @@ export default {
     subCategories() {
       return this.allCategories.filter((category) => category.parent_id === this.category.id);
     },
+    activeSubCategorySlug() {
+      return this.$route.params.slug;
+    },
   },
   methods: {
     async getProducts(category) {
-      this.$emit('changeActiveSubCategory', category.name);
+      this.$router.push({ name: 'productsList', params: { slug: category.slug } });
       const response = await this.$svc.shop.listCategoryProducts({
         categoryIDs: category.id,
         offset: 0,
