@@ -48,7 +48,7 @@ export default {
         name: 'productsList',
         params: {
           categoryID: this.category.id,
-          slug: this.category.slug,
+          categorySlug: this.category.slug,
         },
       });
     },

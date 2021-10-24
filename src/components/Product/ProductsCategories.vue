@@ -20,7 +20,7 @@ export default {
       return this.$store.getters['common/getMainCategories'];
     },
     activeCategorySlug() {
-      return this.$route.params.slug;
+      return this.$route.params.categorySlug;
     },
   },
   components: { ProductCategory },

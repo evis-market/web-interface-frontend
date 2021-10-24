@@ -18,7 +18,7 @@ const routes = [
     component: () => import('layouts/AppLayout.vue'),
     children: [
       { path: '', name: 'productsListAll', component: () => import('pages/ProductsList.vue') },
-      { path: ':slug?', name: 'productsList', component: () => import('pages/ProductsList.vue') },
+      { path: ':categorySlug?/:subCategorySlug?', name: 'productsList', component: () => import('pages/ProductsList.vue') },
     ],
   },
   {

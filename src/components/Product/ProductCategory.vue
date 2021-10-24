@@ -38,14 +38,20 @@ export default {
       return this.allCategories.filter((category) => category.parent_id === this.category.id);
     },
     activeSubCategorySlug() {
-      return this.$route.params.slug;
+      return this.$route.params.subCategorySlug;
     },
   },
   methods: {
-    async getProducts(category) {
-      this.$router.push({ name: 'productsList', params: { slug: category.slug } });
+    async getProducts(subCategory) {
+      this.$router.push({
+        name: 'productsList',
+        params: {
+          categorySlug: this.category.slug,
+          subCategorySlug: subCategory.slug,
+        },
+      });
       const response = await this.$svc.shop.listCategoryProducts({
-        categoryIDs: category.id,
+        categoryIDs: subCategory.id,
         offset: 0,
         limit: 20,
         orderBy: 'name',
