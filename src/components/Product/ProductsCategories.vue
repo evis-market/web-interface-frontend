@@ -4,9 +4,7 @@
     <div v-for="category in mainCategories" :key="category.id">
       <ProductCategory
         :category="category"
-        :expand="category.id == activeCategory"
-        :active-sub-category="activeSubCategory"
-        @change-active-sub-category="changeActiveSubCategory"
+        :expand="category.slug === activeCategorySlug"
       />
     </div>
   </q-list>
@@ -17,22 +15,12 @@ import ProductCategory from './ProductCategory';
 
 export default {
   name: 'ProductsCategories',
-  data() {
-    return {
-      activeSubCategory: '',
-    };
-  },
   computed: {
     mainCategories() {
       return this.$store.getters['common/getMainCategories'];
     },
-    activeCategory() {
-      return this.$route.params.categoryID || 1;
-    },
-  },
-  methods: {
-    changeActiveSubCategory(categoryName) {
-      this.activeSubCategory = categoryName;
+    activeCategorySlug() {
+      return this.$route.params.categorySlug;
     },
   },
   components: { ProductCategory },
