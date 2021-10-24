@@ -18,6 +18,12 @@ const routes = [
     component: () => import('layouts/AppLayout.vue'),
     children: [
       { path: '', name: 'productsList', component: () => import('pages/ProductsList.vue') },
+    ],
+  },
+  {
+    path: '/product/',
+    component: () => import('layouts/AppLayout.vue'),
+    children: [
       { path: ':id', name: 'product', component: () => import('pages/Product.vue') },
     ],
   },
