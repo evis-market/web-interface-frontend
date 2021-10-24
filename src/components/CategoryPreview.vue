@@ -44,7 +44,13 @@ export default {
   },
   methods: {
     openProducts() {
-      this.$router.push({ name: 'productsList', params: { categoryID: this.category.id } });
+      this.$router.push({
+        name: 'productsList',
+        params: {
+          categoryID: this.category.id,
+          slug: this.category.slug,
+        },
+      });
     },
   },
 };
