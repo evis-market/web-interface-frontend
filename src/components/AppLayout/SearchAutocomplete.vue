@@ -27,8 +27,8 @@ export default defineComponent({
   methods: {
     async searchProduct() {
       const targetRouteName = 'productsList';
+      this.$router.push({ name: targetRouteName, query: { search: this.productName } });
       if (this.$router.currentRoute.value.name !== targetRouteName) {
-        this.$router.push({ name: targetRouteName, params: { productName: this.productName } });
         return;
       }
       const response = await this.$svc.shop.listCategoryProducts({

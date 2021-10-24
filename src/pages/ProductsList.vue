@@ -16,7 +16,8 @@ export default {
     },
   },
   async mounted() {
-    const { categoryID, productName } = this.$route.params;
+    const { categoryID } = this.$route.params;
+    const productName = this.$route.query.search;
     const data = {
       offset: 0,
       limit: 20,
