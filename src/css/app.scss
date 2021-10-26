@@ -1,1 +1,106 @@
 // app global css in SCSS form
+body {
+  font-family: 'Montserrat', sans-serif;
+}
+
+.evis-font {
+  font-family: 'Montserrat', sans-serif;
+}
+
+.text-title-1-extra-bold {
+  font-style: normal;
+  font-weight: 800;
+  font-size: 82px;
+  line-height: 120%;
+}
+
+.text-title-2-extra-bold {
+  font-style: normal;
+  font-weight: 800;
+  font-size: 64px;
+  line-height: 120%;
+}
+
+.text-title-3-bold {
+  font-style: normal;
+  font-weight: bold;
+  font-size: 48px;
+  line-height: 130%;
+}
+
+.text-title-4-bold {
+  font-style: normal;
+  font-weight: bold;
+  font-size: 36px;
+  line-height: 120%;
+}
+
+.text-subhead-1-bold {
+  font-style: normal;
+  font-weight: bold;
+  font-size: 20px;
+  line-height: 150%;
+}
+
+.text-subhead-2-bold {
+  font-style: normal;
+  font-weight: bold;
+  font-size: 18px;
+  line-height: 170%;
+}
+
+.text-subhead-2-medium {
+  font-style: normal;
+  font-weight: 500;
+  font-size: 18px;
+  line-height: 170%;
+}
+
+.text-body-semi-bold {
+  font-style: normal;
+  font-weight: 600;
+  font-size: 16px;
+  line-height: 150%;
+}
+
+.text-body-medium {
+  font-style: normal;
+  font-weight: 500;
+  font-size: 16px;
+  line-height: 150%;
+}
+
+.text-caption-1 {
+  font-style: normal;
+  font-weight: normal;
+  font-size: 14px;
+  line-height: 150%;
+}
+
+.text-btn-1-bold {
+  font-style: normal;
+  font-weight: bold;
+  font-size: 20px;
+  line-height: 130%;
+}
+
+.text-btn-2-semi-bold {
+  font-style: normal;
+  font-weight: 600;
+  font-size: 14px;
+  line-height: 150%;
+}
+
+.text-link-btn-1-bold {
+  font-style: normal;
+  font-weight: bold;
+  font-size: 24px;
+  line-height: 125%;
+}
+
+.text-link-btn-2-bold {
+  font-style: normal;
+  font-weight: bold;
+  font-size: 14px;
+  line-height: 140%;
+}

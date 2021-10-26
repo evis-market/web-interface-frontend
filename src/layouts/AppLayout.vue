@@ -1,9 +1,9 @@
 <template>
   <q-layout view="hHh Lpr lFf" class="q-pa-md">
-    <q-header elevated class="bg-white text-primary">
-      <q-toolbar class="row">
+    <q-header class="header bg-white text-primary row items-center justify-center">
+      <q-toolbar class="header__toolbar row">
         <router-link :to="{ 'name': 'index' }" class="col-1">
-          <img src="~/assets/evis-logo.png" width="35" alt="EVIS" />
+          <img src="~/assets/evis-logo.svg" width="144" alt="EVIS" />
         </router-link>
         <q-space></q-space>
         <div class="col-auto">
@@ -14,9 +14,28 @@
         </div>
         <q-space></q-space>
         <div class="col-auto q-ml-xl">
-            <q-btn label="Sell data" color="indigo-3" class="q-mr-sm" :to="{ 'name': 'sellerProductsList' }"/>
-            <q-btn label="Request custom data" color="secondary" class="q-mr-sm" />
-            <q-btn label="Login" color="primary" :to="{ name: 'login' }" />
+            <q-btn
+              flat
+              no-caps
+              label="Sell data"
+              color="accent"
+              class="q-mr-sm text-subhead-2-medium"
+              :to="{ 'name': 'sellerProductsList' }"
+            />
+            <q-btn
+              flat
+              no-caps
+              label="Request data"
+              color="accent"
+              class="q-mr-sm text-subhead-2-medium"
+            />
+            <q-btn
+              outline
+              no-caps
+              label="Login"
+              color="accent"
+              :to="{ name: 'login' }" class="text-subhead-2-medium"
+            />
         </div>
       </q-toolbar>
     </q-header>
@@ -51,3 +70,12 @@ export default defineComponent({
   },
 });
 </script>
+
+<style lang="scss" scoped>
+  .header {
+    height: 128px;
+    &__toolbar {
+      max-width: 1080px;
+    }
+  }
+</style>
