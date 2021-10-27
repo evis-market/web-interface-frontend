@@ -1,5 +1,10 @@
 <template>
-  <q-btn-dropdown icon="list" label="Categories" class="bg-white text-primary q-mr-sm">
+  <q-btn-dropdown
+    no-caps
+    icon="menu"
+    label="Categories"
+    class="bg-primary text-white text-subhead-2-medium q-mr-sm"
+  >
     <q-list>
       <q-item clickable v-close-popup v-for="category in categories" :key="category.id">
         <q-item-section>

@@ -45,9 +45,9 @@ export default defineComponent({
 
 <style lang="scss" scoped>
   .header {
-    height: 128px;
+    min-height: 128px;
     &__toolbar {
-      max-width: 1080px;
+      max-width: 1270px;
     }
     &__nav a {
       padding: 1em;

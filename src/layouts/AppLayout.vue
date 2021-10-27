@@ -6,7 +6,7 @@
           <img src="~/assets/evis-logo.svg" width="144" alt="EVIS" />
         </router-link>
         <q-space></q-space>
-        <div class="col-auto">
+        <div class="col-auto q-ml-xl">
           <CategoriesDropdown/>
         </div>
         <div class="col-4">
@@ -14,28 +14,28 @@
         </div>
         <q-space></q-space>
         <div class="col-auto q-ml-xl">
-            <q-btn
-              flat
-              no-caps
-              label="Sell data"
-              color="accent"
-              class="q-mr-sm text-subhead-2-medium"
-              :to="{ 'name': 'sellerProductsList' }"
-            />
-            <q-btn
-              flat
-              no-caps
-              label="Request data"
-              color="accent"
-              class="q-mr-sm text-subhead-2-medium"
-            />
-            <q-btn
-              outline
-              no-caps
-              label="Login"
-              color="accent"
-              :to="{ name: 'login' }" class="text-subhead-2-medium"
-            />
+          <q-btn
+            flat
+            no-caps
+            label="Request data"
+            color="accent"
+            class="q-mr-sm text-subhead-2-medium"
+          />
+          <q-btn
+            flat
+            no-caps
+            label="Sell data"
+            color="accent"
+            class="q-mr-sm text-subhead-2-medium"
+            :to="{ 'name': 'sellerProductsList' }"
+          />
+          <q-btn
+            outline
+            no-caps
+            label="Login"
+            color="accent"
+            :to="{ name: 'login' }" class="text-subhead-2-medium"
+          />
         </div>
       </q-toolbar>
     </q-header>
@@ -73,9 +73,9 @@ export default defineComponent({
 
 <style lang="scss" scoped>
   .header {
-    height: 128px;
+    min-height: 128px;
     &__toolbar {
-      max-width: 1080px;
+      max-width: 1270px;
     }
   }
 </style>
