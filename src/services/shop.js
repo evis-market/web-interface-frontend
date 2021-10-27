@@ -14,15 +14,19 @@ export default class ShopSvc {
   /*
   List category products
   */
-  async listCategoryProducts(params) {
-    return this.httpSvc.get(`${this.apiBaseURL}/api/v1/shop/products/`, {
-      params: {
-        category_ids: params.categoryIDs,
-        offset: params.offset,
-        limit: params.limit,
-        order_by: params.orderBy,
-      },
-    });
+  async listCategoryProducts(data) {
+    const params = {
+      offset: data.offset || 0,
+      limit: data.limit || 20,
+      order_by: data.orderBy || 'name',
+    };
+    if (data.categoryIDs) {
+      params.category_ids = data.categoryIDs;
+    }
+    if (data.productName) {
+      params.name = data.productName;
+    }
+    return this.httpSvc.get(`${this.apiBaseURL}/api/v1/shop/products/`, { params });
   }
 
   /*
