@@ -1,8 +1,8 @@
 <template>
   <q-layout view="hHh Lpr lFf" class="q-pa-md">
-    <q-header class="header bg-white text-primary row items-center justify-center">
+    <q-header class="header bg-white text-primary row items-center justify-center q-pl-md q-pr-md">
       <q-toolbar class="header__toolbar row">
-        <router-link :to="{ 'name': 'index' }" class="col-1">
+        <router-link :to="{ 'name': 'index' }" class="col-auto">
           <img src="~/assets/evis-logo.svg" width="144" alt="EVIS" />
         </router-link>
         <q-space></q-space>
@@ -13,7 +13,7 @@
           <SearchAutocomplete/>
         </div>
         <q-space></q-space>
-        <div class="col-auto q-ml-xl">
+        <div class="col-auto col-xl-12 q-ml-xl">
           <q-btn
             flat
             no-caps
