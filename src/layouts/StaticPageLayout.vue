@@ -14,11 +14,19 @@
         </nav>
         <q-space></q-space>
         <q-btn
-          outline
+          flat
           no-caps
-          label="Login"
+          label="Sign in"
           color="accent"
           :to="{ name: 'login' }"
+          class="text-subhead-2-medium q-mr-sm"
+        />
+        <q-btn
+          outline
+          no-caps
+          label="Sign up"
+          color="accent"
+          :to="{ name: 'signup' }"
           class="text-subhead-2-medium"
         />
       </q-toolbar>
