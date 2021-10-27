@@ -1,11 +1,34 @@
 <template>
   <q-layout view="lHh Lpr lFf" class="q-pa-md">
-    <q-header elevated class="header bg-info text-primary row items-center justify-center">
+    <q-header elevated class="header bg-info text-primary row items-center justify-center q-pl-md q-pr-md">
       <q-toolbar class="header__toolbar">
         <router-link :to="{ 'name': 'index' }">
           <img src="~/assets/evis-logo.svg" width="144" alt="EVIS" />
         </router-link>
-        <nav class="header__nav q-ml-xl">
+        <q-btn flat round icon="menu" v-if="showHamburgerMenu" class="q-ml-md" size="23px">
+          <q-menu>
+            <q-list style="min-width: 100px">
+              <q-item clickable v-close-popup>
+                <q-item-section>White paper</q-item-section>
+              </q-item>
+              <q-item clickable v-close-popup>
+                <q-item-section>Tokenomics</q-item-section>
+              </q-item>
+              <q-separator />
+              <q-item clickable v-close-popup>
+                <q-item-section>Solutions</q-item-section>
+              </q-item>
+              <q-item clickable v-close-popup>
+                <q-item-section>Teams</q-item-section>
+              </q-item>
+              <q-item clickable v-close-popup>
+                <q-item-section>FAQ</q-item-section>
+              </q-item>
+              <q-separator />
+            </q-list>
+          </q-menu>
+        </q-btn>
+        <nav class="header__nav q-ml-xl" v-else>
           <a href="#" class="text-subhead-2-medium">White paper</a>
           <a href="#tokenomics" class="text-subhead-2-medium">Tokenomics</a>
           <a href="#solutions" class="text-subhead-2-medium">Solutions</a>
@@ -42,11 +65,10 @@ import { defineComponent } from 'vue';
 
 export default defineComponent({
   name: 'StaticPageLayout',
-
-  components: {
-  },
-
-  setup() {
+  computed: {
+    showHamburgerMenu() {
+      return this.$q.screen.width < 1041;
+    },
   },
 });
 </script>
