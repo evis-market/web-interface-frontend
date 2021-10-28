@@ -7,6 +7,7 @@ import AuthSvc from 'services/auth';
 import SellerProductsSvc from 'services/seller_products';
 import UsersSvc from 'src/services/users';
 import ShopSvc from 'src/services/shop';
+import FileSvc from 'src/services/file';
 
 const httpSvc = new HTTPSvc();
 const httpAuthSvc = new HTTPAuthSvc();
@@ -20,6 +21,7 @@ const svc = {
   auth: new AuthSvc(httpSvc, process.env.API_BASE_URL),
   users: new UsersSvc(httpSvc, httpAuthSvc, process.env.API_BASE_URL),
   shop: new ShopSvc(httpSvc, process.env.API_BASE_URL),
+  file: new FileSvc(httpAuthSvc, process.env.API_BASE_URL),
 };
 
 export default boot(({ app }) => {
