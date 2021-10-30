@@ -34,7 +34,7 @@
             no-caps
             label="Login"
             color="accent"
-            :to="{ name: 'login' }" class="text-subhead-2-medium radius-8 evis-border"
+            :to="{ name: 'login' }" class="text-subhead-2-medium radius-8 ev-border"
           />
         </div>
       </q-toolbar>
