@@ -19,22 +19,22 @@
             no-caps
             label="Request data"
             color="accent"
-            class="q-mr-sm text-subhead-2-medium"
+            class="q-mr-sm text-subhead-2-medium radius-8"
           />
           <q-btn
             flat
             no-caps
             label="Sell data"
             color="accent"
-            class="q-mr-sm text-subhead-2-medium"
+            class="q-mr-sm text-subhead-2-medium radius-8"
             :to="{ 'name': 'sellerProductsList' }"
           />
           <q-btn
-            outline
+            flat
             no-caps
             label="Login"
             color="accent"
-            :to="{ name: 'login' }" class="text-subhead-2-medium"
+            :to="{ name: 'login' }" class="text-subhead-2-medium radius-8 evis-border"
           />
         </div>
       </q-toolbar>

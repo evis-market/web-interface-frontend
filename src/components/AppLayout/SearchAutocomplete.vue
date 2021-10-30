@@ -1,6 +1,6 @@
 <template>
   <q-input
-    class="search-input text-caption-1"
+    class="search-block text-caption-1"
     v-model="search"
     debounce="500"
     outlined
@@ -28,14 +28,27 @@ export default defineComponent({
 </script>
 
 <style lang="scss">
-  .search-input .q-field__control {
-    height: 47px;
-    padding: 0;
-    padding-left: 10px;
+  .search-block {
+    & .q-field__control {
+      height: 47px;
+      padding: 0;
+      padding-left: 10px;
+      display: flex;
+      align-items: center;
+    }
+    & .q-field__control {
+      border-radius: 8px;
+    }
+    & .q-field__control:before {
+      border: 2px solid $primary;
+      box-sizing: border-box;
+      border-radius: 8px;
+    }
   }
   .search-btn {
-    height: 46px;
+    height: 43px;
     margin: 0;
-    bottom: 4px;
+    margin-right: 2px;
+    border-radius: 6px;
   }
 </style>

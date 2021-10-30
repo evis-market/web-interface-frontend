@@ -45,12 +45,12 @@
           class="text-subhead-2-medium q-mr-sm"
         />
         <q-btn
-          outline
+          flat
           no-caps
           label="Sign up"
           color="accent"
           :to="{ name: 'signup' }"
-          class="text-subhead-2-medium"
+          class="text-subhead-2-medium evis-border radius-8"
         />
       </q-toolbar>
     </q-header>
