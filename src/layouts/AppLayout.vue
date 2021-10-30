@@ -1,5 +1,5 @@
 <template>
-  <q-layout view="hHh Lpr lFf" class="q-pa-md">
+  <q-layout view="hHh Lpr lFf" class="layout q-pa-md">
     <q-header class="header bg-white text-primary row items-center justify-center q-pl-md q-pr-md">
       <q-toolbar class="header__toolbar row">
         <router-link :to="{ 'name': 'index' }" class="col-auto">
@@ -44,9 +44,10 @@
         <ProductsSidebar />
       </q-drawer>
     </div>
-    <q-page-container>
+    <q-page-container class="main">
       <router-view />
     </q-page-container>
+    <footer class="footer"></footer>
   </q-layout>
 </template>
 
@@ -72,10 +73,28 @@ export default defineComponent({
 </script>
 
 <style lang="scss" scoped>
+  .layout {
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+  }
   .header {
     min-height: 128px;
+    flex-shrink: 0;
     &__toolbar {
       max-width: 1270px;
     }
+  }
+  .main {
+    flex: 1 0 auto;
+  }
+  .footer {
+    flex-shrink: 0;
+    min-height: 399px;
+    margin: 0 -20px -20px -20px;
+    background: url("assets/footer-background.svg") no-repeat;
+    background-size: 100% auto;
+    background-attachment: scroll;
+    background-position: center bottom;
   }
 </style>
