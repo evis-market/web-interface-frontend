@@ -47,10 +47,7 @@
     <q-page-container class="app-main">
       <router-view />
     </q-page-container>
-    <footer class="app-footer">
-      <div class="app-footer__decor"></div>
-      <div class="app-footer__content">content</div>
-    </footer>
+    <Footer />
   </q-layout>
 </template>
 
@@ -59,6 +56,7 @@ import { defineComponent } from 'vue';
 import CategoriesDropdown from 'components/AppLayout/CategoriesDropdown';
 import SearchAutocomplete from 'components/AppLayout/SearchAutocomplete';
 import ProductsSidebar from 'components/Product/ProductsSidebar';
+import Footer from 'components/Footer';
 
 export default defineComponent({
   name: 'AppLayout',
@@ -66,6 +64,7 @@ export default defineComponent({
     CategoriesDropdown,
     SearchAutocomplete,
     ProductsSidebar,
+    Footer,
   },
   computed: {
     showLeftSidebar() {
@@ -90,24 +89,6 @@ export default defineComponent({
   }
   .app-main {
     flex: 1 0 auto;
-  }
-  .app-footer {
-    flex-shrink: 0;
-    min-height: 100px;
-    &__decor {
-      -webkit-transform: skew(45deg);
-      -ms-transform: skew(45deg);
-      transform: skew(45deg);
-      background-color: $primary;
-      height: 80px;
-      width: 55%;
-      margin-left: -80px;
-    }
-    &__content {
-      margin-right: -20px;
-      margin-left: -20px;
-      height: 100%;
-      background-color: $primary;
-    }
+    padding-bottom: -128px;
   }
 </style>

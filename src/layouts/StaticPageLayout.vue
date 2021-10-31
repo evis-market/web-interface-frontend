@@ -1,7 +1,7 @@
 <template>
-  <q-layout view="lHh Lpr lFf" class="q-pa-md">
-    <q-header elevated class="header bg-info text-primary row items-center justify-center q-pl-md q-pr-md">
-      <q-toolbar class="header__toolbar">
+  <q-layout view="lHh Lpr lFf" class="static-page-layout q-pa-md">
+    <q-header elevated class="static-page-header bg-info text-primary row items-center justify-center q-pl-md q-pr-md">
+      <q-toolbar class="static-page-header__toolbar">
         <router-link :to="{ 'name': 'index' }">
           <img src="~/assets/evis-logo.svg" width="144" alt="EVIS" />
         </router-link>
@@ -28,7 +28,7 @@
             </q-list>
           </q-menu>
         </q-btn>
-        <nav class="header__nav q-ml-xl" v-else>
+        <nav class="static-page-header__nav q-ml-xl" v-else>
           <a href="#" class="text-subhead-2-medium">White paper</a>
           <a href="#tokenomics" class="text-subhead-2-medium">Tokenomics</a>
           <a href="#solutions" class="text-subhead-2-medium">Solutions</a>
@@ -54,14 +54,16 @@
         />
       </q-toolbar>
     </q-header>
-    <q-page-container>
+    <q-page-container class="static-page-main">
       <router-view />
     </q-page-container>
+    <Footer />
   </q-layout>
 </template>
 
 <script>
 import { defineComponent } from 'vue';
+import Footer from 'components/Footer';
 
 export default defineComponent({
   name: 'StaticPageLayout',
@@ -70,12 +72,19 @@ export default defineComponent({
       return this.$q.screen.width < 1041;
     },
   },
+  components: { Footer },
 });
 </script>
 
 <style lang="scss" scoped>
-  .header {
+  .static-page-layout {
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+  }
+  .static-page-header {
     min-height: 128px;
+    flex-shrink: 0;
     &__toolbar {
       max-width: 1270px;
     }
@@ -86,5 +95,9 @@ export default defineComponent({
         color: $accent;
       }
     }
+  }
+  .static-page-main {
+    flex: 1 0 auto;
+    padding-bottom: -128px;
   }
 </style>
