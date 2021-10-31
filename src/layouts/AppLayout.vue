@@ -1,7 +1,7 @@
 <template>
-  <q-layout view="hHh Lpr lFf" class="layout q-pa-md">
-    <q-header class="header bg-white text-primary row items-center justify-center q-pl-md q-pr-md">
-      <q-toolbar class="header__toolbar row">
+  <q-layout view="hHh Lpr lFf" class="app-layout q-pa-md">
+    <q-header class="app-header bg-white text-primary row items-center justify-center q-pl-md q-pr-md">
+      <q-toolbar class="app-header__toolbar row">
         <router-link :to="{ 'name': 'index' }" class="col-auto">
           <img src="~/assets/evis-logo.svg" width="144" alt="EVIS" />
         </router-link>
@@ -44,10 +44,13 @@
         <ProductsSidebar />
       </q-drawer>
     </div>
-    <q-page-container class="main">
+    <q-page-container class="app-main">
       <router-view />
     </q-page-container>
-    <footer class="footer"></footer>
+    <footer class="app-footer">
+      <div class="app-footer__decor"></div>
+      <div class="app-footer__content">content</div>
+    </footer>
   </q-layout>
 </template>
 
@@ -72,29 +75,39 @@ export default defineComponent({
 });
 </script>
 
-<style lang="scss" scoped>
-  .layout {
+<style lang="scss">
+  .app-layout {
     display: flex;
     flex-direction: column;
     height: 100vh;
   }
-  .header {
+  .app-header {
     min-height: 128px;
     flex-shrink: 0;
     &__toolbar {
       max-width: 1270px;
     }
   }
-  .main {
+  .app-main {
     flex: 1 0 auto;
   }
-  .footer {
+  .app-footer {
     flex-shrink: 0;
-    min-height: 399px;
-    margin: 0 -20px -20px -20px;
-    background: url("assets/footer-background.svg") no-repeat;
-    background-size: 100% auto;
-    background-attachment: scroll;
-    background-position: center bottom;
+    min-height: 100px;
+    &__decor {
+      -webkit-transform: skew(45deg);
+      -ms-transform: skew(45deg);
+      transform: skew(45deg);
+      background-color: $primary;
+      height: 80px;
+      width: 55%;
+      margin-left: -80px;
+    }
+    &__content {
+      margin-right: -20px;
+      margin-left: -20px;
+      height: 100%;
+      background-color: $primary;
+    }
   }
 </style>
