@@ -33,11 +33,15 @@
                 <q-icon name="attach_file" class="col-auto q-mr-md q-mt-sm" size="sm" />
                 <q-file
                   dense
+                  accept="image/png, image/jpg, image/jpeg"
+                  max-file-size="4194304"
+                  max-files="1"
                   v-model="v.logo_url.$model"
                   label="Logo"
                   class="col"
                   :error-message="v.logo_url.$errors.map(err => err.$message).join('. ')"
                   :error="v.logo_url.$error"
+                  @change.prevent="addFile"
                 />
               </div>
               <div class="row">
@@ -241,6 +245,7 @@ export default {
       name: '',
       descr: '',
       logo_url: null,
+      fileUUID: '',
       sites: [
         {
           type_id: this.$svc.seller.ContactTypeIDSite, value: '', comment: '', errorMessage: '',
@@ -278,6 +283,16 @@ export default {
     },
   },
   methods: {
+    async addFile() {
+      const formData = new FormData();
+      formData.append('file', this.logo_url, this.logo_url.name);
+      const response = await this.$svc.file.upload(formData);
+      if (this.processError(response)) {
+        this.logo_url = null;
+        return;
+      }
+      this.fileUUID = response.uuid;
+    },
     clearField(targetObjectName, id) {
       this[targetObjectName].splice(this[targetObjectName].findIndex((item) => item.id === id), 1);
       this.emailsKey += 1;
@@ -299,7 +314,7 @@ export default {
       const data = {
         name: this.name,
         descr: this.descr,
-        logo_url: window.location + (this.logo_url?.name || ''),
+        logo_url: this.fileUUID,
         wallet_for_payments_erc20: this.wallet_for_payments_erc20,
         contacts: [...this.emails],
       };
