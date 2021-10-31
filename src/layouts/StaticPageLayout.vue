@@ -3,7 +3,7 @@
     <q-header elevated class="static-page-header bg-info text-primary row items-center justify-center q-pl-md q-pr-md">
       <q-toolbar class="static-page-header__toolbar">
         <router-link :to="{ 'name': 'index' }">
-          <img src="~/assets/evis-logo.svg" width="144" alt="EVIS" />
+          <Logo />
         </router-link>
         <q-btn flat round icon="menu" v-if="showHamburgerMenu" class="q-ml-md" size="23px">
           <q-menu>
@@ -64,6 +64,7 @@
 <script>
 import { defineComponent } from 'vue';
 import Footer from 'components/Footer';
+import Logo from 'components/Logo'
 
 export default defineComponent({
   name: 'StaticPageLayout',
@@ -72,7 +73,7 @@ export default defineComponent({
       return this.$q.screen.width < 1041;
     },
   },
-  components: { Footer },
+  components: { Footer, Logo },
 });
 </script>
 

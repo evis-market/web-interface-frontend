@@ -3,7 +3,7 @@
     <q-header class="app-header bg-white text-primary row items-center justify-center q-pl-md q-pr-md">
       <q-toolbar class="app-header__toolbar row">
         <router-link :to="{ 'name': 'index' }" class="col-auto">
-          <img src="~/assets/evis-logo.svg" width="144" alt="EVIS" />
+          <Logo />
         </router-link>
         <q-space></q-space>
         <div class="col-auto q-ml-xl">
@@ -57,6 +57,7 @@ import CategoriesDropdown from 'components/AppLayout/CategoriesDropdown';
 import SearchAutocomplete from 'components/AppLayout/SearchAutocomplete';
 import ProductsSidebar from 'components/Product/ProductsSidebar';
 import Footer from 'components/Footer';
+import Logo from 'components/Logo'
 
 export default defineComponent({
   name: 'AppLayout',
@@ -65,6 +66,7 @@ export default defineComponent({
     SearchAutocomplete,
     ProductsSidebar,
     Footer,
+    Logo,
   },
   computed: {
     showLeftSidebar() {

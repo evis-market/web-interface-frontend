@@ -1,7 +1,10 @@
 <template>
   <footer class="app-footer">
     <div class="app-footer__decor"></div>
-    <div class="app-footer__content">content</div>
+    <div class="app-footer__content">
+      <div class="app-footer__pages"></div>
+      <div class="app-footer__contacts"></div>
+    </div>
   </footer>
 </template>
 
