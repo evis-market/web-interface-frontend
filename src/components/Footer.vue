@@ -20,6 +20,75 @@
       </div>
       <div class="app-footer__contacts">
         <Logo color="white" width="" height="40" />
+        <div class="app-footer__social-nets row items-center">
+          <q-btn
+            round
+            color="ev-dark"
+            size="11px"
+            type="a"
+            href="https://t.me/evislinks"
+            target="_blank"
+            class="q-mr-md"
+          >
+            <q-icon>
+              <img src="~assets/telegram-icon.svg" alt="Telegram" />
+            </q-icon>
+          </q-btn>
+          <q-btn
+            round
+            color="ev-dark"
+            size="11px"
+            type="a"
+            href="https://twitter.com/evisdm"
+            target="_blank"
+            class="q-mr-md"
+          >
+            <q-icon>
+              <img src="~assets/twitter-icon.svg" alt="Twitter" />
+            </q-icon>
+          </q-btn>
+          <q-btn
+            round
+            color="ev-dark"
+            size="11px"
+            type="a"
+            href="https://evisdm.medium.com/"
+            target="_blank"
+            class="q-mr-md"
+          >
+            <q-icon>
+              <img src="~assets/medium-icon.svg" alt="Medium" />
+            </q-icon>
+          </q-btn>
+          <q-btn
+            round
+            color="ev-dark"
+            size="11px"
+            type="a"
+            href="https://www.reddit.com/user/evisdm"
+            target="_blank"
+            class="q-mr-md"
+          >
+            <q-icon>
+              <img src="~assets/reddit-icon.svg" alt="Reddit" />
+            </q-icon>
+          </q-btn>
+          <q-btn
+            round
+            color="ev-dark"
+            size="11px"
+            type="a"
+            href="https://www.youtube.com/channel/UCZshyycv07LaAbKMQL0BsAw"
+            target="_blank"
+            class="q-mr-md"
+          >
+            <q-icon>
+              <img src="~assets/youtube-icon.svg" alt="Youtube" />
+            </q-icon>
+          </q-btn>
+        </div>
+        <a class="app-footer__email text-btn-2-semi-bold" target="_blank" href="mailto:support@evis.market">support@evis.market</a>
+        <div class="app-footer__github"></div>
       </div>
     </div>
   </footer>
@@ -54,6 +123,8 @@ export default {
       padding-top: 8px;
       padding-left: 25em;
       padding-bottom: 30px;
+      display: flex;
+      justify-content: space-around;
     }
     &__pages {
       display: flex;
@@ -64,6 +135,10 @@ export default {
         text-decoration: none;
         color: white;
       }
+    }
+    &__email {
+      text-decoration: none;
+      color: white;
     }
   }
 </style>
