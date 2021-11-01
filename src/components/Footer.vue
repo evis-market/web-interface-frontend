@@ -87,8 +87,13 @@
             </q-icon>
           </q-btn>
         </div>
-        <a class="app-footer__email text-btn-2-semi-bold" target="_blank" href="mailto:support@evis.market">support@evis.market</a>
-        <div class="app-footer__github"></div>
+        <a class="app-footer__email text-btn-2-semi-bold" target="_blank" href="mailto:support@evis.market">
+          support@evis.market
+        </a>
+        <a class="app-footer__github text-btn-2-semi-bold" target="_blank" href="https://github.com/evis-market">
+          <span class="q-mr-sm">Github</span>
+          <q-icon name="arrow_forward" color="white" size="25px" />
+        </a>
       </div>
     </div>
   </footer>
@@ -136,7 +141,11 @@ export default {
         color: white;
       }
     }
-    &__email {
+    &__contacts {
+      display: flex;
+      flex-direction: column;
+    }
+    &__email, &__github {
       text-decoration: none;
       color: white;
     }
