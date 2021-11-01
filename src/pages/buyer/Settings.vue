@@ -12,12 +12,13 @@
                 <q-input
                   dense
                   v-model.trim="v.first_name.$model"
-                  label="Display Name"
+                  label="Name"
                   class="col"
                   :error="v.first_name.$error"
                   :error-message="v.first_name.$errors.map(err => err.$message).join('. ')"
                 />
               </div>
+              <!--
               <div class="row">
                 <q-icon name="badge" class="col-auto q-mr-md q-mt-sm" size="sm" />
                 <q-input
@@ -29,6 +30,7 @@
                   :error-message="v.last_name.$errors.map(err => err.$message).join('. ')"
                 />
               </div>
+              -->
               <div class="row q-mt-none">
                 <q-icon name="email" class="col-auto q-mr-md q-mt-sm" size="sm" />
                 <q-input
@@ -65,7 +67,7 @@
                 />
               </div>
               <div class="row justify-end">
-                <q-btn label="Cancel" type="reset" color="primary" flat />
+                <q-btn label="Cancel" type="reset" color="primary" flat @click="loadData()" />
                 <q-btn
                   label="Save"
                   type="submit"
@@ -88,7 +90,7 @@ import TabMenu from 'components/AppLayout/TabMenu';
 import BuyerTabs from 'components/Buyer/BuyerTabs';
 import useVuelidate from '@vuelidate/core';
 import erc20Validator from 'src/validators/erc20_validator';
-import { email, required, helpers } from '@vuelidate/validators';
+import { email, required, requiredIf, helpers, maxLength } from '@vuelidate/validators';
 
 export default {
   name: 'PageBuyerSettings',
@@ -109,34 +111,51 @@ export default {
       },
     };
   },
-  validations: {
-    first_name: { required },
-    last_name: { required },
-    wallet_erc20: {
-      erc20Validator: helpers.withMessage('Incorrect wallet', erc20Validator),
-      required,
-    },
-    email: { required, email },
-    phone: { required },
-  },
-  async mounted() {
-    const response = await this.$svc.users.getLoggedInUserProfile();
-    if (this.processError(response)) {
-      return;
+
+  validations() {
+    return {
+      first_name: {
+        maxLength: maxLength(190)
+      },
+
+      last_name: { },
+
+      wallet_erc20: {
+        erc20Validator: helpers.withMessage('Incorrect wallet', erc20Validator),
+        requiredIfNoLogin: helpers.withMessage('Please set wallet or email, or phone', requiredIf(!this.email && !this.phone))
+      },
+
+      email: { email },
+
+      phone: { },
     }
-    const { profile = {} } = response;
-    this.first_name = profile.first_name || '';
-    this.last_name = profile.last_name || '';
-    this.wallet_erc20 = profile.wallet_erc20 || '';
-    this.email = profile.email || '';
-    this.phone = profile.phone || '';
   },
+
+  mounted() {
+    this.loadData();
+  },
+
   computed: {
     disableSaving() {
-      return !this.first_name || !this.last_name || !this.email || !this.phone || !this.wallet_erc20 || this.v.$errors.length;
+      return (!this.email && !this.phone && !this.wallet_erc20) || this.v.$errors.length;
     },
   },
+
   methods: {
+    async loadData() {
+      const response = await this.$svc.users.getLoggedInUserProfile();
+      if (this.processError(response)) {
+        return;
+      }
+      const { profile = {} } = response;
+      this.first_name = profile.first_name || '';
+      this.last_name = profile.last_name || '';
+      this.wallet_erc20 = profile.wallet_erc20 || '';
+      this.email = profile.email || '';
+      this.phone = profile.phone || '';
+      this.v.$reset();
+    },
+
     async updateSettings() {
       const response = await this.$svc.users.updateLoggedInUserProfile({
         first_name: this.first_name,
