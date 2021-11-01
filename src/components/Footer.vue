@@ -18,14 +18,19 @@
           <li><a target="_blank" href="https://evis.market/pdf/risk_disclaimer_en.pdf">Risk disclaimer</a></li>
         </ul>
       </div>
-      <div class="app-footer__contacts"></div>
+      <div class="app-footer__contacts">
+        <Logo color="white" width="" height="40" />
+      </div>
     </div>
   </footer>
 </template>
 
 <script>
+import Logo from 'components/Logo';
+
 export default {
   name: 'Footer',
+  components: { Logo },
 };
 </script>
 
@@ -47,7 +52,8 @@ export default {
       min-height: 200px;
       background-color: $primary;
       padding-top: 8px;
-      padding-left: 400px;
+      padding-left: 25em;
+      padding-bottom: 30px;
     }
     &__pages {
       display: flex;
