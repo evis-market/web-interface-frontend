@@ -13,6 +13,11 @@ const ESLintPlugin = require('eslint-webpack-plugin');
 const { configure } = require('quasar/wrappers');
 const path = require('path')
 
+apiBaseURL = 'https://dev.evis.market'
+if (process.env.BUILD_ENV === 'production') {
+  apiBaseURL = 'https://evis.market'
+}
+
 module.exports = configure((ctx) => ({
   // https://v2.quasar.dev/quasar-cli/supporting-ts
   supportTS: false,
@@ -53,10 +58,13 @@ module.exports = configure((ctx) => ({
   // Full list of options: https://v2.quasar.dev/quasar-cli/quasar-conf-js#Property%3A-build
   build: {
     env: {
-      API_BASE_URL: ctx.dev ? 'https://dev.evis.market' : 'https://evis.market',
+      API_BASE_URL: apiBaseURL,
     },
 
     vueRouterMode: 'history', // available values: 'hash', 'history'
+
+    appBase: process.env.BUILD_ENV ? '/app' : '',
+    publicPath: process.env.BUILD_ENV ? '/app' : '',
 
     // transpile: false,
 
