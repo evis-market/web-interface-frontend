@@ -8,6 +8,9 @@
       hide-pagination
       :pagination="{page: 0, rowsPerPage: 0}"
     >
+      <template v-slot:no-data>
+        No products added, please add products
+      </template>
       <template v-slot:body-cell-rating="props">
         <q-td :props="props">
           <q-rating
