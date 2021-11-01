@@ -9,7 +9,7 @@
     <q-route-tab name="productsList" label="My Products" icon="work" :to="{ 'name': 'sellerProductsList' }" />
     <q-route-tab name="productsAdd" label="Add Product" icon="create_new_folder" :to="{ 'name': 'sellerProductsAdd' }" />
     <q-route-tab name="settings" label="Settings" icon="settings" :to="{ 'name': 'sellerSettings' }" />
-    <q-route-tab name="howToSellData" label="How To Sell Data" icon="trending_up" :to="{ 'name': 'sellerHowToSellData' }" />
+    <!-- <q-route-tab name="howToSellData" label="How To Sell Data" icon="trending_up" :to="{ 'name': 'sellerHowToSellData' }" /> -->
   </q-tabs>
 </template>
 
