@@ -63,8 +63,8 @@ module.exports = configure((ctx) => ({
 
     vueRouterMode: 'history', // available values: 'hash', 'history'
 
-    appBase: process.env.BUILD_ENV ? '/app' : '',
-    publicPath: process.env.BUILD_ENV ? '/app' : '',
+    appBase: process.env.BUILD_ENV ? '/app' : '/',
+    publicPath: process.env.BUILD_ENV ? '/app' : '/',
 
     // transpile: false,
 
