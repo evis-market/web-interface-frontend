@@ -2,7 +2,7 @@
   <footer class="app-footer">
     <div class="app-footer__decor"></div>
     <div class="app-footer__content row">
-      <div class="app-footer__pages text-subhead-2-medium col">
+      <div class="app-footer__pages text-subhead-2-medium col-md-7 col-sm-12 col-xs-12">
         <ul class="app-footer__pages-list q-pr-xl">
           <li><a target="_blank" href="https://evis.market/pdf/white_paper_ru.pdf">White Paper</a></li>
           <li><a target="_blank" href="https://evisdm.medium.com/">Blog</a></li>
@@ -18,11 +18,11 @@
           <li><a target="_blank" href="https://evis.market/pdf/risk_disclaimer_en.pdf">Risk disclaimer</a></li>
         </ul>
       </div>
-      <div class="app-footer__contacts col-5">
+      <div class="column col-md-5 col-sm-12 col-xs-12" :class="[smallScreen ? 'items-center' : 'items-start']">
         <div class="row q-mt-xl q-mb-lg">
           <Logo color="white" width="" height="40" />
         </div>
-        <div class="app-footer__social-nets row items-center q-mb-lg">
+        <div class="row items-center q-mb-lg">
           <q-btn
             round
             color="ev-dark"
@@ -106,6 +106,11 @@ import Logo from 'components/Logo';
 
 export default {
   name: 'Footer',
+  computed: {
+    smallScreen() {
+      return this.$q.screen.sm || this.$q.screen.xs;
+    },
+  },
   components: { Logo },
 };
 </script>
@@ -139,11 +144,6 @@ export default {
         text-decoration: none;
         color: white;
       }
-    }
-    &__contacts {
-      display: flex;
-      flex-direction: column;
-      align-items: flex-start;
     }
     &__email, &__github {
       text-decoration: none;
