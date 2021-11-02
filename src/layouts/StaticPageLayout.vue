@@ -9,17 +9,24 @@
           <q-menu>
             <q-list style="min-width: 100px">
               <q-item clickable v-close-popup>
-                <q-item-section>White paper</q-item-section>
+                <q-item-section>
+                  <a class="mobile-menu-link" href="https://evis.market/pdf/white_paper_ru.pdf" target="_blank">
+                    White paper
+                  </a>
+                </q-item-section>
               </q-item>
               <q-item clickable v-close-popup>
                 <q-item-section>Tokenomics</q-item-section>
               </q-item>
-              <q-separator />
               <q-item clickable v-close-popup>
                 <q-item-section>Solutions</q-item-section>
               </q-item>
               <q-item clickable v-close-popup>
-                <q-item-section>Teams</q-item-section>
+                <q-item-section>
+                  <a class="mobile-menu-link" href="https://evis.market/ru/team/" target="_blank">
+                    Team
+                  </a>
+                </q-item-section>
               </q-item>
               <q-item clickable v-close-popup>
                 <q-item-section>FAQ</q-item-section>
@@ -29,10 +36,10 @@
           </q-menu>
         </q-btn>
         <nav class="static-page-header__nav q-ml-xl" v-else>
-          <a href="#" class="text-subhead-2-medium">White paper</a>
+          <a href="https://evis.market/pdf/white_paper_ru.pdf" target="_blank" class="text-subhead-2-medium">White paper</a>
           <a href="#tokenomics" class="text-subhead-2-medium">Tokenomics</a>
           <a href="#solutions" class="text-subhead-2-medium">Solutions</a>
-          <a href="#teams" class="text-subhead-2-medium">Teams</a>
+          <a href="https://evis.market/ru/team/" target="_blank" class="text-subhead-2-medium">Team</a>
           <a href="#faq" class="text-subhead-2-medium">FAQ</a>
         </nav>
         <q-space></q-space>
@@ -100,5 +107,9 @@ export default defineComponent({
   .static-page-main {
     flex: 1 0 auto;
     padding-bottom: -128px;
+  }
+  .mobile-menu-link {
+    text-decoration: none;
+    color: $dark
   }
 </style>
