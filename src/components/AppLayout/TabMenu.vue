@@ -16,12 +16,14 @@
       :to="{ 'name': 'sellerProductsList' }"
       :class="{ 'q-tab--active': isSellerTabActive }"
     />
+    <!--
     <q-route-tab
       name="governance"
       label="Governance"
       :to="{ 'name': 'governance' }"
       :class="{ 'q-tab--active': isGovernanceTabActive }"
     />
+    -->
   </q-tabs>
 </template>
 

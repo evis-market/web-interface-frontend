@@ -41,7 +41,7 @@ export default class HTTPSvc {
     }
 
     // Browser level error, request was not send. For example: no connection, invalid URL etc.
-    if (!('response' in err)) {
+    if (!('response' in err) || !err.response) {
       res.error.msg = err;
       return res;
     }

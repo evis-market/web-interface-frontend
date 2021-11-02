@@ -8,6 +8,9 @@
       hide-pagination
       :pagination="{page: 0, rowsPerPage: 0}"
     >
+      <template v-slot:no-data>
+        A list of your purchases will be displayed here
+      </template>
       <template v-slot:body-cell-rating="props">
         <q-td :props="props">
           <q-rating
@@ -27,6 +30,7 @@ export default {
   name: 'BuyerProductsList',
   data() {
     return {
+      /*
       rows: [
         {
           id: 1,
@@ -84,7 +88,7 @@ export default {
           rating: 4,
           reviews: '12',
         },
-      ],
+      ], */
       columns: [
         {
           name: 'data_set',

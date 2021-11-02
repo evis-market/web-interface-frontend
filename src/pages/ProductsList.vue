@@ -16,13 +16,20 @@ export default {
     },
   },
   async mounted() {
-    const { categoryID = 1 } = this.$route.params;
-    const response = await this.$svc.shop.listCategoryProducts({
-      categoryIDs: categoryID,
+    const { categoryID } = this.$route.params;
+    const productName = this.$route.query.search;
+    const data = {
       offset: 0,
       limit: 20,
       orderBy: 'name',
-    });
+    };
+    if (categoryID) {
+      data.categoryIDs = categoryID;
+    }
+    if (productName) {
+      data.productName = productName;
+    }
+    const response = await this.$svc.shop.listCategoryProducts(data);
     if (this.processError(response)) {
       return;
     }
