@@ -1,22 +1,41 @@
 <template>
-  <q-layout view="hHh Lpr lFf" class="q-pa-md">
-    <q-header elevated class="bg-white text-primary">
-      <q-toolbar class="row">
-        <router-link :to="{ 'name': 'index' }" class="col-1">
-          <img src="~/assets/evis-logo.png" width="35" alt="EVIS" />
+  <q-layout view="hHh Lpr lFf" class="app-layout q-pa-md">
+    <q-header class="app-header bg-white text-primary row items-center justify-center q-pl-md q-pr-md">
+      <q-toolbar class="app-header__toolbar row">
+        <router-link :to="{ 'name': 'index' }" class="col-auto">
+          <Logo />
         </router-link>
         <q-space></q-space>
-        <div class="col-auto">
+        <div class="col-auto q-ml-xl">
           <CategoriesDropdown/>
         </div>
         <div class="col-4">
           <SearchAutocomplete/>
         </div>
         <q-space></q-space>
-        <div class="col-auto q-ml-xl">
-            <q-btn label="Sell data" color="indigo-3" class="q-mr-sm" :to="{ 'name': 'sellerProductsList' }"/>
-            <q-btn label="Request custom data" color="secondary" class="q-mr-sm" />
-            <q-btn label="Login" color="primary" :to="{ name: 'login' }" />
+        <div class="col-auto col-xl-12 q-ml-xl">
+          <q-btn
+            flat
+            no-caps
+            label="Request data"
+            color="accent"
+            class="q-mr-sm text-subhead-2-medium radius-8"
+          />
+          <q-btn
+            flat
+            no-caps
+            label="Sell data"
+            color="accent"
+            class="q-mr-sm text-subhead-2-medium radius-8"
+            :to="{ 'name': 'sellerProductsList' }"
+          />
+          <q-btn
+            flat
+            no-caps
+            label="Login"
+            color="accent"
+            :to="{ name: 'login' }" class="text-subhead-2-medium radius-8 ev-border"
+          />
         </div>
       </q-toolbar>
     </q-header>
@@ -25,9 +44,10 @@
         <ProductsSidebar />
       </q-drawer>
     </div>
-    <q-page-container>
+    <q-page-container class="app-main">
       <router-view />
     </q-page-container>
+    <Footer />
   </q-layout>
 </template>
 
@@ -36,6 +56,8 @@ import { defineComponent } from 'vue';
 import CategoriesDropdown from 'components/AppLayout/CategoriesDropdown';
 import SearchAutocomplete from 'components/AppLayout/SearchAutocomplete';
 import ProductsSidebar from 'components/Product/ProductsSidebar';
+import Footer from 'components/Footer';
+import Logo from 'components/Logo'
 
 export default defineComponent({
   name: 'AppLayout',
@@ -43,6 +65,8 @@ export default defineComponent({
     CategoriesDropdown,
     SearchAutocomplete,
     ProductsSidebar,
+    Footer,
+    Logo,
   },
   computed: {
     showLeftSidebar() {
@@ -51,3 +75,22 @@ export default defineComponent({
   },
 });
 </script>
+
+<style lang="scss">
+  .app-layout {
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+  }
+  .app-header {
+    min-height: 128px;
+    flex-shrink: 0;
+    &__toolbar {
+      max-width: 1270px;
+    }
+  }
+  .app-main {
+    flex: 1 0 auto;
+    padding-bottom: -128px;
+  }
+</style>

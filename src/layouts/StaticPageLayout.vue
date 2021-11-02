@@ -1,43 +1,115 @@
 <template>
-  <q-layout view="lHh Lpr lFf" class="q-pa-md">
-    <q-header elevated class="bg-white text-primary">
-      <q-toolbar>
+  <q-layout view="lHh Lpr lFf" class="static-page-layout q-pa-md">
+    <q-header elevated class="static-page-header bg-info text-primary row items-center justify-center q-pl-md q-pr-md">
+      <q-toolbar class="static-page-header__toolbar">
         <router-link :to="{ 'name': 'index' }">
-          <img src="~/assets/evis-logo.png" width="35" alt="EVIS" />
+          <Logo />
         </router-link>
-        <q-space ></q-space>
-        <nav>
-          <a href="#">White paper</a>
-          <a href="#tokenomics">Tokenomics</a>
-          <a href="#solutions">Solutions</a>
-          <a href="#teams">Teams</a>
-          <a href="#faq">FAQ</a>
+        <q-btn flat round icon="menu" v-if="showHamburgerMenu" class="q-ml-md" size="23px">
+          <q-menu>
+            <q-list style="min-width: 100px">
+              <q-item clickable v-close-popup>
+                <q-item-section>
+                  <a class="mobile-menu-link" href="https://evis.market/pdf/white_paper_ru.pdf" target="_blank">
+                    White paper
+                  </a>
+                </q-item-section>
+              </q-item>
+              <q-item clickable v-close-popup>
+                <q-item-section>Tokenomics</q-item-section>
+              </q-item>
+              <q-item clickable v-close-popup>
+                <q-item-section>Solutions</q-item-section>
+              </q-item>
+              <q-item clickable v-close-popup>
+                <q-item-section>
+                  <a class="mobile-menu-link" href="https://evis.market/ru/team/" target="_blank">
+                    Team
+                  </a>
+                </q-item-section>
+              </q-item>
+              <q-item clickable v-close-popup>
+                <q-item-section>FAQ</q-item-section>
+              </q-item>
+              <q-separator />
+            </q-list>
+          </q-menu>
+        </q-btn>
+        <nav class="static-page-header__nav q-ml-xl" v-else>
+          <a href="https://evis.market/pdf/white_paper_ru.pdf" target="_blank" class="text-subhead-2-medium">White paper</a>
+          <a href="#tokenomics" class="text-subhead-2-medium">Tokenomics</a>
+          <a href="#solutions" class="text-subhead-2-medium">Solutions</a>
+          <a href="https://evis.market/ru/team/" target="_blank" class="text-subhead-2-medium">Team</a>
+          <a href="#faq" class="text-subhead-2-medium">FAQ</a>
         </nav>
         <q-space></q-space>
-        <q-btn label="Login" color="primary" :to="{ name: 'login' }" />
+        <q-btn
+          flat
+          no-caps
+          label="Sign in"
+          color="accent"
+          :to="{ name: 'login' }"
+          class="text-subhead-2-medium q-mr-sm"
+        />
+        <q-btn
+          flat
+          no-caps
+          label="Sign up"
+          color="accent"
+          :to="{ name: 'signup' }"
+          class="text-subhead-2-medium ev-border radius-8"
+        />
       </q-toolbar>
     </q-header>
-    <q-page-container>
+    <q-page-container class="static-page-main">
       <router-view />
     </q-page-container>
+    <Footer />
   </q-layout>
 </template>
 
 <script>
 import { defineComponent } from 'vue';
+import Footer from 'components/Footer';
+import Logo from 'components/Logo'
 
 export default defineComponent({
   name: 'StaticPageLayout',
-
-  components: {
+  computed: {
+    showHamburgerMenu() {
+      return this.$q.screen.width < 1041;
+    },
   },
-
-  setup() {
-  },
+  components: { Footer, Logo },
 });
 </script>
 
-<style lang="sass" scoped>
-nav a
-  padding: 1em
+<style lang="scss" scoped>
+  .static-page-layout {
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+  }
+  .static-page-header {
+    min-height: 128px;
+    flex-shrink: 0;
+    &__toolbar {
+      max-width: 1270px;
+    }
+    &__nav a {
+      padding: 1em;
+      text-decoration: none;
+      &:hover {
+        color: $accent;
+      }
+    }
+  }
+  .static-page-main {
+    flex: 1 0 auto;
+    padding-bottom: -128px;
+  }
+  .mobile-menu-link {
+    text-decoration: none;
+    color: $dark
+  }
 </style>

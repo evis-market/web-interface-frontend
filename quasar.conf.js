@@ -51,7 +51,7 @@ module.exports = configure((ctx) => ({
     // 'line-awesome',
     // 'roboto-font-latin-ext', // this or either 'roboto-font', NEVER both!
 
-    'roboto-font', // optional, you are not bound to it
+    // 'roboto-font', // optional, you are not bound to it
     'material-icons', // optional, you are not bound to it
   ],
 
@@ -104,7 +104,14 @@ module.exports = configure((ctx) => ({
 
   // https://v2.quasar.dev/quasar-cli/quasar-conf-js#Property%3A-framework
   framework: {
-    config: {},
+    config: {
+      brand: {
+        primary: '#1155c9',
+        accent: '#F33696',
+        dark: '#0e1b2d',
+        info: '#EFF5FF',
+      },
+    },
 
     // iconSet: 'material-icons', // Quasar icon set
     // lang: 'en-US', // Quasar language pack
