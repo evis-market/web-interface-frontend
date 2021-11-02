@@ -14,7 +14,7 @@ export default class FileSvc {
   /*
   Upload File
   */
-  async upload(file) {
-    return this.httpSvc.post(`${this.apiBaseURL}/api/v1/upload/`, file);
+  async upload(formData) {
+    return this.httpSvc.post(`${this.apiBaseURL}/api/v1/upload/`, formData);
   }
 }
