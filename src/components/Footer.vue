@@ -1,8 +1,8 @@
 <template>
   <footer class="app-footer">
     <div class="app-footer__decor"></div>
-    <div class="app-footer__content">
-      <div class="app-footer__pages text-subhead-2-medium">
+    <div class="app-footer__content row">
+      <div class="app-footer__pages text-subhead-2-medium col">
         <ul class="app-footer__pages-list q-pr-xl">
           <li><a target="_blank" href="https://evis.market/pdf/white_paper_ru.pdf">White Paper</a></li>
           <li><a target="_blank" href="https://evisdm.medium.com/">Blog</a></li>
@@ -18,9 +18,11 @@
           <li><a target="_blank" href="https://evis.market/pdf/risk_disclaimer_en.pdf">Risk disclaimer</a></li>
         </ul>
       </div>
-      <div class="app-footer__contacts">
-        <Logo color="white" width="" height="40" />
-        <div class="app-footer__social-nets row items-center">
+      <div class="app-footer__contacts col-5">
+        <div class="row q-mt-xl q-mb-lg">
+          <Logo color="white" width="" height="40" />
+        </div>
+        <div class="app-footer__social-nets row items-center q-mb-lg">
           <q-btn
             round
             color="ev-dark"
@@ -87,7 +89,7 @@
             </q-icon>
           </q-btn>
         </div>
-        <a class="app-footer__email text-btn-2-semi-bold" target="_blank" href="mailto:support@evis.market">
+        <a class="app-footer__email text-btn-2-semi-bold q-mb-md" target="_blank" href="mailto:support@evis.market">
           support@evis.market
         </a>
         <a class="app-footer__github text-btn-2-semi-bold" target="_blank" href="https://github.com/evis-market">
@@ -123,16 +125,13 @@ export default {
     &__content {
       margin-right: -20px;
       margin-left: -20px;
-      min-height: 200px;
       background-color: $primary;
       padding-top: 8px;
-      padding-left: 25em;
       padding-bottom: 30px;
-      display: flex;
-      justify-content: space-around;
     }
     &__pages {
       display: flex;
+      justify-content: center;
       & ul {
         list-style: none;
       }
@@ -144,6 +143,7 @@ export default {
     &__contacts {
       display: flex;
       flex-direction: column;
+      align-items: flex-start;
     }
     &__email, &__github {
       text-decoration: none;
