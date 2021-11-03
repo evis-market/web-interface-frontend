@@ -1,14 +1,16 @@
 <template>
-  <footer class="app-footer">
-    <div class="app-footer__decor"></div>
+  <q-footer class="app-footer">
+    <div class="app-footer__decor-wrapper">
+      <div class="app-footer__decor"></div>
+    </div>
     <div class="app-footer__content row">
       <div class="app-footer__pages text-subhead-2-medium col-md-7 col-sm-12 col-xs-12">
         <ul class="app-footer__pages-list q-pr-xl">
-          <li><a target="_blank" href="https://evis.market/pdf/white_paper_ru.pdf">White Paper</a></li>
+          <li><a target="_blank" href="https://evis.market/pdf/white_paper_en.pdf">White Paper</a></li>
           <li><a target="_blank" href="https://evisdm.medium.com/">Blog</a></li>
           <li><a target="_blank" href="https://t.me/igor_yur">Contact</a></li>
           <li><a target="_blank" href="#">FAQ</a></li>
-          <li><a target="_blank" href="https://evis.market/ru/team/">Team</a></li>
+          <li><a target="_blank" href="https://evis.market/en/team/">Team</a></li>
         </ul>
         <ul class="app-footer__pages-list">
           <li><a target="_blank" href="https://evis.market/pdf/privacy_policy_en.pdf">Privacy</a></li>
@@ -98,7 +100,7 @@
         </a>
       </div>
     </div>
-  </footer>
+  </q-footer>
 </template>
 
 <script>
@@ -117,7 +119,11 @@ export default {
 
 <style lang="scss">
   .app-footer {
-    flex-shrink: 0;
+    &__decor-wrapper {
+      background-color: white;
+      height: 80px;
+      width: 100%;
+    }
     &__decor {
       -webkit-transform: skew(45deg);
       -ms-transform: skew(45deg);
