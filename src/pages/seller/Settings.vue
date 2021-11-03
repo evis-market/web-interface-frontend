@@ -36,13 +36,30 @@
                   accept="image/png, image/jpg, image/jpeg"
                   max-file-size="4194304"
                   max-files="1"
-                  v-model="v.logo_url.$model"
+                  v-model="v.logo.$model"
                   label="Logo"
                   class="col"
-                  :error-message="v.logo_url.$errors.map(err => err.$message).join('. ')"
-                  :error="v.logo_url.$error"
-                  @change.prevent="addFile"
+                  :error-message="v.logo.$errors.map(err => err.$message).join('. ')"
+                  :error="v.logo.$error"
+                  @update:modelValue="uploadFile"
                 />
+              </div>
+              <div class="row q-pl-lg" v-if="logo_url">
+                <div class="col">
+                  <a :href="logo_url" target="_blank">
+                    <img :src="logo_url" class="q-pl-md" alt="" height="60" />
+                  </a>
+                  <q-btn
+                    dense
+                    round
+                    icon="close"
+                    color="red"
+                    align="center"
+                    class="q-ml-md q-mb-lg"
+                    size="xs"
+                    @click="deleteLogo"
+                  />
+                </div>
               </div>
               <div class="row">
                 <q-icon name="link" class="col-auto q-mr-md q-mt-sm" size="sm" />
@@ -244,8 +261,9 @@ export default {
       },
       name: '',
       descr: '',
-      logo_url: null,
-      fileUUID: '',
+      logo: '',
+      logo_url: '',
+      logo_uuid: null,
       sites: [
         {
           type_id: this.$svc.seller.ContactTypeIDSite, value: '', comment: '', errorMessage: '',
@@ -260,7 +278,7 @@ export default {
       vuelidateExternalResults: {
         name: [],
         descr: [],
-        logo_url: [],
+        logo: [],
         wallet_for_payments_erc20: [],
         contacts: [],
       },
@@ -268,8 +286,8 @@ export default {
   },
   validations: {
     name: { required },
-    descr: { required },
-    logo_url: {},
+    descr: { },
+    logo: {},
     wallet_for_payments_erc20: {
       erc20Validator: helpers.withMessage('Incorrect wallet', erc20Validator),
     },
@@ -279,24 +297,32 @@ export default {
       return this.emails.reduce((acc, curr) => acc + curr.value, '');
     },
     disableSaving() {
-      return !this.name || !this.emailValues || this.v.$errors.length;
+      return !this.name || this.v.$errors.length;
     },
   },
   methods: {
-    async addFile() {
+    async uploadFile() {
       const formData = new FormData();
-      formData.append('file', this.logo_url, this.logo_url.name);
+      formData.append('file', this.logo, this.logo.name);
       const response = await this.$svc.file.upload(formData);
       if (this.processError(response)) {
-        this.logo_url = null;
+        this.logo = null;
         return;
       }
-      this.fileUUID = response.uuid;
+      this.logo_uuid = response.uuid;
+      this.logo_url = null;
     },
+
+    deleteLogo() {
+      this.logo = null;
+      this.logo_url = null;
+    },
+
     clearField(targetObjectName, id) {
       this[targetObjectName].splice(this[targetObjectName].findIndex((item) => item.id === id), 1);
       this.emailsKey += 1;
     },
+
     addField(targetObjectName) {
       const typeIDs = {
         sites: this.$svc.seller.ContactTypeIDSite,
@@ -310,11 +336,12 @@ export default {
       });
       this.emailsKey += 1;
     },
+
     async updateSettings() {
       const data = {
         name: this.name,
         descr: this.descr,
-        logo_url: this.fileUUID,
+        logo: this.logo_uuid,
         wallet_for_payments_erc20: this.wallet_for_payments_erc20,
         contacts: [...this.emails],
       };
@@ -333,11 +360,13 @@ export default {
       this.$notify.success('Settings have been successfully updated');
       this.v.$reset();
     },
+
     addEmptyErrorMessages(fieldName) {
       this[fieldName].forEach((el) => {
         el.errorMessage = '';
       });
     },
+
     addDynamicFieldIDs(fieldName) {
       this[fieldName].forEach((el) => {
         el.id = this.fieldIDs[fieldName];
@@ -355,10 +384,8 @@ export default {
     this.name = seller.name || '';
     this.descr = seller.descr || '';
     this.wallet_for_payments_erc20 = seller.wallet_for_payments_erc20 || '';
-    const logo = seller.logo_url;
-    if (logo) {
-      this.logo_url = new File([logo], logo, { type: 'image/jpeg' });
-    }
+    this.logo_url = seller.logo_url;
+    this.logo_uuid = seller.logo;
 
     const { contacts } = seller;
     if (contacts) {
