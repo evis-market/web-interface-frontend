@@ -1,5 +1,5 @@
 <template>
-  <q-layout view="hHh Lpr lFf" class="app-layout q-pa-md">
+  <q-layout view="hHh Lpr fff" class="app-layout q-pa-md">
     <Header />
     <div v-if="showLeftSidebar">
       <q-drawer show-if-above side="left">
@@ -39,15 +39,3 @@ export default defineComponent({
   },
 });
 </script>
-
-<style lang="scss">
-  .app-layout {
-    display: flex;
-    flex-direction: column;
-    height: 100vh;
-  }
-  .app-main {
-    flex: 1 0 auto;
-    padding-bottom: -128px;
-  }
-</style>
