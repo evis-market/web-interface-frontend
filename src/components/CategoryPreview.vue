@@ -20,7 +20,7 @@
         :key="recommendedType.id"
         class="col-sm-6 col-xs-12 row items-center q-mb-sm recommended-for"
       >
-        <q-icon name="done" class="q-mr-sm text-primary text-title-4-bold" />
+        <q-icon name="done" class="category-preview__icon q-mr-sm text-primary text-title-4-bold" />
         <p class="q-mb-none text-subhead-2-bold text-dark">{{ recommendedType.name }}</p>
       </div>
     </div>
@@ -65,6 +65,10 @@ export default {
     width: 100%;
     &__title {
       margin: 0 40px 0 0;
+    }
+    &__icon {
+      font-weight: bold;
+      font-size: 28px;
     }
   }
   .recommended-for {
