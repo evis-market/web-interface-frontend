@@ -1,6 +1,8 @@
 <template>
-  <div v-for="product in products" :key="product.id" class="col-9">
-    <ProductPreview :product="product" />
+  <div class="products-list">
+    <div v-for="product in products" :key="product.id" class="col-9">
+      <ProductPreview :product="product" />
+    </div>
   </div>
 </template>
 
@@ -38,6 +40,8 @@ export default {
 };
 </script>
 
-<style scoped>
-
+<style lang="scss" scoped>
+  .products-list {
+    min-height: 1000px;
+  }
 </style>
