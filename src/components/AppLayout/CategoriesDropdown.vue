@@ -6,7 +6,7 @@
     class="radius-8 bg-primary text-white text-subhead-2-medium q-mr-sm"
   >
     <q-list>
-      <q-item clickable v-close-popup v-for="category in categories" :key="category.id">
+      <q-item clickable v-close-popup v-for="category in categories" :key="category.id" @click="openProducts(category)">
         <q-item-section>
           <q-item-label>{{ category.name }}</q-item-label>
         </q-item-section>
@@ -28,5 +28,31 @@ export default defineComponent({
       return this.$q.screen.width < 1041 ? '' : 'Categories';
     },
   },
+  methods: {
+    async getProductsByCategoryID(id) {
+      const response = await this.$svc.shop.listCategoryProducts({
+        offset: 0,
+        limit: 20,
+        orderBy: 'name',
+        categoryIDs: id
+      });
+      if (this.processError(response)) {
+        return;
+      }
+      this.$store.commit('common/setVisibleProducts', response.seller_products);
+    },
+    async openProducts(category) {
+      if (this.$route.name === 'productsList') {
+        await this.getProductsByCategoryID(category.id);
+      }
+      await this.$router.push({
+        name: 'productsList',
+        params: {
+          categoryID: category.id,
+          categorySlug: category.slug,
+        },
+      });
+    }
+  }
 });
 </script>

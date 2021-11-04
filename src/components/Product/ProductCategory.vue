@@ -27,6 +27,13 @@ export default {
       expanded: false,
     };
   },
+  watch: {
+    '$route.params.categorySlug' () {
+      if (this.$route.params.categorySlug === this.category.slug) {
+        this.expanded = true;
+      }
+    }
+  },
   mounted() {
     this.expanded = this.expand;
   },
