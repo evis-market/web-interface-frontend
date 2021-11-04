@@ -1,7 +1,7 @@
 <template>
   <div class="category-preview column cursor-pointer" @click="openProducts">
     <div
-      class="row items-end q-mb-lg"
+      class="row q-mb-lg"
       :class="logo ? 'justify-start' : 'justify-end'"
     >
       <img
@@ -9,12 +9,13 @@
         :src="logo"
         alt="Category icon"
         width="64"
+        height="64"
         class="q-mr-md radius-8"
       >
-      <h5 class="category-preview__title text-title-4-bold text-primary">{{ category.name }}</h5>
+      <h5 class="col text-title-4-bold text-primary q-pt-lg q-ma-none">{{ category.name }}</h5>
     </div>
     <p v-if="description" class="q-mb-lg text-subhead-2-medium text-dark">{{ description }}</p>
-    <div class="row q-mt-auto" v-if="recommendedFor.length">
+    <div class="row q-mt-auto items-end" v-if="recommendedFor.length">
       <div
         v-for="recommendedType in recommendedFor"
         :key="recommendedType.id"
@@ -63,9 +64,6 @@ export default {
     box-sizing: border-box;
     border-radius: 10px;
     width: 100%;
-    &__title {
-      margin: 0 40px 0 0;
-    }
     &__icon {
       font-weight: bold;
       font-size: 28px;
