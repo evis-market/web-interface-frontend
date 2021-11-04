@@ -134,8 +134,6 @@ export default {
       margin-left: -80px;
     }
     &__content {
-      margin-right: -20px;
-      margin-left: -20px;
       background-color: $primary;
       padding-top: 8px;
       padding-bottom: 30px;
