@@ -1,27 +1,28 @@
 <template>
   <div class="category-preview column cursor-pointer" @click="openProducts">
     <div
-      class="row items-center q-mb-lg"
-      :class="logo ? 'justify-between' : 'justify-end'"
+      class="row q-mb-lg"
+      :class="logo ? 'justify-start' : 'justify-end'"
     >
       <img
         v-if="logo"
         :src="logo"
         alt="Category icon"
-        width="50"
-        class="q-mr-sm q-ml-lg"
+        width="64"
+        height="64"
+        class="q-mr-md radius-8"
       >
-      <h5>{{ category.name }}</h5>
+      <h5 class="col text-title-4-bold text-primary q-pt-lg q-ma-none">{{ category.name }}</h5>
     </div>
-    <p v-if="description" class="q-mb-lg">{{ description }}</p>
-    <div class="row q-mt-auto" v-if="recommendedFor.length">
+    <p v-if="description" class="q-mb-lg text-subhead-2-medium text-dark">{{ description }}</p>
+    <div class="row q-mt-auto items-end" v-if="recommendedFor.length">
       <div
         v-for="recommendedType in recommendedFor"
         :key="recommendedType.id"
         class="col-sm-6 col-xs-12 row items-center q-mb-sm recommended-for"
       >
-        <q-icon name="done" class="q-mr-lg done-icon" />
-        <p class="q-mb-none">{{ recommendedType.name }}</p>
+        <q-icon name="done" class="category-preview__icon q-mr-sm text-primary text-title-4-bold" />
+        <p class="q-mb-none text-subhead-2-bold text-dark">{{ recommendedType.name }}</p>
       </div>
     </div>
   </div>
@@ -57,25 +58,16 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-  $color: #07528C;
-  @mixin fontStyles ($size) {
-    font-style: normal;
-    font-weight: 600;
-    font-size: $size;
-    line-height: 1em;
-    color: $color;
-  }
-  h5 {
-    @include fontStyles(36px);
-    margin: 0 40px 0 0;
-  }
-  p, .done-icon {
-    @include fontStyles(18px);
-  }
   .category-preview {
-    padding: 20px 28px 26px;
-    border: 1px solid $color;
+    padding: 48px 32px;
+    border: 2px solid $grey;
+    box-sizing: border-box;
+    border-radius: 10px;
     width: 100%;
+    &__icon {
+      font-weight: bold;
+      font-size: 28px;
+    }
   }
   .recommended-for {
     min-height: 50px;

@@ -48,7 +48,7 @@ export default {
     min-height: 128px;
     flex-shrink: 0;
     &__toolbar {
-      max-width: 1270px;
+      max-width: $content-max-width;
     }
   }
 </style>
