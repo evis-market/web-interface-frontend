@@ -333,7 +333,10 @@ export default {
         type_id: typeIDs[targetObjectName],
         value: '',
         comment: '',
+        errorMessage: '',
+        id: this.fieldIDs[targetObjectName],
       });
+      this.fieldIDs[targetObjectName] += 1;
       this.emailsKey += 1;
     },
 
