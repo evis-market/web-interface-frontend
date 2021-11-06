@@ -1,9 +1,9 @@
 const routes = [
   {
     path: '/',
-    component: () => import('layouts/StaticPageLayout.vue'),
+    component: () => import('layouts/AppLayout.vue'),
     children: [
-      { path: '', name: 'index', component: () => import('pages/Index.vue') },
+      { path: '', name: 'index', component: () => import('pages/CategoriesList.vue') },
     ],
   },
   {
