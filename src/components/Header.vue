@@ -13,6 +13,7 @@
       </div>
       <q-space></q-space>
       <div class="col-auto col-xl-12 q-ml-xl">
+        <!--
         <q-btn
           flat
           no-caps
@@ -20,6 +21,7 @@
           color="accent"
           class="q-mr-sm text-subhead-2-medium radius-8"
         />
+        -->
         <q-btn
           flat
           no-caps
