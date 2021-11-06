@@ -14,7 +14,7 @@
       >
       <h5 class="col text-title-4-bold text-primary q-pt-lg q-ma-none">{{ category.name }}</h5>
     </div>
-    <p v-if="description" class="q-mb-lg text-subhead-2-medium text-dark">{{ description }}</p>
+    <p v-if="category.short_descr" class="q-mb-lg text-subhead-2-medium text-dark">{{ category.short_descr }}</p>
     <div class="row q-mt-auto items-end" v-if="recommendedFor.length">
       <div
         v-for="recommendedType in recommendedFor"
