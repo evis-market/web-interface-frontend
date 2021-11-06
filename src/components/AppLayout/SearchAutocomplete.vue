@@ -1,7 +1,9 @@
 <template>
   <q-input
+    dense
     class="search-block text-caption-1"
-    v-model="search"
+    v-model.trim="productName"
+    @keyup.enter="searchProduct"
     debounce="500"
     outlined
     placeholder="Search"
@@ -9,7 +11,7 @@
     label-color="dark"
   >
     <template v-slot:append>
-      <q-btn color="primary" icon="search" text-color="white" class="search-btn" />
+      <q-btn color="primary" icon="search" text-color="white" class="search-btn" @click="searchProduct" />
     </template>
   </q-input>
 </template>

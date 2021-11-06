@@ -40,7 +40,7 @@ export default {
       return this.category.recommended_for;
     },
     description() {
-      return this.category.descr;
+      return this.category.short_descr;
     },
   },
   methods: {
