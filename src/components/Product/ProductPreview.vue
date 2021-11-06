@@ -49,7 +49,7 @@ export default {
   props: ['product'],
   setup(props) {
     const { product } = toRefs(props);
-    return getProductPrice(product);
+    return getProductPrice(product.value);
   },
   methods: {
     openProduct() {
