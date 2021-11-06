@@ -119,7 +119,7 @@ export default {
       price_per_usage_descr: '',
       price_per_year: null,
     });
-    const { productPrice } = getProductPrice(product);
+    const { productPrice } = getProductPrice(product.value);
     return { product, productPrice };
   },
   data() {

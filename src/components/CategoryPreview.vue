@@ -19,10 +19,10 @@
       <div
         v-for="recommendedType in recommendedFor"
         :key="recommendedType.id"
-        class="col-sm-6 col-xs-12 row items-center q-mb-sm recommended-for"
+        class="col-12 row q-mb-sm recommended-for"
       >
         <q-icon name="done" class="category-preview__icon q-mr-sm text-primary text-title-4-bold" />
-        <p class="q-mb-none text-subhead-2-bold text-dark">{{ recommendedType.name }}</p>
+        <p class="q-mb-none col text-subhead-2-bold text-dark">{{ recommendedType.name }}</p>
       </div>
     </div>
   </div>
