@@ -29,6 +29,54 @@
                   :error-message="v.descr.$errors.map(err => err.$message).join('. ')"
                 />
               </div>
+              <div class="row q-mb-md">
+                <q-icon name="attach_money" class="col-auto q-mr-md q-mt-sm" size="sm" />
+                <div class="col">
+                  <q-input
+                    dense
+                    label="Price (One-Time)"
+                    class="col"
+                    v-model="v.price_one_time.$model"
+                    :error="v.price_one_time.$error"
+                    :error-message="v.price_one_time.$errors.map(err => err.$message).join('. ')"
+                  />
+                  <q-input
+                    dense
+                    label="Price (Per Month)"
+                    class="col"
+                    v-model="v.price_per_month.$model"
+                    :error="v.price_per_month.$error"
+                    :error-message="v.price_per_month.$errors.map(err => err.$message).join('. ')"
+                  />
+                  <q-input
+                    dense
+                    label="Price (Per Year)"
+                    class="col"
+                    v-model="v.price_per_year.$model"
+                    :error="v.price_per_year.$error"
+                    :error-message="v.price_per_year.$errors.map(err => err.$message).join('. ')"
+                  />
+                  <q-checkbox
+                    v-model="price_per_usage"
+                    label="Per Usage"
+                    class="col"
+                    dense
+                  />
+                  <q-input
+                    dense
+                    label="Usage Details"
+                    v-model="price_per_usage_descr"
+                    class="col"
+                    :rules="[val => true]"
+                  />
+                  <q-checkbox
+                    v-model="price_by_request"
+                    label="Pricing available upon request"
+                    class="col"
+                    dense
+                  />
+                </div>
+              </div>
               <div class="row">
                 <q-icon name="language" class="col-auto q-mr-md q-mt-sm" size="sm" />
                 <q-select
@@ -149,66 +197,18 @@
                   </ValidateEach>
                 </div>
               </div>
-              <div class="row">
-                <q-icon name="attach_money" class="col-auto q-mr-md q-mt-sm" size="sm" />
-                <div class="col">
-                  <q-input
-                    dense
-                    label="Price (One-Time)"
-                    class="col"
-                    v-model="v.price_one_time.$model"
-                    :error="v.price_one_time.$error"
-                    :error-message="v.price_one_time.$errors.map(err => err.$message).join('. ')"
-                  />
-                  <q-input
-                    dense
-                    label="Price (Per Month)"
-                    class="col"
-                    v-model="v.price_per_month.$model"
-                    :error="v.price_per_month.$error"
-                    :error-message="v.price_per_month.$errors.map(err => err.$message).join('. ')"
-                  />
-                  <q-input
-                    dense
-                    label="Price (Per Year)"
-                    class="col"
-                    v-model="v.price_per_year.$model"
-                    :error="v.price_per_year.$error"
-                    :error-message="v.price_per_year.$errors.map(err => err.$message).join('. ')"
-                  />
-                  <q-checkbox
-                    v-model="price_per_usage"
-                    label="Per Usage"
-                    class="col"
-                    dense
-                  />
-                  <q-input
-                    dense
-                    label="Usage Details"
-                    v-model="price_per_usage_descr"
-                    class="col"
-                    :rules="[val => true]"
-                  />
-                  <q-checkbox
-                    v-model="price_by_request"
-                    label="Pricing available upon request"
-                    class="col"
-                    dense
-                  />
-                </div>
-              </div>
-              <div class="row q-mt-sm">
-                <q-icon name="attach_file" class="col-auto q-mr-md q-mt-sm" size="sm" />
-                <q-file
-                  dense
-                  multiple
-                  v-model="v.data_samples.$model"
-                  label="Data Samples"
-                  class="col"
-                  :error="v.data_samples.$error"
-                  :error-message="v.data_samples.$errors.map(err => err.$message).join('. ')"
-                />
-              </div>
+<!--              <div class="row q-mt-sm">-->
+<!--                <q-icon name="attach_file" class="col-auto q-mr-md q-mt-sm" size="sm" />-->
+<!--                <q-file-->
+<!--                  dense-->
+<!--                  multiple-->
+<!--                  v-model="v.data_samples.$model"-->
+<!--                  label="Data Samples"-->
+<!--                  class="col"-->
+<!--                  :error="v.data_samples.$error"-->
+<!--                  :error-message="v.data_samples.$errors.map(err => err.$message).join('. ')"-->
+<!--                />-->
+<!--              </div>-->
               <div class="row justify-end">
                 <q-btn label="Cancel" type="reset" color="primary" flat />
                 <q-btn
