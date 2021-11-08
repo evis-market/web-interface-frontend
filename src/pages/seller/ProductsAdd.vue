@@ -84,12 +84,13 @@
                   v-model="v.data_langs_ids.$model"
                   multiple
                   dense
-                  use-input
                   :options="languageOptions"
+                  use-input
                   use-chips
                   stack-label
                   label="Data Languages"
                   @filter="filterFn"
+                  @keydown="targetOptions = 'Language'"
                   :error="v.data_langs_ids.$error"
                   :error-message="v.data_langs_ids.$errors.map(err => err.$message).join('. ')"
                 >
@@ -109,10 +110,13 @@
                   v-model="v.data_categories_ids.$model"
                   multiple
                   dense
-                  :options="categories.map(category => category.name).sort()"
+                  :options="categoryOptions"
+                  use-input
                   use-chips
                   stack-label
                   label="Categories"
+                  @filter="filterFn"
+                  @keydown="targetOptions = 'Category'"
                   :error="v.data_categories_ids.$error"
                   :error-message="v.data_categories_ids.$errors.map(err => err.$message).join('. ')"
                 />
@@ -261,6 +265,8 @@ export default {
   data() {
     return {
       languageOptions: [],
+      categoryOptions: [],
+      targetOptions: '',
       dataURLsKey: 0,
       name: '',
       descr: '',
@@ -356,23 +362,29 @@ export default {
     },
     allLanguageOptions() {
       return this.dataLanguages.map(lang => lang.name_en);
+    },
+    allCategoryOptions() {
+      return this.categories.map(category => category.name).sort();
     }
   },
   mounted() {
     this.languageOptions = this.allLanguageOptions;
+    this.categoryOptions = this.allCategoryOptions;
   },
   methods: {
     filterFn (val, update) {
+      const targetOptions = this.targetOptions.toLowerCase() + 'Options';
+      const allOptions = this[`all${this.targetOptions}Options`];
       if (val === '') {
         update(() => {
-          this.languageOptions = this.allLanguageOptions;
+          this[targetOptions] = allOptions;
         });
         return
       }
 
       update(() => {
         const needle = val.toLowerCase();
-        this.languageOptions = this.allLanguageOptions.filter(v => v.toLowerCase().indexOf(needle) > -1)
+        this[targetOptions] = allOptions.filter(v => v.toLowerCase().indexOf(needle) > -1)
       })
     },
     dataURLErrorMessage(value, index) {
