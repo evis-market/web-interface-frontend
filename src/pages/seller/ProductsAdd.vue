@@ -84,13 +84,23 @@
                   v-model="v.data_langs_ids.$model"
                   multiple
                   dense
-                  :options="dataLanguages.map(lang => lang.name_en)"
+                  use-input
+                  :options="languageOptions"
                   use-chips
                   stack-label
                   label="Data Languages"
+                  @filter="filterFn"
                   :error="v.data_langs_ids.$error"
                   :error-message="v.data_langs_ids.$errors.map(err => err.$message).join('. ')"
-                />
+                >
+                  <template v-slot:no-option>
+                    <q-item>
+                      <q-item-section>
+                        No results
+                      </q-item-section>
+                    </q-item>
+                  </template>
+                </q-select>
               </div>
               <div class="row">
                 <q-icon name="category" class="col-auto q-mr-md q-mt-sm" size="sm" />
@@ -250,6 +260,7 @@ export default {
   },
   data() {
     return {
+      languageOptions: [],
       dataURLsKey: 0,
       name: '',
       descr: '',
@@ -343,8 +354,27 @@ export default {
       });
       return dataURLs;
     },
+    allLanguageOptions() {
+      return this.dataLanguages.map(lang => lang.name_en);
+    }
+  },
+  mounted() {
+    this.languageOptions = this.allLanguageOptions;
   },
   methods: {
+    filterFn (val, update) {
+      if (val === '') {
+        update(() => {
+          this.languageOptions = this.allLanguageOptions;
+        });
+        return
+      }
+
+      update(() => {
+        const needle = val.toLowerCase();
+        this.languageOptions = this.allLanguageOptions.filter(v => v.toLowerCase().indexOf(needle) > -1)
+      })
+    },
     dataURLErrorMessage(value, index) {
       const veulidateMessage = value.$errors.map((err) => err.$message).join('. ');
       const serverMessage = this.vuelidateExternalResults.data_urls?.[index]?.url?.join('. ');
