@@ -89,7 +89,7 @@
                   use-chips
                   stack-label
                   label="Data Languages"
-                  @filter="filterFn"
+                  @filter="filterByOptions"
                   @keydown="targetOptions = 'Language'"
                   :error="v.data_langs_ids.$error"
                   :error-message="v.data_langs_ids.$errors.map(err => err.$message).join('. ')"
@@ -115,7 +115,7 @@
                   use-chips
                   stack-label
                   label="Categories"
-                  @filter="filterFn"
+                  @filter="filterByOptions"
                   @keydown="targetOptions = 'Category'"
                   :error="v.data_categories_ids.$error"
                   :error-message="v.data_categories_ids.$errors.map(err => err.$message).join('. ')"
@@ -133,7 +133,7 @@
                   use-chips
                   stack-label
                   label="Geography"
-                  @filter="filterFn"
+                  @filter="filterByOptions"
                   @keydown="targetOptions = 'Geography'"
                   :error="v.data_geo_regions_ids.$error"
                   :error-message="v.data_geo_regions_ids.$errors.map(err => err.$message).join('. ')"
@@ -380,7 +380,7 @@ export default {
     this.geographyOptions = this.allGeographyOptions;
   },
   methods: {
-    filterFn (val, update) {
+    filterByOptions (val, update) {
       const targetOptions = this.targetOptions.toLowerCase() + 'Options';
       const allOptions = this[`all${this.targetOptions}Options`];
       if (val === '') {

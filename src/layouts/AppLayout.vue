@@ -18,9 +18,9 @@ import { defineComponent } from 'vue';
 import CategoriesDropdown from 'components/AppLayout/CategoriesDropdown';
 import SearchAutocomplete from 'components/AppLayout/SearchAutocomplete';
 import ProductsSidebar from 'components/Product/ProductsSidebar';
-import Header from 'components/Header';
-import Footer from 'components/Footer';
-import Logo from 'components/Logo'
+import Header from 'components/AppLayout/Header';
+import Footer from 'components/AppLayout/Footer';
+import Logo from 'components/ui/Logo'
 
 export default defineComponent({
   name: 'AppLayout',

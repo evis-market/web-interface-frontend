@@ -35,7 +35,7 @@
 </template>
 
 <script>
-import Logo from 'components/Logo';
+import Logo from 'components/ui/Logo';
 import CategoriesDropdown from 'components/AppLayout/CategoriesDropdown';
 import SearchAutocomplete from 'components/AppLayout/SearchAutocomplete';
 
