@@ -95,11 +95,7 @@
                   :error-message="v.data_langs_ids.$errors.map(err => err.$message).join('. ')"
                 >
                   <template v-slot:no-option>
-                    <q-item>
-                      <q-item-section>
-                        No results
-                      </q-item-section>
-                    </q-item>
+                    <NoResultsItemSection />
                   </template>
                 </q-select>
               </div>
@@ -119,7 +115,11 @@
                   @keydown="targetOptions = 'Category'"
                   :error="v.data_categories_ids.$error"
                   :error-message="v.data_categories_ids.$errors.map(err => err.$message).join('. ')"
-                />
+                >
+                  <template v-slot:no-option>
+                    <NoResultsItemSection />
+                  </template>
+                </q-select>
               </div>
               <div class="row">
                 <q-icon name="place" class="col-auto q-mr-md q-mt-sm" size="sm" />
@@ -137,7 +137,11 @@
                   @keydown="targetOptions = 'Geography'"
                   :error="v.data_geo_regions_ids.$error"
                   :error-message="v.data_geo_regions_ids.$errors.map(err => err.$message).join('. ')"
-                />
+                >
+                  <template v-slot:no-option>
+                    <NoResultsItemSection />
+                  </template>
+                </q-select>
               </div>
               <div class="row">
                 <q-icon name="toc" class="col-auto q-mr-md q-mt-sm" size="sm" />
@@ -248,6 +252,7 @@
 <script>
 import TabMenu from 'components/AppLayout/TabMenu';
 import SellerTabs from 'components/Seller/SellerTabs';
+import NoResultsItemSection from 'components/ui/NoResultsItemSection';
 import useVuelidate from '@vuelidate/core';
 import { reactive, ref } from 'vue';
 import { ValidateEach } from '@vuelidate/components';
@@ -473,6 +478,7 @@ export default {
     TabMenu,
     SellerTabs,
     ValidateEach,
+    NoResultsItemSection,
   },
 };
 </script>
