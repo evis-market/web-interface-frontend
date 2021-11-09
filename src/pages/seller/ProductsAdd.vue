@@ -84,13 +84,20 @@
                   v-model="v.data_langs_ids.$model"
                   multiple
                   dense
-                  :options="dataLanguages.map(lang => lang.name_en)"
+                  :options="languageOptions"
+                  use-input
                   use-chips
                   stack-label
                   label="Data Languages"
+                  @filter="filterByOptions"
+                  @keydown="targetOptions = 'Language'"
                   :error="v.data_langs_ids.$error"
                   :error-message="v.data_langs_ids.$errors.map(err => err.$message).join('. ')"
-                />
+                >
+                  <template v-slot:no-option>
+                    <NoResultsItemSection />
+                  </template>
+                </q-select>
               </div>
               <div class="row">
                 <q-icon name="category" class="col-auto q-mr-md q-mt-sm" size="sm" />
@@ -99,13 +106,20 @@
                   v-model="v.data_categories_ids.$model"
                   multiple
                   dense
-                  :options="categories.map(category => category.name).sort()"
+                  :options="categoryOptions"
+                  use-input
                   use-chips
                   stack-label
                   label="Categories"
+                  @filter="filterByOptions"
+                  @keydown="targetOptions = 'Category'"
                   :error="v.data_categories_ids.$error"
                   :error-message="v.data_categories_ids.$errors.map(err => err.$message).join('. ')"
-                />
+                >
+                  <template v-slot:no-option>
+                    <NoResultsItemSection />
+                  </template>
+                </q-select>
               </div>
               <div class="row">
                 <q-icon name="place" class="col-auto q-mr-md q-mt-sm" size="sm" />
@@ -114,13 +128,20 @@
                   v-model="v.data_geo_regions_ids.$model"
                   multiple
                   dense
-                  :options="geography.filter(geo => !geo.parent_id).map(geo => geo.name)"
+                  :options="geographyOptions"
+                  use-input
                   use-chips
                   stack-label
                   label="Geography"
+                  @filter="filterByOptions"
+                  @keydown="targetOptions = 'Geography'"
                   :error="v.data_geo_regions_ids.$error"
                   :error-message="v.data_geo_regions_ids.$errors.map(err => err.$message).join('. ')"
-                />
+                >
+                  <template v-slot:no-option>
+                    <NoResultsItemSection />
+                  </template>
+                </q-select>
               </div>
               <div class="row">
                 <q-icon name="toc" class="col-auto q-mr-md q-mt-sm" size="sm" />
@@ -231,6 +252,7 @@
 <script>
 import TabMenu from 'components/AppLayout/TabMenu';
 import SellerTabs from 'components/Seller/SellerTabs';
+import NoResultsItemSection from 'components/ui/NoResultsItemSection';
 import useVuelidate from '@vuelidate/core';
 import { reactive, ref } from 'vue';
 import { ValidateEach } from '@vuelidate/components';
@@ -250,6 +272,10 @@ export default {
   },
   data() {
     return {
+      languageOptions: [],
+      categoryOptions: [],
+      geographyOptions: [],
+      targetOptions: '',
       dataURLsKey: 0,
       name: '',
       descr: '',
@@ -343,8 +369,40 @@ export default {
       });
       return dataURLs;
     },
+    allLanguageOptions() {
+      return this.dataLanguages.map(lang => lang.name_en);
+    },
+    allCategoryOptions() {
+      return this.categories.map(category => category.name).sort();
+    },
+    allGeographyOptions() {
+      return this.geography
+        .filter(geo => geo.parent_id)
+        .map(geo => geo.name)
+        .sort((geo1, geo2) => geo1.localeCompare(geo2));
+    }
+  },
+  mounted() {
+    this.languageOptions = this.allLanguageOptions;
+    this.categoryOptions = this.allCategoryOptions;
+    this.geographyOptions = this.allGeographyOptions;
   },
   methods: {
+    filterByOptions (val, update) {
+      const targetOptions = this.targetOptions.toLowerCase() + 'Options';
+      const allOptions = this[`all${this.targetOptions}Options`];
+      if (val === '') {
+        update(() => {
+          this[targetOptions] = allOptions;
+        });
+        return
+      }
+
+      update(() => {
+        const needle = val.toLowerCase();
+        this[targetOptions] = allOptions.filter(v => v.toLowerCase().indexOf(needle) > -1)
+      })
+    },
     dataURLErrorMessage(value, index) {
       const veulidateMessage = value.$errors.map((err) => err.$message).join('. ');
       const serverMessage = this.vuelidateExternalResults.data_urls?.[index]?.url?.join('. ');
@@ -423,6 +481,7 @@ export default {
     TabMenu,
     SellerTabs,
     ValidateEach,
+    NoResultsItemSection,
   },
 };
 </script>

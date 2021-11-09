@@ -10,7 +10,7 @@
   </div>
 </template>
 <script>
-import CategoryPreview from 'components/CategoryPreview';
+import CategoryPreview from 'components/AppLayout/CategoryPreview';
 
 export default {
   name: 'PageCategoriesList',
