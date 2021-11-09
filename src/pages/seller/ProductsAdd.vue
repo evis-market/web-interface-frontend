@@ -128,10 +128,13 @@
                   v-model="v.data_geo_regions_ids.$model"
                   multiple
                   dense
-                  :options="geography.filter(geo => !geo.parent_id).map(geo => geo.name)"
+                  :options="geographyOptions"
+                  use-input
                   use-chips
                   stack-label
                   label="Geography"
+                  @filter="filterFn"
+                  @keydown="targetOptions = 'Geography'"
                   :error="v.data_geo_regions_ids.$error"
                   :error-message="v.data_geo_regions_ids.$errors.map(err => err.$message).join('. ')"
                 />
@@ -266,6 +269,7 @@ export default {
     return {
       languageOptions: [],
       categoryOptions: [],
+      geographyOptions: [],
       targetOptions: '',
       dataURLsKey: 0,
       name: '',
@@ -365,11 +369,15 @@ export default {
     },
     allCategoryOptions() {
       return this.categories.map(category => category.name).sort();
+    },
+    allGeographyOptions() {
+      return this.geography.filter(geo => !geo.parent_id).map(geo => geo.name);
     }
   },
   mounted() {
     this.languageOptions = this.allLanguageOptions;
     this.categoryOptions = this.allCategoryOptions;
+    this.geographyOptions = this.allGeographyOptions;
   },
   methods: {
     filterFn (val, update) {
