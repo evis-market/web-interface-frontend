@@ -376,7 +376,10 @@ export default {
       return this.categories.map(category => category.name).sort();
     },
     allGeographyOptions() {
-      return this.geography.filter(geo => !geo.parent_id).map(geo => geo.name);
+      return this.geography
+        .filter(geo => geo.parent_id)
+        .map(geo => geo.name)
+        .sort((geo1, geo2) => geo1.localeCompare(geo2));
     }
   },
   mounted() {
