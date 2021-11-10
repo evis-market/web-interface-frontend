@@ -34,7 +34,7 @@
         </q-card-section>
 
         <q-card-section class="q-pt-none">
-          <SellerProductForm>
+          <SellerProductForm :product-id="openedProductID">
             <template v-slot:actions>
               <q-card-actions align="right" class="bg-white text-teal">
                 <q-btn flat label="Cancel" v-close-popup />
@@ -74,6 +74,7 @@ export default {
   data() {
     return {
       openProductDialog: false,
+      openedProductID: null,
       products: [],
       columns: [
         {
@@ -114,7 +115,7 @@ export default {
   methods: {
     onRowClick(event, row) {
       this.openProductDialog = true;
-      console.log(event, row);
+      this.openedProductID = row.id;
     }
   },
   components: { SellerProductForm }

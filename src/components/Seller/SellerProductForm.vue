@@ -248,6 +248,7 @@ import { numeric, url, required } from '@vuelidate/validators';
 
 export default {
   name: 'SellerProductForm',
+  props: ['productId'],
   setup() {
     const dataUrlRules = {
       value: { url, required },
