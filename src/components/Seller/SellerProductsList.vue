@@ -7,6 +7,7 @@
       bordered
       hide-pagination
       :pagination="{page: 0, rowsPerPage: 0}"
+      @row-click="onRowClick"
     >
       <template v-slot:no-data>
         No products added, please add products
@@ -22,6 +23,23 @@
         </q-td>
       </template>
     </q-table>
+    <q-dialog
+      v-model="openProductDialog"
+    >
+      <q-card style="width: 700px; max-width: 80vw;">
+        <q-card-section>
+          <div class="text-h6">Medium</div>
+        </q-card-section>
+
+        <q-card-section class="q-pt-none">
+          Click/Tap on the backdrop.
+        </q-card-section>
+
+        <q-card-actions align="right" class="bg-white text-teal">
+          <q-btn flat label="OK" v-close-popup />
+        </q-card-actions>
+      </q-card>
+    </q-dialog>
   </div>
 </template>
 
@@ -49,6 +67,7 @@ export default {
   },
   data() {
     return {
+      openProductDialog: false,
       products: [],
       columns: [
         {
@@ -86,5 +105,11 @@ export default {
       ],
     };
   },
+  methods: {
+    onRowClick(event, row) {
+      this.openProductDialog = true;
+      console.log(event, row);
+    }
+  }
 };
 </script>
