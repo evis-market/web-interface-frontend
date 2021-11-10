@@ -261,6 +261,7 @@ export default {
   },
   data() {
     return {
+      editMode: false,
       languageOptions: [],
       categoryOptions: [],
       geographyOptions: [],
@@ -371,12 +372,30 @@ export default {
         .sort((geo1, geo2) => geo1.localeCompare(geo2));
     }
   },
-  mounted() {
+  async mounted() {
     this.languageOptions = this.allLanguageOptions;
     this.categoryOptions = this.allCategoryOptions;
     this.geographyOptions = this.allGeographyOptions;
+    if (typeof this.productId === 'number') {
+      this.editMode = true;
+      await this.getProduct();
+    }
   },
   methods: {
+    async getProduct() {
+      const response = await this.$svc.seller_products.getSellerProduct(this.productId);
+      if (this.processError(response)) {
+        return;
+      }
+      this.name = response.name;
+      this.descr = response.descr;
+      this.price_by_request = response.price_by_request;
+      this.price_per_usage = response.price_per_usage;
+      this.price_per_usage_descr = response.price_per_usage_descr;
+      this.price_one_time = response.price_per_one_time;
+      this.price_per_month = response.price_per_month;
+      this.price_per_year = response.price_per_year;
+    },
     filterByOptions (val, update) {
       const targetOptions = this.targetOptions.toLowerCase() + 'Options';
       const allOptions = this[`all${this.targetOptions}Options`];
