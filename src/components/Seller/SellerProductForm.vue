@@ -223,17 +223,19 @@
     <!--                  :error-message="v.data_samples.$errors.map(err => err.$message).join('. ')"-->
     <!--                />-->
     <!--              </div>-->
-    <div class="row justify-end">
-      <q-btn label="Cancel" type="reset" color="primary" flat />
-      <q-btn
-        label="Save"
-        type="submit"
-        color="primary"
-        class="q-ml-sm"
-        :disable="disableSaving"
-        @click.prevent="addProduct"
-      />
-    </div>
+    <slot name="actions">
+      <div class="row justify-end">
+        <q-btn label="Cancel" type="reset" color="primary" flat />
+        <q-btn
+          label="Save"
+          type="submit"
+          color="primary"
+          class="q-ml-sm"
+          :disable="disableSaving"
+          @click.prevent="addProduct"
+        />
+      </div>
+    </slot>
   </q-form>
 </template>
 

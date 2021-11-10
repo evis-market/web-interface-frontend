@@ -23,21 +23,26 @@
         </q-td>
       </template>
     </q-table>
+
     <q-dialog
       v-model="openProductDialog"
+      full-height
     >
-      <q-card style="width: 700px; max-width: 80vw;">
+      <q-card style="width: 1000px; max-width: 80vw;">
         <q-card-section>
-          <div class="text-h6">Medium</div>
+          <div class="text-h6">You can edit this product</div>
         </q-card-section>
 
         <q-card-section class="q-pt-none">
-          Click/Tap on the backdrop.
+          <SellerProductForm>
+            <template v-slot:actions>
+              <q-card-actions align="right" class="bg-white text-teal">
+                <q-btn flat label="Cancel" v-close-popup />
+                <q-btn flat label="Save changes" v-close-popup />
+              </q-card-actions>
+            </template>
+          </SellerProductForm>
         </q-card-section>
-
-        <q-card-actions align="right" class="bg-white text-teal">
-          <q-btn flat label="OK" v-close-popup />
-        </q-card-actions>
       </q-card>
     </q-dialog>
   </div>
@@ -45,6 +50,7 @@
 
 <script>
 import getProductPrice from 'src/composables/productPrice';
+import SellerProductForm from './SellerProductForm';
 
 export default {
   name: 'SellerProductsList',
@@ -110,6 +116,7 @@ export default {
       this.openProductDialog = true;
       console.log(event, row);
     }
-  }
+  },
+  components: { SellerProductForm }
 };
 </script>
