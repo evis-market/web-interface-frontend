@@ -225,14 +225,14 @@
     <!--              </div>-->
     <slot name="actions">
       <div class="row justify-end">
-        <q-btn label="Cancel" type="reset" color="primary" flat />
+        <q-btn label="Cancel" type="reset" color="primary" flat v-close-popup="1" />
         <q-btn
           label="Save"
           type="submit"
           color="primary"
           class="q-ml-sm"
           :disable="disableSaving"
-          @click.prevent="addProduct"
+          @click.prevent="manageProduct"
         />
       </div>
     </slot>
@@ -448,8 +448,8 @@ export default {
       this.price_by_request = false;
       this.price_per_usage = false;
     },
-    async addProduct() {
-      const response = await this.$svc.seller_products.createSellerProduct({
+    async manageProduct() {
+      const productData = {
         name: this.name,
         descr: this.descr,
         price_one_time: +this.price_one_time,
@@ -470,13 +470,24 @@ export default {
           url: model.value.value,
         })),
         data_samples: [],
-      });
+      };
+
+      const response = (!this.productId)
+        ? await this.$svc.seller_products.createSellerProduct(productData)
+        : await this.$svc.seller_products.updateSellerProduct(productData, this.productId);
+
       if (this.processErrorWithInvalidFields(response, this.vuelidateExternalResults)) {
         this.v.$touch();
         return;
       }
-      this.$notify.success('Product was added successfully');
-      this.clearAllFields();
+
+      let action = 'updated';
+      if (!this.productId) {
+        action = 'added';
+        this.clearAllFields();
+      }
+
+      this.$notify.success(`Product was ${action} successfully`);
       this.v.$reset();
     },
   },

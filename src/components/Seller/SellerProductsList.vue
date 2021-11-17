@@ -34,14 +34,7 @@
         </q-card-section>
 
         <q-card-section class="q-pt-none">
-          <SellerProductForm :product-id="openedProductID">
-            <template v-slot:actions>
-              <q-card-actions align="right" class="bg-white text-teal">
-                <q-btn flat label="Cancel" v-close-popup />
-                <q-btn flat label="Save changes" v-close-popup />
-              </q-card-actions>
-            </template>
-          </SellerProductForm>
+          <SellerProductForm :product-id="openedProductID" />
         </q-card-section>
       </q-card>
     </q-dialog>
