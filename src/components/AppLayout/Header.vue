@@ -23,12 +23,14 @@
         />
         -->
         <q-btn
+          v-if="!isLoggedIn"
           flat
           no-caps
           label="Login"
           color="accent"
           :to="{ name: 'login' }" class="text-subhead-2-medium radius-8 ev-border"
         />
+        <q-icon class="profile-icon" name="account_circle" v-else @click="openSellerProducts" />
       </div>
     </q-toolbar>
   </q-header>
@@ -38,10 +40,19 @@
 import Logo from 'components/ui/Logo';
 import CategoriesDropdown from 'components/AppLayout/CategoriesDropdown';
 import SearchAutocomplete from 'components/AppLayout/SearchAutocomplete';
+import { mapGetters } from 'vuex';
 
 export default {
   name: 'Header',
-  components: { Logo, CategoriesDropdown, SearchAutocomplete }
+  components: { Logo, CategoriesDropdown, SearchAutocomplete },
+  computed: {
+    ...mapGetters('common', ['isLoggedIn'])
+  },
+  methods: {
+    openSellerProducts() {
+      this.$router.push({ name: 'sellerProductsList'})
+    }
+  }
 };
 </script>
 
@@ -52,5 +63,10 @@ export default {
     &__toolbar {
       max-width: $content-max-width;
     }
+  }
+
+  .profile-icon {
+    cursor: pointer;
+    font-size: 60px;
   }
 </style>
