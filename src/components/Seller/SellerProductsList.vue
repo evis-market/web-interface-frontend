@@ -7,6 +7,7 @@
       bordered
       hide-pagination
       :pagination="{page: 0, rowsPerPage: 0}"
+      @row-click="onRowClick"
     >
       <template v-slot:no-data>
         No products added, please add products
@@ -22,11 +23,27 @@
         </q-td>
       </template>
     </q-table>
+
+    <q-dialog
+      v-model="openProductDialog"
+      full-height
+    >
+      <q-card style="width: 1000px; max-width: 80vw;">
+        <q-card-section>
+          <div class="text-h6">You can edit this product</div>
+        </q-card-section>
+
+        <q-card-section class="q-pt-none">
+          <SellerProductForm :product-id="openedProductID" />
+        </q-card-section>
+      </q-card>
+    </q-dialog>
   </div>
 </template>
 
 <script>
 import getProductPrice from 'src/composables/productPrice';
+import SellerProductForm from './SellerProductForm';
 
 export default {
   name: 'SellerProductsList',
@@ -49,6 +66,8 @@ export default {
   },
   data() {
     return {
+      openProductDialog: false,
+      openedProductID: null,
       products: [],
       columns: [
         {
@@ -86,5 +105,12 @@ export default {
       ],
     };
   },
+  methods: {
+    onRowClick(event, row) {
+      this.openProductDialog = true;
+      this.openedProductID = row.id;
+    }
+  },
+  components: { SellerProductForm }
 };
 </script>

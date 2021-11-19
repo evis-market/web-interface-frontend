@@ -28,7 +28,7 @@ export default class SellerProductsSvc {
   /*
   Update seller product
   */
-  async updateSellerProduct(productID, productData) {
+  async updateSellerProduct(productData, productID) {
     return this.httpSvc.put(`${this.apiBaseURL}/api/v1/seller_products/my/${productID}`, productData);
   }
 
