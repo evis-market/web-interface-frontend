@@ -28,11 +28,25 @@
           no-caps
           label="Login"
           color="accent"
+          @click="openLoginForm = true"
           :to="{ name: 'login' }" class="text-subhead-2-medium radius-8 ev-border"
         />
         <q-icon class="profile-icon" name="account_circle" v-else @click="openSellerProducts" />
       </div>
     </q-toolbar>
+    <q-dialog v-model="openLoginForm">
+      <q-card class="sign-dialog">
+        <q-card-section class="row items-center q-pb-none justify-end">
+          <q-btn icon="highlight_off" text-color="grey" flat round dense v-close-popup />
+        </q-card-section>
+
+        <q-card-section class="row justify-center">
+          <q-card class="sign-content">
+            <LoginForm />
+          </q-card>
+        </q-card-section>
+      </q-card>
+    </q-dialog>
   </q-header>
 </template>
 
@@ -40,11 +54,17 @@
 import Logo from 'components/ui/Logo';
 import CategoriesDropdown from 'components/AppLayout/CategoriesDropdown';
 import SearchAutocomplete from 'components/AppLayout/SearchAutocomplete';
+import LoginForm from 'components/User/LoginForm';
 import { mapGetters } from 'vuex';
 
 export default {
   name: 'Header',
-  components: { Logo, CategoriesDropdown, SearchAutocomplete },
+  components: { Logo, CategoriesDropdown, SearchAutocomplete, LoginForm },
+  data() {
+    return {
+      openLoginForm: false
+    }
+  },
   computed: {
     ...mapGetters('common', ['isLoggedIn'])
   },
@@ -68,5 +88,22 @@ export default {
   .profile-icon {
     cursor: pointer;
     font-size: 60px;
+  }
+
+  .sign-dialog {
+    width: 816px;
+    height: 631px;
+    background: #0E1B2D;
+    box-shadow: -5px 0 15px #2D3744;
+    border-radius: 8px;
+  }
+
+  .sign-content {
+    width: 304px;
+    min-height: 321px;
+    background: #1D2D42;
+    box-shadow: 0 0 8px #0E1B2D;
+    border-radius: 4px;
+    padding: 24px 32px;
   }
 </style>
