@@ -43,7 +43,7 @@
         <q-card-section class="row justify-center">
           <q-card class="sign-content">
             <LoginForm v-if="isSignInFormOpened" @emitSignUp="openSignUpForm" />
-            <SignupForm v-if="isSignUpFormOpened" />
+            <SignupForm v-if="isSignUpFormOpened" @emitSignIn="openSignInForm" />
           </q-card>
         </q-card-section>
       </q-card>
@@ -106,10 +106,11 @@ export default {
 
   .sign-dialog {
     width: 816px;
-    height: 631px;
+    min-height: 631px;
     background: #0E1B2D;
     box-shadow: -5px 0 15px #2D3744;
     border-radius: 8px;
+    padding-bottom: 88px;
   }
 
   .sign-content {
