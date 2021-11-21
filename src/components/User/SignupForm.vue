@@ -71,16 +71,6 @@
       label="Remember me"
     />
     -->
-    <q-btn
-      no-caps
-      type="submit"
-      label="Sign up"
-      color="primary"
-      text-color="white"
-      padding="6px"
-      class="full-width q-pt-md q-pb-md"
-      :disable="v.$invalid"
-    />
     <q-checkbox
       v-model="agreeRules"
       size="sm"
@@ -93,27 +83,33 @@
           target="_blank"
           href="https://evis.market/pdf/terms_of_service_en.pdf"
           class="text-ev-grey"
+          @click.stop
         >
           here
         </a>
       </label>
     </q-checkbox>
-    <div class="row q-mt-md">
-      <div>
-        Already have an account?
-      </div>
-      <q-space></q-space>
-      <div>
-        <q-btn
-          no-caps outline
-          label="Sign in"
-          text-color="ev-grey"
-          padding="6px"
-          class="sign-btn full-width q-mb-sm q-mt-xl"
-          @click.prevent="openSignInForm"
-        />
-      </div>
+    <q-btn
+      no-caps
+      type="submit"
+      label="Sign up"
+      color="primary"
+      text-color="white"
+      padding="6px"
+      class="full-width q-pt-md q-pb-md q-mb-lg"
+      :disable="v.$invalid"
+    />
+    <div class="text-ev-grey text-center">
+      Already have an account?
     </div>
+    <q-btn
+      no-caps outline
+      label="Sign in"
+      text-color="ev-grey"
+      padding="6px"
+      class="sign-btn full-width q-mb-sm"
+      @click.prevent="openSignInForm"
+    />
   </q-form>
 </template>
 
