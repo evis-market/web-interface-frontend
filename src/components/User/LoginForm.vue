@@ -60,6 +60,7 @@
           text-color="ev-grey"
           padding="6px"
           class="sign-btn full-width q-mb-sm q-mt-xl"
+          @click.prevent="openSignUpForm"
         />
       </div>
     </div>
@@ -75,12 +76,11 @@ import {
 
 export default {
   name: 'LoginForm',
-
+  emits: ['emitSignUp'],
   setup() {
     const v = useVuelidate();
     return { v };
   },
-
   data() {
     return {
       login: '',
@@ -106,6 +106,9 @@ export default {
       }
       await this.$router.push({ name: 'sellerProductsList' });
     },
+    openSignUpForm() {
+      this.$emit('emitSignUp')
+    }
   },
 };
 </script>

@@ -28,13 +28,13 @@
           no-caps
           label="Login"
           color="accent"
-          @click="openLoginForm = true"
+          @click="openSignInForm"
           :to="{ name: 'login' }" class="text-subhead-2-medium radius-8 ev-border"
         />
         <q-icon class="profile-icon" name="account_circle" v-else @click="openSellerProducts" />
       </div>
     </q-toolbar>
-    <q-dialog v-model="openLoginForm">
+    <q-dialog v-model="isAuthModalOpened">
       <q-card class="sign-dialog">
         <q-card-section class="row items-center q-pb-none justify-end">
           <q-btn icon="highlight_off" text-color="ev-grey" flat round dense v-close-popup />
@@ -42,7 +42,8 @@
 
         <q-card-section class="row justify-center">
           <q-card class="sign-content">
-            <LoginForm />
+            <LoginForm v-if="isSignInFormOpened" @emitSignUp="openSignUpForm" />
+            <SignupForm v-if="isSignUpFormOpened" />
           </q-card>
         </q-card-section>
       </q-card>
@@ -55,14 +56,17 @@ import Logo from 'components/ui/Logo';
 import CategoriesDropdown from 'components/AppLayout/CategoriesDropdown';
 import SearchAutocomplete from 'components/AppLayout/SearchAutocomplete';
 import LoginForm from 'components/User/LoginForm';
+import SignupForm from 'components/User/SignupForm';
 import { mapGetters } from 'vuex';
 
 export default {
   name: 'Header',
-  components: { Logo, CategoriesDropdown, SearchAutocomplete, LoginForm },
+  components: { Logo, CategoriesDropdown, SearchAutocomplete, LoginForm, SignupForm },
   data() {
     return {
-      openLoginForm: false
+      isAuthModalOpened: false,
+      isSignInFormOpened: false,
+      isSignUpFormOpened: false
     }
   },
   computed: {
@@ -71,6 +75,16 @@ export default {
   methods: {
     openSellerProducts() {
       this.$router.push({ name: 'sellerProductsList'})
+    },
+    openSignInForm() {
+      this.isSignUpFormOpened = false;
+      this.isSignInFormOpened = true;
+      this.isAuthModalOpened = true;
+    },
+    openSignUpForm() {
+      this.isSignUpFormOpened = true;
+      this.isSignInFormOpened = false;
+      this.isAuthModalOpened = true;
     }
   }
 };
