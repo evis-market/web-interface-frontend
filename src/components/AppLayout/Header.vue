@@ -29,7 +29,7 @@
           label="Login"
           color="accent"
           @click="openSignInForm"
-          :to="{ name: 'login' }" class="text-subhead-2-medium radius-8 ev-border"
+          class="text-subhead-2-medium radius-8 ev-border"
         />
         <q-icon class="profile-icon" name="account_circle" v-else @click="openSellerProducts" />
       </div>

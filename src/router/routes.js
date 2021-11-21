@@ -44,20 +44,6 @@ const routes = [
       { path: 'governance/', name: 'governance', component: () => import('pages/Governance.vue') },
     ],
   },
-  {
-    path: '/login',
-    component: () => import('layouts/AppLayout.vue'),
-    children: [
-      { path: '', name: 'login', component: () => import('pages/user/Login.vue') },
-    ],
-  },
-  {
-    path: '/signup',
-    component: () => import('layouts/AppLayout.vue'),
-    children: [
-      { path: '', name: 'signup', component: () => import('pages/user/Signup.vue') },
-    ],
-  },
 
   // Always leave this as last one,
   // but you can also remove it

@@ -50,7 +50,7 @@
     />
     <div class="column items-stretch q-mt-xs">
       <div class="self-center">
-        <router-link :to="{ name: 'signup' }" class="forgot-pwd-link text-ev-grey">Forgot password?</router-link>
+        <router-link :to="{}" class="forgot-pwd-link text-ev-grey">Forgot password?</router-link>
       </div>
       <q-space></q-space>
       <div>
