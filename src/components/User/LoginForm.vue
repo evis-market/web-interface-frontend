@@ -48,13 +48,19 @@
       class="sign-btn full-width q-mb-sm q-mt-lg"
       :disable="v.$invalid"
     />
-    <div class="row q-mt-md">
-      <div>
-        <router-link :to="{ name: 'signup' }">Forgot your password?</router-link>
+    <div class="column items-stretch q-mt-xs">
+      <div class="self-center">
+        <router-link :to="{ name: 'signup' }" class="forgot-pwd-link text-ev-grey">Forgot password?</router-link>
       </div>
       <q-space></q-space>
       <div>
-        <router-link :to="{ name: 'signup' }">Signup</router-link>
+        <q-btn
+          no-caps outline
+          label="Sign up"
+          text-color="ev-grey"
+          padding="6px"
+          class="sign-btn full-width q-mb-sm q-mt-xl"
+        />
       </div>
     </div>
   </q-form>
@@ -130,5 +136,10 @@ export default {
   .sign-btn {
     border-radius: 4px;
     font-weight: bold;
+  }
+
+  .forgot-pwd-link {
+    justify-self: center;
+    opacity: 0.6;
   }
 </style>

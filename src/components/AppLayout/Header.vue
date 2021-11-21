@@ -37,7 +37,7 @@
     <q-dialog v-model="openLoginForm">
       <q-card class="sign-dialog">
         <q-card-section class="row items-center q-pb-none justify-end">
-          <q-btn icon="highlight_off" text-color="grey" flat round dense v-close-popup />
+          <q-btn icon="highlight_off" text-color="ev-grey" flat round dense v-close-popup />
         </q-card-section>
 
         <q-card-section class="row justify-center">
@@ -104,6 +104,6 @@ export default {
     background: #1D2D42;
     box-shadow: 0 0 8px #0E1B2D;
     border-radius: 4px;
-    padding: 24px 32px;
+    padding: 24px 32px 48px;
   }
 </style>
