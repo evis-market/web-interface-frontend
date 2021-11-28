@@ -11,5 +11,8 @@ export default function () {
     accessToken: localStorage.getItem('access_token') || '',
     refreshToken: localStorage.getItem('refresh_token') || '',
     tokenType: localStorage.getItem('token_type') || '',
+    isAuthModalOpened: false,
+    isSignInFormOpened: false,
+    isSignUpFormOpened: false
   };
 }

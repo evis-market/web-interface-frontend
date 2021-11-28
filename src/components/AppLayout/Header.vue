@@ -37,7 +37,12 @@
     <q-dialog v-model="isAuthModalOpened">
       <q-card class="sign-dialog">
         <q-card-section class="row items-center q-pb-none justify-end">
-          <q-btn icon="highlight_off" text-color="ev-grey" flat round dense v-close-popup />
+          <q-btn
+            icon="highlight_off"
+            text-color="ev-grey"
+            flat round dense
+            @click="closeAuthDialog"
+          />
         </q-card-section>
 
         <q-card-section class="row justify-center">
@@ -57,35 +62,20 @@ import CategoriesDropdown from 'components/AppLayout/CategoriesDropdown';
 import SearchAutocomplete from 'components/AppLayout/SearchAutocomplete';
 import LoginForm from 'components/User/LoginForm';
 import SignupForm from 'components/User/SignupForm';
-import { mapGetters } from 'vuex';
+import { mapGetters, mapState, mapMutations } from 'vuex';
 
 export default {
   name: 'Header',
   components: { Logo, CategoriesDropdown, SearchAutocomplete, LoginForm, SignupForm },
-  data() {
-    return {
-      isAuthModalOpened: false,
-      isSignInFormOpened: false,
-      isSignUpFormOpened: false
-    }
-  },
   computed: {
-    ...mapGetters('common', ['isLoggedIn'])
+    ...mapGetters('common', ['isLoggedIn']),
+    ...mapState('common', ['isAuthModalOpened', 'isSignInFormOpened', 'isSignUpFormOpened'])
   },
   methods: {
+    ...mapMutations('common', ['openSignInForm', 'openSignUpForm', 'closeAuthDialog']),
     openSellerProducts() {
       this.$router.push({ name: 'sellerProductsList'})
     },
-    openSignInForm() {
-      this.isSignUpFormOpened = false;
-      this.isSignInFormOpened = true;
-      this.isAuthModalOpened = true;
-    },
-    openSignUpForm() {
-      this.isSignUpFormOpened = true;
-      this.isSignInFormOpened = false;
-      this.isAuthModalOpened = true;
-    }
   }
 };
 </script>
