@@ -97,7 +97,7 @@
       text-color="white"
       padding="6px"
       class="full-width q-pt-md q-pb-md q-mb-lg"
-      :disable="v.$invalid"
+      :disable="v.$invalid || !agreeRules"
     />
     <div class="text-ev-grey text-center">
       Already have an account?
