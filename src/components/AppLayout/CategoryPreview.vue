@@ -12,7 +12,9 @@
         height="64"
         class="q-mr-md radius-8"
       >
-      <h5 class="col text-title-4-bold text-primary q-pt-lg q-ma-none">{{ category.name }}</h5>
+      <h5 class="category-preview__head col text-title-4-bold text-primary q-pt-lg q-ma-none">
+        {{ category.name }}
+      </h5>
     </div>
     <p v-if="category.short_descr" class="q-mb-lg text-subhead-2-medium text-dark">{{ category.short_descr }}</p>
     <div class="row q-mt-auto items-end" v-if="recommendedFor.length">
@@ -67,6 +69,11 @@ export default {
     &__icon {
       font-weight: bold;
       font-size: 28px;
+    }
+    &__head {
+      @media screen and (max-width: $breakpoint-xs-max) {
+        font-size: 20px;
+      }
     }
   }
   .recommended-for {

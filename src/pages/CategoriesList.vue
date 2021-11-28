@@ -28,5 +28,9 @@ export default {
     max-width: $content-max-width;
     margin-left: auto;
     margin-right: auto;
+
+    @media screen and (max-width: $breakpoint-xs-max) {
+      padding: 0;
+    }
   }
 </style>
