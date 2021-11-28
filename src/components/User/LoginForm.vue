@@ -1,11 +1,17 @@
 <template>
   <q-form @submit.prevent="loginSubmit" class="q-gutter-y-md">
-    <h5>
-      Login
+    <h5 class="sign-head">
+      Sign in
     </h5>
+    <q-icon class="metamask-btn">
+      <img src="../../assets/metamask-logo.svg" alt="Metamask" />
+    </q-icon>
     <q-input
-      filled
+      dark outlined dense
+      class="sign-input"
       ref="email"
+      label-color="ev-grey"
+      bg-color="ev-dark"
       v-model.trim="v.login.$model"
       type="email"
       label="Email"
@@ -14,7 +20,10 @@
       :error="v.login.$error"
     />
     <q-input
-      filled
+      dark outlined dense
+      class="sign-input"
+      label-color="ev-grey"
+      bg-color="ev-dark"
       ref="password"
       v-model="v.password.$model"
       type="password"
@@ -30,19 +39,29 @@
     />
     -->
     <q-btn
+      no-caps
       type="submit"
-      label="Login"
+      label="Sign in"
       color="primary"
-      class="full-width q-pt-md q-pb-md q-mb-sm"
+      text-color="white"
+      padding="6px"
+      class="sign-btn full-width q-mb-sm q-mt-lg"
       :disable="v.$invalid"
     />
-    <div class="row q-mt-md">
-      <div>
-        <router-link :to="{ name: 'signup' }">Forgot your password?</router-link>
+    <div class="column items-stretch q-mt-xs">
+      <div class="self-center">
+        <router-link :to="{}" class="forgot-pwd-link text-ev-grey">Forgot password?</router-link>
       </div>
       <q-space></q-space>
       <div>
-        <router-link :to="{ name: 'signup' }">Signup</router-link>
+        <q-btn
+          no-caps outline
+          label="Sign up"
+          text-color="ev-grey"
+          padding="6px"
+          class="sign-btn full-width q-mb-sm q-mt-xl"
+          @click.prevent="openSignUpForm"
+        />
       </div>
     </div>
   </q-form>
@@ -57,12 +76,11 @@ import {
 
 export default {
   name: 'LoginForm',
-
+  emits: ['emitSignUp'],
   setup() {
     const v = useVuelidate();
     return { v };
   },
-
   data() {
     return {
       login: '',
@@ -88,6 +106,43 @@ export default {
       }
       await this.$router.push({ name: 'sellerProductsList' });
     },
+    openSignUpForm() {
+      this.$emit('emitSignUp')
+    }
   },
 };
 </script>
+
+<style lang="scss">
+  .sign-head {
+    font-weight: bold;
+    font-size: 18px;
+    line-height: 170%;
+    color: #FFFFFF;
+    text-align: center;
+    margin-bottom: 0;
+  }
+
+  .metamask-btn {
+    width: 240px;
+    height: 40px;
+    background: #F9F9F9;
+    border-radius: 4px;
+    cursor: pointer;
+    margin: 16px 0;
+  }
+
+  .sign-input {
+    border-radius: 4px;
+  }
+
+  .sign-btn {
+    border-radius: 4px;
+    font-weight: bold;
+  }
+
+  .forgot-pwd-link {
+    justify-self: center;
+    opacity: 0.6;
+  }
+</style>

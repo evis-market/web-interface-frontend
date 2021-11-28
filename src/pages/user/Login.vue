@@ -1,16 +1,19 @@
 <template>
-  <q-page class="row justify-center">
-    <div class="col-lg-3 col-md-6 col-xs-11">
-      <LoginForm />
-    </div>
-  </q-page>
+  <q-page class="row justify-center" />
 </template>
 
 <script>
 import LoginForm from 'components/User/LoginForm';
+import { mapMutations } from 'vuex';
 
 export default {
   name: 'PageLogin',
   components: { LoginForm },
+  methods: {
+    ...mapMutations('common', ['openSignInForm'])
+  },
+  mounted() {
+    this.openSignInForm();
+  }
 };
 </script>

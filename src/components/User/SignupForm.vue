@@ -1,24 +1,36 @@
 <template>
   <q-form @submit.prevent="signUpSubmit" class="q-gutter-y-md">
-    <h5>
-      Create an account
+    <h5 class="sign-head">
+      Sign up
     </h5>
+    <q-icon class="metamask-btn">
+      <img src="../../assets/metamask-logo.svg" alt="Metamask" />
+    </q-icon>
     <q-input
-      filled
+      dark outlined dense hide-bottom-space
+      label-color="ev-grey"
+      bg-color="ev-dark"
+      class="sign-input"
       v-model.trim="v.first_name.$model"
       label="Name"
       :error-message="v.first_name.$errors.map(err => err.$message).join('. ')"
       :error="v.first_name.$error"
     />
     <q-input
-      filled
+      dark outlined dense hide-bottom-space
+      label-color="ev-grey"
+      bg-color="ev-dark"
+      class="sign-input"
       v-model.trim="v.last_name.$model"
       label="Lastname"
       :error-message="v.last_name.$errors.map(err => err.$message).join('. ')"
       :error="v.last_name.$error"
     />
     <q-input
-      filled
+      dark outlined dense
+      label-color="ev-grey"
+      bg-color="ev-dark"
+      class="sign-input"
       ref="email"
       v-model.trim="v.email.$model"
       type="email"
@@ -28,7 +40,10 @@
       :error="v.email.$error"
     />
     <q-input
-      filled
+      dark outlined dense
+      label-color="ev-grey"
+      bg-color="ev-dark"
+      class="sign-input"
       ref="password"
       v-model="v.password.$model"
       type="password"
@@ -38,7 +53,10 @@
       :error="v.password.$error"
     />
     <q-input
-      filled
+      dark outlined dense
+      label-color="ev-grey"
+      bg-color="ev-dark"
+      class="sign-input"
       ref="confirmPassword"
       v-model="confirmPassword"
       type="password"
@@ -53,28 +71,45 @@
       label="Remember me"
     />
     -->
-    <q-btn
-      type="submit"
-      label="Create account"
+    <q-checkbox
+      v-model="agreeRules"
+      size="sm"
       color="primary"
-      class="full-width q-pt-md q-pb-md q-mb-sm"
-      :disable="v.$invalid"
+      dense dark
+    >
+      <label class="text-ev-grey">
+        I give my consent to the processing of my personal data. You can read the rules
+        <a
+          target="_blank"
+          href="https://evis.market/pdf/terms_of_service_en.pdf"
+          class="text-ev-grey"
+          @click.stop
+        >
+          here
+        </a>
+      </label>
+    </q-checkbox>
+    <q-btn
+      no-caps
+      type="submit"
+      label="Sign up"
+      color="primary"
+      text-color="white"
+      padding="6px"
+      class="full-width q-pt-md q-pb-md q-mb-lg"
+      :disable="v.$invalid || !agreeRules"
     />
-    <p class="text-secondary text-center">
-      By creating account you agree to our<br/>
-      <router-link :to="{}">Terms of Service</router-link>
-      and
-      <router-link :to="{}">Privacy Policy</router-link>
-    </p>
-    <div class="row q-mt-md">
-      <div>
-        Already have an account?
-      </div>
-      <q-space></q-space>
-      <div>
-        <router-link :to="{ name: 'login' }">Sign in</router-link>
-      </div>
+    <div class="text-ev-grey text-center">
+      Already have an account?
     </div>
+    <q-btn
+      no-caps outline
+      label="Sign in"
+      text-color="ev-grey"
+      padding="6px"
+      class="sign-btn full-width q-mb-sm"
+      @click.prevent="openSignInForm"
+    />
   </q-form>
 </template>
 
@@ -91,6 +126,7 @@ const MAX_PASSWORD_LENGTH = 32;
 
 export default {
   name: 'SignupForm',
+  emits: ['emitSignIn'],
   setup() {
     const v = useVuelidate();
     return { v };
@@ -103,6 +139,7 @@ export default {
       email: '',
       password: '',
       confirmPassword: '',
+      agreeRules: true,
       rememberMe: false,
       errorMessages: [],
       vuelidateExternalResults: {
@@ -159,6 +196,15 @@ export default {
 
       await this.$router.push({ name: 'sellerProductsList' });
     },
+    openSignInForm() {
+      this.$emit('emitSignIn')
+    }
   },
 };
 </script>
+
+<style lang="scss">
+  .sign-content .q-checkbox {
+    align-items: start !important;
+  }
+</style>

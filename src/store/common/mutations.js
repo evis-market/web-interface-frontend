@@ -28,3 +28,21 @@ export function saveAllOptions(state, options) {
 export function setVisibleProducts(state, products) {
   state.visibleProducts = products;
 }
+
+export function openSignInForm(state) {
+  state.isSignUpFormOpened = false;
+  state.isSignInFormOpened = true;
+  state.isAuthModalOpened = true;
+}
+
+export function openSignUpForm(state) {
+  state.isSignUpFormOpened = true;
+  state.isSignInFormOpened = false;
+  state.isAuthModalOpened = true;
+}
+
+export function closeAuthDialog(state) {
+  state.isSignUpFormOpened = false;
+  state.isSignInFormOpened = false;
+  state.isAuthModalOpened = false;
+}
