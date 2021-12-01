@@ -3,7 +3,7 @@
     no-caps
     icon="menu"
     :label="label"
-    class="radius-8 bg-primary text-white text-subhead-2-medium q-mr-sm"
+    class="categories-dropdown radius-8 bg-primary text-white text-subhead-2-medium q-mr-sm"
   >
     <q-list>
       <q-item clickable v-close-popup v-for="category in categories" :key="category.id" @click="openProducts(category)">
@@ -25,7 +25,11 @@ export default defineComponent({
       return this.$store.getters['common/getMainCategories'];
     },
     label() {
-      return this.$q.screen.width < 1041 ? '' : 'Categories';
+      const label = 'Categories';
+      if (this.$q.screen.xs) {
+        return label;
+      }
+      return this.$q.screen.width < 1041 ? '' : label;
     },
   },
   methods: {
@@ -56,3 +60,11 @@ export default defineComponent({
   }
 });
 </script>
+
+<style lang="scss">
+  .categories-dropdown {
+    @media screen and (max-width: $breakpoint-xs-max) {
+      min-width: 231px
+    }
+  }
+</style>
