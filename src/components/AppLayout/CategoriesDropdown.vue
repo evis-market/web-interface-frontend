@@ -64,7 +64,8 @@ export default defineComponent({
 <style lang="scss">
   .categories-dropdown {
     @media screen and (max-width: $breakpoint-xs-max) {
-      min-width: 231px
+      min-width: 231px;
+      margin-right: 0;
     }
   }
 </style>

@@ -116,6 +116,10 @@ export default {
     }
     &__buttons {
       order: 4;
+
+      @media screen and (max-width: $breakpoint-xs-max) {
+        margin-left: 0;
+      }
     }
     &__login {
       align-self: stretch;
