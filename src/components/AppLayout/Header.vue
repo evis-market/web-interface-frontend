@@ -34,7 +34,7 @@
         <q-icon class="profile-icon" name="account_circle" v-else @click="openSellerProducts" />
       </div>
     </q-toolbar>
-    <q-dialog v-model="isAuthModalOpened">
+    <q-dialog v-model="isAuthModalOpened" :maximized="maximizeDialog">
       <q-card class="sign-dialog">
         <q-card-section class="row items-center q-pb-none justify-end">
           <q-btn
@@ -69,7 +69,10 @@ export default {
   components: { Logo, CategoriesDropdown, SearchAutocomplete, LoginForm, SignupForm },
   computed: {
     ...mapGetters('common', ['isLoggedIn']),
-    ...mapState('common', ['isAuthModalOpened', 'isSignInFormOpened', 'isSignUpFormOpened'])
+    ...mapState('common', ['isAuthModalOpened', 'isSignInFormOpened', 'isSignUpFormOpened']),
+    maximizeDialog() {
+      return this.$q.screen.xs;
+    }
   },
   methods: {
     ...mapMutations('common', ['openSignInForm', 'openSignUpForm', 'closeAuthDialog']),
