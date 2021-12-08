@@ -1,7 +1,7 @@
 <template>
   <div class="fullscreen bg-blue text-white text-center q-pa-md flex flex-center">
     <div>
-      <div style="font-size: 30vh">
+      <div class="text-404">
         404
       </div>
 
@@ -29,3 +29,13 @@ export default defineComponent({
   name: 'PageError404',
 });
 </script>
+
+<style lang="scss" scoped>
+  .text-404 {
+    font-size: 30vh;
+
+    @media screen and (max-width: $breakpoint-xs-max) {
+      font-size: 15vh;
+    }
+  }
+</style>

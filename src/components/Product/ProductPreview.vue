@@ -1,9 +1,9 @@
 <template>
   <q-card class="product-preview q-mb-lg cursor-pointer" flat bordered @click="openProduct">
-    <q-card-section horizontal>
+    <q-card-section :horizontal="isHorizontalCard">
       <q-card-section class="left-section col-2 column">
         <q-icon name="polymer" size="xl" color="primary" class="q-mb-auto" />
-        <p class="q-mb-none q-mt-md">Data types:</p>
+        <p class="q-mb-none q-mt-md">Data types: <span class="data-types-mobile">XLS, XML</span></p>
       </q-card-section>
 
       <q-card-section class="middle-section col column">
@@ -17,7 +17,7 @@
             occupied Comp taxes Market
           </article>
         </div>
-        <p class="q-mb-none q-mt-md">XLS, XML</p>
+        <p class="data-types q-mb-none q-mt-md">XLS, XML</p>
       </q-card-section>
 
       <q-separator vertical />
@@ -51,6 +51,11 @@ export default {
     const { product } = toRefs(props);
     return getProductPrice(product.value);
   },
+  computed: {
+    isHorizontalCard() {
+      return !this.$q.screen.xs;
+    }
+  },
   methods: {
     openProduct() {
       this.$router.push({ name: 'product', params: { id: this.product.id } });
@@ -59,12 +64,38 @@ export default {
 };
 </script>
 
-<style scoped>
+<style lang="scss" scoped>
   .right-section {
     min-width: 250px;
     max-width: 250px;
+
+    @media screen and (max-width: $breakpoint-xs-max) {
+      max-width: none;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+    }
   }
   .product-preview {
     min-width: 600px;
+
+    @media screen and (max-width: $breakpoint-xs-max) {
+      min-width: auto;
+    }
+  }
+  .data-types-mobile {
+    display: none;
+
+    @media screen and (max-width: $breakpoint-xs-max) {
+      display: inline;
+    }
+  }
+  .data-types {
+    display: block;
+
+    @media screen and (max-width: $breakpoint-xs-max) {
+      display: none;
+    }
   }
 </style>

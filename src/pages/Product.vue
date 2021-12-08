@@ -76,13 +76,13 @@
       </div>
       <div class="text-h5 q-mb-sm">Reviews</div>
       <div class="row items-center q-mb-md" v-for="i in reviewsCount" :key="i">
-        <div class="col">
+        <div class="col q-pr-xs">
           <div class="text-bold">David S.</div>
           <div>Nice data, fast response! Will order more.</div>
         </div>
         <p class="col-auto">13.08.21</p>
         <q-rating
-          size="2em"
+          :size="ratingSize"
           color="orange"
           readonly
           :model-value="0"
@@ -138,6 +138,9 @@ export default {
     reviewsButtonText() {
       return (this.reviewsCount < 4) ? 'All reviews' : 'Hide';
     },
+    ratingSize() {
+      return !this.$q.screen.xs ? '2em' : '1em';
+    }
   },
   methods: {
     manageReviews() {
@@ -173,9 +176,15 @@ export default {
 };
 </script>
 
-<style scoped>
+<style lang="scss" scoped>
   .seller-card {
     max-width: 300px;
     min-width: 300px;
+
+    @media screen and (max-width: $breakpoint-xs-max) {
+      max-width: 100%;
+      min-width: auto;
+      width: 100%
+    }
   }
 </style>

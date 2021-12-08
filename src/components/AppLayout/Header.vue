@@ -1,18 +1,18 @@
 <template>
   <q-header class="app-header bg-white text-primary row items-center justify-center q-pl-md q-pr-md">
-    <q-toolbar class="app-header__toolbar row">
-      <router-link :to="{ 'name': 'index' }" class="col-auto">
+    <q-toolbar class="app-header__toolbar" :class="flexDirectionClass">
+      <router-link :to="{ 'name': 'index' }" class="app-header__logo col-auto">
         <Logo />
       </router-link>
       <q-space></q-space>
-      <div class="col-auto q-ml-xl">
+      <div class="app-header__categories col-auto q-ml-xl">
         <CategoriesDropdown />
       </div>
-      <div class="col-4">
+      <div class="app-header__search col-4">
         <SearchAutocomplete />
       </div>
       <q-space></q-space>
-      <div class="col-auto col-xl-12 q-ml-xl">
+      <div class="app-header__buttons col-auto col-xl-12 q-ml-xl">
         <!--
         <q-btn
           flat
@@ -29,12 +29,12 @@
           label="Login"
           color="accent"
           @click="openSignInForm"
-          class="text-subhead-2-medium radius-8 ev-border"
+          class="app-header__login text-subhead-2-medium radius-8 ev-border"
         />
         <q-icon class="profile-icon" name="account_circle" v-else @click="openSellerProducts" />
       </div>
     </q-toolbar>
-    <q-dialog v-model="isAuthModalOpened">
+    <q-dialog v-model="isAuthModalOpened" :maximized="maximizeDialog">
       <q-card class="sign-dialog">
         <q-card-section class="row items-center q-pb-none justify-end">
           <q-btn
@@ -69,7 +69,13 @@ export default {
   components: { Logo, CategoriesDropdown, SearchAutocomplete, LoginForm, SignupForm },
   computed: {
     ...mapGetters('common', ['isLoggedIn']),
-    ...mapState('common', ['isAuthModalOpened', 'isSignInFormOpened', 'isSignUpFormOpened'])
+    ...mapState('common', ['isAuthModalOpened', 'isSignInFormOpened', 'isSignUpFormOpened']),
+    maximizeDialog() {
+      return this.$q.screen.xs;
+    },
+    flexDirectionClass() {
+      return this.$q.screen.xs ? 'column' : 'row';
+    }
   },
   methods: {
     ...mapMutations('common', ['openSignInForm', 'openSignUpForm', 'closeAuthDialog']),
@@ -86,6 +92,41 @@ export default {
     flex-shrink: 0;
     &__toolbar {
       max-width: $content-max-width;
+    }
+    &__logo {
+      order: 1;
+      padding: 20px;
+    }
+    &__categories {
+      order: 2;
+
+      @media screen and (max-width: $breakpoint-xs-max) {
+        order: 3;
+        padding-bottom: 10px;
+        margin-left: 0;
+      }
+    }
+    &__search {
+      order: 3;
+
+      @media screen and (max-width: $breakpoint-xs-max) {
+        order: 2;
+        padding-bottom: 10px;
+      }
+    }
+    &__buttons {
+      order: 4;
+
+      @media screen and (max-width: $breakpoint-xs-max) {
+        margin-left: 0;
+      }
+    }
+    &__login {
+      align-self: stretch;
+
+      @media screen and (max-width: $breakpoint-xs-max) {
+        min-width: 231px;
+      }
     }
   }
 
